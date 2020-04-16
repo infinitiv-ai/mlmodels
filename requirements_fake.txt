@@ -4,6 +4,8 @@ mlflow==1.7.1
 
 
 
+### Lightning for GPU/TPu training
+pytorch-lightning==0.7.3
 
 ## Required for gluon_FB prophet
 fbprophet==0.6

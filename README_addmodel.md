@@ -1,67 +1,51 @@
-# Documentation
-List of Functions/Methods
+# Contributing Guide
+### Pull Requests, Fixes, New Models
+Thank you for taking interest in this project :grinning:. Read following instructions before adding a new model.
+- [Code Style](#code-style)
+- [Read The Examples](#read-the-examples)
+- [Fork](#fork)
+- [Configure For tests](#configure-for-tests)
+- [Create Python Script For New Model](#create-python-script-for-new-model)
+- [Create JSON for parameters](#create-json-for-parameters)
+- [Keep Your Branch Updated](#keep-your-branch-updated)
+- [Run Model](#run-model)
+- [Check Your Test Runs](#check-your-test-runs)
+- [Issue A Pull Request](#issue-a-pull-request)
+- [Source Code Structure As Below](#source-code-structure-as-below)
+- [How to define a custom model](#how-to-define-a-custom-model)
 
+## List of Functions/Methods
 https://github.com/arita37/mlmodels/blob/dev/README_index_doc.py
 
-# 
-# 
-___________________________________________________________________________________________
-# VScode Online Editor (pre-installed)
+## Using Online Editor (Gitpod) for mlmodels
+(https://github.com/arita37/mlmodels/issues/101)
 
-https://github.com/arita37/mlmodels/issues/101
+## Code Style: 
+   - Please don't exceed the limit of 100 characters per line.
+   - Format your code according to PEP8 ([Read More](https://realpython.com/python-pep8/)). Automatic format tests are run when you commit or do a PR.
+   - You can use [Black](https://github.com/psf/black)/[pep8](https://www.python.org/dev/peps/pep-0008/) formatter Python packages.
 
+## Read The Examples
 
-# 
-# 
-___________________________________________________________________________________________
-# Steps  for : Pull Request, a Fix or add a New Model :
-
-
-### Coding Style
-  Please use **Line = 110 characters**
-  "Pretty Code is better than strict PEP8, which is ugly to read..."
-  Please use BLACK Formatter.
-
-
-
-### 0) Read the examples :
-
-  https://github.com/arita37/mlmodels/issues/102
-
-  https://github.com/arita37/mlmodels/pull/100
-
-
-
-    
-### 1) Create a branch from DEV branch called : modelXXX
-    git checkout -b myfeat
-
-
-### 2) TEST : Change those files with your MODEL_NAME AND BRANCH NAME :
-
-  https://github.com/arita37/mlmodels/blob/dev/.github/workflows/test_specific_model.yml
-
-  https://github.com/arita37/mlmodels/blob/dev/pullrequest.json
-
-
-### 3) TEST : After each commit or PullRequest, automatic test is run on Github :
-  Please check here :
-  https://github.com/arita37/mlmodels/actions
-
-
-
-### 4) Create  mlmodels/model_XXXX/yyyyy.py   
-  Template
-  https://github.com/arita37/mlmodels/blob/dev/mlmodels/template/model_xxx.py
-
-  Example :
-  https://github.com/arita37/mlmodels/blob/dev/mlmodels/model_keras/textcnn.py  
-  https://github.com/arita37/mlmodels/blob/dev/mlmodels/model_tch/transformer_sentence.py
-
-
-  Please re-use existing functions
-  https://github.com/arita37/mlmodels/blob/dev/mlmodels/util.py
+  - [Issue#102](https://github.com/arita37/mlmodels/issues/102)
+  - [Issue#100](https://github.com/arita37/mlmodels/pull/100)
   
+## Fork 
+Fork from arita37/mlmodels. Create a new branch from DEV branchto work on. Name it as model_XXX (e.g., model_deepar) or the issue you are assigned.
+
+`git checkout -b model_XXX` or `git checkout -b issue100`
+
+## Configure for Tests
+Change in these files where needed with your MODEL_NAME and BRANCH NAME :
+- [`test_specific_model`](https://github.com/arita37/mlmodels/blob/dev/.github/workflows/test_specific_model.yml)
+- [`pullrequest.json`](https://github.com/arita37/mlmodels/blob/dev/pullrequest.json)
+
+## Create Python Script For New Model
+Create  `mlmodels/model_XXXX/yyyyy.py`. Check [template](https://github.com/arita37/mlmodels/blob/dev/mlmodels/template/model_xxx.py).  
+See examples: [model_keras/textcnn.py](https://github.com/arita37/mlmodels/blob/dev/mlmodels/model_keras/textcnn.py), [transformer_sentence.py](https://github.com/arita37/mlmodels/blob/dev/mlmodels/model_tch/transformer_sentence.py)`
+
+Please re-use existing functions in [util.py](https://github.com/arita37/mlmodels/blob/dev/mlmodels/util.py)  
+
      from mlmodels.util import os_package_root_path, log, 
                             path_norm, get_model_uri, path_norm_dict
 
@@ -78,48 +62,35 @@ ________________________________________________________________________________
      data_path = path_norm("ztest/text/myfile.txt")
         --> FULL_ PATH   /home/ubuntu/mlmodels/ztest/text/myfile.txt
 
-
-
-
-### 4) Create  mlmodels/model_XXXX/yyyy.json , following this template :
+## Create JSON For Parameters
+Create  mlmodels/model_XXXX/yyyy.json file following this [template](https://github.com/arita37/mlmodels/blob/dev/mlmodels/template/models_config.json
+).
   
-  https://github.com/arita37/mlmodels/blob/dev/mlmodels/template/models_config.json
+## Keep Your Branch Updated 
+Sync your branch with arita37/mlmodels:dev.
 
+     git fetch upstream dev
+     git pull upstream dev
+     git add .
+     git commit -a
+     git puh origin your_branch
 
-### 5)  Pull Request  arita37/mlmodels DEV ---> YourBranch  (or git pull --all )
-   You need to MERGE with recent changes in dev INTO your Branch to reduce conflicts at final steps.
+You need to **merge** recent changes in dev into your branch to reduce conflicts at final steps.
 
+## Run Model
+Run/Test newly added model on your local machine or on [Gitpod](https://gitpod.io/).
 
-
-### 6) Run/Test on your local machine
     source activate py36
     cd mlmodels
     python model_XXXX/yyyy.py  
 
+## Issue A Pull Request
+Once you have made the changes issue a PR.
 
-
-## 7)  Pull Request  arita37/mlmodels DEV ---> YourBranch  (or git pull --all )
-   You need to MERGE with recent changes in dev INTO your Branch to reduce conflicts at final steps.
-
-
-
-
-### 8) Check on Github your test runs
+## Check Your Test Runs
 https://github.com/arita37/mlmodels/actions?query=workflow%3Atest_custom_model
 
-
-
-
-### 9)  Send Pull Request
-
-
-
-
-
-
-# 
-# 
-# ___________________________________________________________________________________________
+___________________________________________________________________________________________
 # Manual Installation
     ### On Linux/MacOS
     pip install numpy<=1.17.0
@@ -138,12 +109,8 @@ https://github.com/arita37/mlmodels/actions?query=workflow%3Atest_custom_model
     ### No Deps
     # pip install -e .  --no-deps
 
-
-
-
 ___________________________________________________________________________________________
-# How to add a new model
-### Source code structure as below
+## Source Code Structure As Below
 - `docs`: documentation
 - `mlmodels`: interface wrapper for pytorch, keras, gluon, tf, transformer NLP for train, hyper-params searchi.
     + `model_xxx`: folders for each platform with same interface defined in template folder
@@ -152,8 +119,8 @@ ________________________________________________________________________________
     + `ztest`: testing output for each sample testing in `model_xxx`
 - `ztest`: testing output for each sample testing in `model_xxx`
 
-###  How to define a custom model
-#### 1. Create a file `mlmodels\model_XXXX\mymodel.py` , XXX: tch: pytorch, tf:tensorflow, keras:keras, .... 
+##  How to define a custom model
+### 1. Create a file `mlmodels\model_XXXX\mymodel.py` , XXX: tch: pytorch, tf:tensorflow, keras:keras, .... 
 - Declare below classes/functions in the created file:
 
       Class Model()                                                  :   Model definition
@@ -173,7 +140,7 @@ ________________________________________________________________________________
       def load(load_pars)                                            : load the trained model
 
 
-- *Infos* 
+- **Infos** 
      ```
      model :         Model(model_pars), instance of Model() object
      sess  :         Session for TF model  or optimizer in PyTorch
@@ -184,7 +151,7 @@ ________________________________________________________________________________
      save_pars/load_pars : dict for saving or loading a model
      ```
 
-#### 2. Write your code and create test() to test your code.  **
+### 2. Write your code and create test() to test your code.
 - Declare model definition in Class Model()
 ```python
     self.model = DeepFM(linear_cols, dnn_cols, task=compute_pars['task']) # mlmodels/model_kera/01_deectr.py
@@ -215,16 +182,17 @@ Depend on type of dataset, we could separate function with datatype as below exa
     # input of metrics is predicted output and ground truth data
     def metrics(ypred, ytrue, data_pars, compute_pars=None, out_pars=None, **kwargs):
 ```
-- *Example* 
-    https://github.com/arita37/mlmodels/tree/dev/mlmodels/template
-    https://github.com/arita37/mlmodels/blob/dev/mlmodels/model_gluon/gluon_deepar.py
-    https://github.com/arita37/mlmodels/blob/dev/mlmodels/model_gluon/gluon_deepar.json
+- **Examples** 
+    - https://github.com/arita37/mlmodels/tree/dev/mlmodels/template
+    - https://github.com/arita37/mlmodels/blob/dev/mlmodels/model_gluon/gluon_deepar.py
+    - https://github.com/arita37/mlmodels/blob/dev/mlmodels/model_gluon/gluon_deepar.json
 
 
-#### 3. Create JSON config file inside  /model_XXX/mymodel.json  **
+### 3. Create JSON config file 
+Create a JSON file inside  /model_XXX/mymodel.json
 - Separate configure for staging development environment such as testing and production phase
 then for each staging, declare some specific parameters for model, dataset and also output
-- *Example*
+- **Examples**
 ```json
     {
         "test": {
@@ -295,12 +263,6 @@ https://github.com/arita37/mlmodels/blob/dev/README_usage.md
 
 
 ```
-   
-
-
-
-
-
 #######################################################################################
 ### ④ Interface
 
@@ -335,14 +297,9 @@ optim.py
    Sometimes, data_pars is required to setup the model (ie CNN with image size...)
    
 
-
-
-
-
-
    #######################################################################################
    ### ⑥ Naming convention
-
+   
    ### Function naming
    ```
    pd_   :  input is pandas dataframe
@@ -353,12 +310,3 @@ optim.py
 
    col_ :  function name for column list related.
    ```
-
-
-   #####################################################################################
-
-
-
-
-
-

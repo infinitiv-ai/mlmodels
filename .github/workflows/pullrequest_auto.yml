@@ -1,0 +1,29 @@
+name:  pr_flow
+
+on:
+  schedule:
+#    - cron:  '*/5 * * * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: ssh_gen
+      uses: webfactory/ssh-agent@v0.2.0
+      with:
+        ssh-private-key: ${{ secrets.GIT_RSA }}
+
+    - name: log_commit      
+      run: |
+           curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1
+           git config --local user.email "noelkev0@gmail.com"
+           git config --local user.name "arita37"
+           git config --global hub.protocol ssh
+           bin/hub pull-request --base arita37:dev --head feat_dataloader:dev -m "Sync with arita37/Dev"
+      env:
+           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+  

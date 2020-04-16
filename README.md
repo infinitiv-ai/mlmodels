@@ -31,22 +31,21 @@ of mlmodels.
 
 
 ## Model List :
-
-
 ### Time Series:
-Nbeats: 2019, Time Series NNetwork,  https://arxiv.org/abs/1905.10437
 
-Amazon Deep AR: 2019, Time Series NNetwork,  https://arxiv.org/abs/1905.10437
+Nbeats: 2019, Time Series NNetwork, https://arxiv.org/abs/1905.10437
+
+Amazon Deep AR: 2019, Time Series NNetwork, https://arxiv.org/abs/1905.10437
 
 Facebook Prophet 2017, Time Series prediction,
 
-ARMDN Advanced Time series Prediction :  2019, Associative and Recurrent Mixture Density Networks for time series.
+ARMDN Advanced Time series Prediction : 2019, Associative and Recurrent Mixture Density Networks for time series.
 
-LSTM prediction 
-
+LSTM prediction
 
 
 ### NLP :
+
 Sentence Transformers : 2019, Embedding of full sentences using BERT, https://arxiv.org/pdf/1908.10084.pdf
 
 Transformers Classifier : Using Transformer for Text Classification, https://arxiv.org/abs/1905.05583
@@ -55,53 +54,63 @@ TextCNN Pytorch : 2016, Text CNN Classifier, https://arxiv.org/abs/1801.06287
 
 TextCNN Keras : 2016, Text CNN Classifier, https://arxiv.org/abs/1801.06287
 
-charCNN Keras : Text Character Classifier,
+DRMM:  Deep Relevance Matching Model for Ad-hoc Retrieval.https://dl.acm.org/doi/pdf/10.1145/2983323.2983769?download=true
 
-
-DRMM:  Deep Relevance Matching Model for Ad-hoc Retrieval.
-
-DRMMTKS:  Deep Top-K Relevance Matching Model for Ad-hoc Retrieval.
+DRMMTKS:  Deep Top-K Relevance Matching Model for Ad-hoc Retrieval. 
+https://link.springer.com/chapter/10.1007/978-3-030-01012-6_2
 
 ARC-I:  Convolutional Neural Network Architectures for Matching Natural Language Sentences
+http://papers.nips.cc/paper/5550-convolutional-neural-network-architectures-for-matching-natural-language-sentences.pdf
 
 ARC-II:  Convolutional Neural Network Architectures for Matching Natural Language Sentences
+http://papers.nips.cc/paper/5550-convolutional-neural-network-architectures-for-matching-natural-language-sentences.pdf
 
 DSSM:  Learning Deep Structured Semantic Models for Web Search using Clickthrough Data
+https://dl.acm.org/doi/pdf/10.1145/2505515.2505665
 
 CDSSM:  Learning Semantic Representations Using Convolutional Neural Networks for Web Search
+https://dl.acm.org/doi/pdf/10.1145/2567948.2577348
 
 MatchLSTM: Machine Comprehension Using Match-LSTM and Answer Pointer
+https://arxiv.org/pdf/1608.07905
 
 DUET:  Learning to Match Using Local and Distributed Representations of Text for Web Search
+https://dl.acm.org/doi/pdf/10.1145/3038912.3052579
 
 KNRM:  End-to-End Neural Ad-hoc Ranking with Kernel Pooling
+https://dl.acm.org/doi/pdf/10.1145/3077136.3080809
 
 ConvKNRM:  Convolutional neural networks for soft-matching n-grams in ad-hoc search
+https://dl.acm.org/doi/pdf/10.1145/3159652.3159659
 
 ESIM:  Enhanced LSTM for Natural Language Inference
+https://arxiv.org/pdf/1609.06038
 
 BiMPM:  Bilateral Multi-Perspective Matching for Natural Language Sentences
+https://arxiv.org/pdf/1702.03814
 
 MatchPyramid:  Text Matching as Image Recognition
+https://www.aaai.org/ocs/index.php/AAAI/AAAI16/paper/view/11895/12024
 
 Match-SRNN:  Match-SRNN: Modeling the Recursive Matching Structure with Spatial RNN
+https://arxiv.org/pdf/1604.04378
 
 aNMM:  aNMM: Ranking Short Answer Texts with Attention-Based Neural Matching Model
+https://dl.acm.org/doi/pdf/10.1145/2983323.2983818
 
-MV-LSTM:  Deep Architecture for Semantic Matching with Multiple Positional Sentence Representations
+MV-LSTM:  https://www.aaai.org/ocs/index.php/AAAI/AAAI16/paper/view/11897/12030
 
 DIIN:  Natural Lanuguage Inference Over Interaction Space
+https://arxiv.org/pdf/1709.04348
 
 HBMP:  Sentence Embeddings in NLI with Iterative Refinement Encoders
-
-
-
+https://www.cambridge.org/core/journals/natural-language-engineering/article/sentence-embeddings-in-nli-with-iterative-refinement-encoders/AC811644D52446E414333B20FEACE00F
 
 ### TABULAR :
+
 #### LightGBM
 
 #### AutoML Gluon  :  2020, AutoML in Gluon, MxNet using LightGBM, CatBoost
-
 
 #### Auto-Keras  :  2020, Automatic Keras model selection
 
@@ -134,9 +143,6 @@ svm.l1_min_c\
 neighbors.KNeighborsClassifier\
 neighbors.KNeighborsRegressor\
 neighbors.KNeighborsTransformer\
-
-
-
 
 
 #### Binary Neural Prediction from tabular data:
@@ -179,41 +185,101 @@ FiBiNET: Combining Feature Importance and Bilinear feature Interaction for Click
 
 
 ### VISION :
+
+
   Vision Models (pre-trained) :  
-alexnet\
-densenet121\
-densenet169\
-densenet201\
-densenet161\
-inception_v3\
-resnet18\
-resnet34\
-resnet50\
-resnet101\
-resnet152\
+alexnet: SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and <0.5MB model size
+https://arxiv.org/pdf/1602.07360
 
-resnext50_32x4d\
-resnext101_32x8d\
+densenet121: Adversarial Perturbations Prevail in the Y-Channel of the YCbCr Color Space
+https://arxiv.org/pdf/2003.00883.pdf
 
-wide_resnet50_2\
-wide_resnet101_2\
-squeezenet1_0
+densenet169: Classification of TrashNet Dataset Based on Deep Learning Models
+https://ieeexplore.ieee.org/abstract/document/8622212
 
-squeezenet1_1\
-vgg11\
-vgg13\
-vgg16\
-vgg19\
-vgg11_bn
+densenet201: Utilization of DenseNet201 for diagnosis of breast abnormality
+https://link.springer.com/article/10.1007/s00138-019-01042-8
 
-vgg13_bn\
-vgg16_bn\
-vgg19_bn
+densenet161: Automated classification of histopathology images using transfer learning
+https://doi.org/10.1016/j.artmed.2019.101743
 
-googlenet\
-shufflenet_v2_x0_5\
-shufflenet_v2_x1_0\
-mobilenet_v2
+inception_v3: Menfish Classification Based on Inception_V3 Convolutional Neural Network
+https://iopscience.iop.org/article/10.1088/1757-899X/677/5/052099/pdf 
+
+resnet18: Leveraging the VTA-TVM Hardware-Software Stack for FPGA Acceleration of 8-bit ResNet-18 Inference
+https://dl.acm.org/doi/pdf/10.1145/3229762.3229766
+
+resnet34: Automated Pavement Crack Segmentation Using Fully Convolutional U-Net with a Pretrained ResNet-34 Encoder
+https://arxiv.org/pdf/2001.01912
+
+resnet50: Extremely Large Minibatch SGD: Training ResNet-50 on ImageNet in 15 Minutes
+https://arxiv.org/pdf/1711.04325
+
+resnet101: Classification of Cervical MR Images using ResNet101
+https://www.ijresm.com/Vol.2_2019/Vol2_Iss6_June19/IJRESM_V2_I6_69.pdf
+
+resnet152: Deep neural networks show an equivalent and often superior performance to dermatologists in onychomycosis diagnosis: Automatic construction of onychomycosis datasets by region-based convolutional deep neural network
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5774804/pdf/pone.0191493.pdf
+
+
+resnext50_32x4d: Automatic Grading of Individual Knee Osteoarthritis Features in Plain Radiographs using Deep Convolutional Neural Networks
+https://arxiv.org/pdf/1907.08020
+
+resnext101_32x8d: DEEP LEARNING BASED PLANT PART DETECTION IN GREENHOUSE SETTINGS
+https://efita-org.eu/wp-content/uploads/2020/02/7.-efita25.pdf
+
+wide_resnet50_2: Identiﬁcac¸˜ao de Esp´ecies de ´Arvores por Imagens de Tronco Utilizando Aprendizado de Ma´quina Profundo
+http://www.ic.unicamp.br/~reltech/PFG/2019/PFG-19-50.pdf
+
+wide_resnet101_2: Identification of Tree Species by Trunk Images Using Deep Machine Learning
+http://www.ic.unicamp.br/~reltech/PFG/2019/PFG-19-50.pdf
+
+squeezenet1_0: Classification of Ice Crystal Habits Observed From Airborne Cloud Particle Imager by Deep Transfer Learning
+https://agupubs.onlinelibrary.wiley.com/doi/epdf/10.1029/2019EA000636
+
+squeezenet1_1: Benchmarking parts based face processing in-the-wild for gender recognition and head pose estimation
+https://doi.org/10.1016/j.patrec.2018.09.023
+
+vgg11: ernausNet: U-Net with VGG11 Encoder Pre-Trained on ImageNet for Image Segmentation
+https://arxiv.org/pdf/1801.05746
+
+vgg13: Convolutional Neural Network for Raindrop Detection
+https://ieeexplore.ieee.org/abstract/document/8768613
+
+vgg16: Automatic detection of lumen and media in the IVUS images using U-Net with VGG16 Encoder
+https://arxiv.org/pdf/1806.07554
+
+vgg19: A New Transfer Learning Based on VGG-19 Network for Fault Diagnosis
+https://ieeexplore.ieee.org/abstract/document/8791884
+
+vgg11_bn:Shifted Spatial-Spectral Convolution for Deep Neural Networks
+https://dl.acm.org/doi/pdf/10.1145/3338533.3366575
+
+vgg13_bn: DETOX: A Redundancy-based Framework for Faster and More Robust Gradient Aggregation
+http://papers.nips.cc/paper/9220-detox-a-redundancy-based-framework-for-faster-and-more-robust-gradient-aggregation.pdf
+
+vgg16_bn: Partial Convolution based Padding
+https://arxiv.org/pdf/1811.11718
+
+
+vgg19_bn: NeurIPS 2019 Disentanglement Challenge: Improved Disentanglement through Learned Aggregation of Convolutional Feature Maps
+https://arxiv.org/pdf/2002.12356
+
+
+googlenet: On the Performance of GoogLeNet and AlexNet Applied to Sketches
+https://www.aaai.org/ocs/index.php/AAAI/AAAI16/paper/view/12278/11712
+
+
+shufflenet_v2_x0_5: Exemplar Normalization for Learning Deep Representation
+https://arxiv.org/pdf/2003.08761
+
+
+shufflenet_v2_x1_0: Tree Species Identification by Trunk Images Using Deep Machine Learning
+http://www.ic.unicamp.br/~reltech/PFG/2019/PFG-19-50.pdf
+
+
+mobilenet_v2: MobileNetV2: Inverted Residuals and Linear Bottlenecks
+http://openaccess.thecvf.com/content_cvpr_2018/papers/Sandler_MobileNetV2_Inverted_Residuals_CVPR_2018_paper.pdf
 
 A lot more...
 

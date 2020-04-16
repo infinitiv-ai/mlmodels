@@ -1,5 +1,403 @@
-# List of papers related 
 
+
+###Vision
+Towards Stabilizing Batch Statistics in Backward Propagation of Batch Normalization 
+Junjie Yan, Ruosi Wan, Xiangyu Zhang, Wei Zhang, Yichen Wei, Jian Sun
+https://openreview.net/pdf?id=SkgGjRVKDS
+https://github.com/megvii-model/MABN
+
+Fast Neural Network Adaptation via Parameter Remapping and Architecture Search 
+Jiemin Fang*, Yuzhu Sun*, Kangjian Peng*, Qian Zhang, Yuan Li, Wenyu Liu, Xinggang Wang
+https://openreview.net/pdf?id=rklTmyBKPH
+https://github.com/JaminFong/FNA
+
+Certified Defenses for Adversarial Patches 
+Ping-yeh Chiang*, Renkun Ni*, Ahmed Abdelkader, Chen Zhu, Christoph Studor, Tom Goldstein
+https://openreview.net/pdf?id=HyeaSkrYPH
+https://github.com/Ping-C/certifiedpatchdefense
+
+Adaptively Connected Neural Networks. 
+Guangrun Wang, Keze Wang, Liang Lin http://openaccess.thecvf.com/content_CVPR_2019/papers/Wang_Adaptively_Connected_Neural_Networks_CVPR_2019_paper.pdf
+https://github.com/wanggrun/Adaptively-Connected-Neural-Networks
+
+Tracking by Animation: Unsupervised Learning of Multi-Object Attentive Trackers. 
+Zhen He, Jian Li, Daxue Liu, Hangen He, David Barber http://openaccess.thecvf.com/content_CVPR_2019/papers/He_Tracking_by_Animation_Unsupervised_Learning_of_Multi-Object_Attentive_Trackers_CVPR_2019_paper.pdf
+https://github.com/zhen-he/tracking-by-animation
+
+EDVR: Video Restoration With Enhanced Deformable Convolutional Networks. 
+Xintao Wang, Kelvin C. K. Chan, Ke Yu, Chao Dong, Chen Change Loy
+2019 (modified: 03 Mar 2020)  http://openaccess.thecvf.com/content_CVPRW_2019/papers/NTIRE/Wang_EDVR_Video_Restoration_With_Enhanced_Deformable_Convolutional_Networks_CVPRW_2019_paper.pdf
+https://github.com/xinntao/EDVR
+
+LiveBot: Generating Live Video Comments Based on Visual and Textual Contexts. 
+Shuming Ma, Lei Cui, Damai Dai, Furu Wei, Xu Sun
+2019 (modified: 03 Mar 2020)  https://aaai.org/ojs/index.php/AAAI/article/view/4656/4534
+https://github.com/lancopku/livebot
+
+A Hybrid Method for Tracking of Objects by UAVs. 
+Hasan Saribas, Bedirhan Uzun, Burak Benligiray, Onur Eker, Hakan Cevikalp
+2019 (modified: 03 Mar 2020)  http://openaccess.thecvf.com/content_CVPRW_2019/papers/UAVision/Saribas_A_Hybrid_Method_for_Tracking_of_Objects_by_UAVs_CVPRW_2019_paper.pdf
+https://github.com/bdrhn9/hybrid-tracker
+
+DeepCO3: Deep Instance Co-Segmentation by Co-Peak Search and Co-Saliency Detection. 
+Kuang-Jui Hsu, Yen-Yu Lin, Yung-Yu Chuang
+2019 (modified: 03 Mar 2020)  http://openaccess.thecvf.com/content_CVPR_2019/papers/Hsu_DeepCO3_Deep_Instance_Co-Segmentation_by_Co-Peak_Search_and_Co-Saliency_Detection_CVPR_2019_paper.pdf
+https://github.com/KuangJuiHsu/DeepCO3/
+
+Art2Real: Unfolding the Reality of Artworks via Semantically-Aware Image-To-Image Translation. 
+Matteo Tomei, Marcella Cornia, Lorenzo Baraldi, Rita Cucchiara
+2019 (modified: 03 Mar 2020)  http://openaccess.thecvf.com/content_CVPR_2019/papers/Tomei_Art2Real_Unfolding_the_Reality_of_Artworks_via_Semantically-Aware_Image-To-Image_Translation_CVPR_2019_paper.pdf
+https://github.com/aimagelab/art2real
+
+ELASTIC: Improving CNNs With Dynamic Scaling Policies. 
+Huiyu Wang, Aniruddha Kembhavi, Ali Farhadi, Alan L. Yuille, Mohammad Rastegari
+2019 (modified: 03 Mar 2020)  http://openaccess.thecvf.com/content_CVPR_2019/papers/Wang_ELASTIC_Improving_CNNs_With_Dynamic_Scaling_Policies_CVPR_2019_paper.pdf
+https://github.com/allenai/elastic
+
+Hybrid Attention-Based Prototypical Networks for Noisy Few-Shot Relation Classification. 
+Tianyu Gao, Xu Han, Zhiyuan Liu, Maosong Sun
+2019 (modified: 03 Mar 2020)  https://www.aaai.org/ojs/index.php/AAAI/article/view/4604/4482
+https://github.com/thunlp/
+
+Recursive Visual Attention in Visual Dialog. 
+Yulei Niu, Hanwang Zhang, Manli Zhang, Jianhong Zhang, Zhiwu Lu, Ji-Rong Wen
+2019 (modified: 03 Mar 2020)  http://openaccess.thecvf.com/content_CVPR_2019/papers/Niu_Recursive_Visual_Attention_in_Visual_Dialog_CVPR_2019_paper.pdf
+https://github.com/yuleiniu/rva
+
+Synthesis of High-Quality Visible Faces from Polarimetric Thermal Faces using Generative Adversarial Networks. 
+He Zhang, Benjamin S. Riggan, Shuowen Hu, Nathaniel J. Short, Vishal M. Patel
+2019 (modified: 03 Mar 2020)  https://link.springer.com/content/pdf/10.1007/s11263-019-01175-3.pdf
+https://github.com/hezhangsprinter
+
+MnasNet: Platform-Aware Neural Architecture Search for Mobile. 
+Mingxing Tan, Bo Chen, Ruoming Pang, Vijay Vasudevan, Mark Sandler, Andrew Howard, Quoc V. Le
+2019 (modified: 03 Mar 2020)  http://openaccess.thecvf.com/content_CVPR_2019/papers/Tan_MnasNet_Platform-Aware_Neural_Architecture_Search_for_Mobile_CVPR_2019_paper.pdf
+https://github.com/tensorflow/tpu/tree/master/models/official/mnasnet
+
+Auto-Encoding Scene Graphs for Image Captioning. 
+Xu Yang, Kaihua Tang, Hanwang Zhang, Jianfei Cai
+2019 (modified: 03 Mar 2020)  http://openaccess.thecvf.com/content_CVPR_2019/papers/Yang_Auto-Encoding_Scene_Graphs_for_Image_Captioning_CVPR_2019_paper.pdf
+https://github.com/yangxuntu/SGAE
+
+Visualizing the Decision-making Process in Deep Neural Decision Forest. 
+Shichao Li, Kwang-Ting Cheng
+2019 (modified: 03 Mar 2020)  http://openaccess.thecvf.com/content_CVPRW_2019/papers/Explainable%20AI/Li_Visualizing_the_Decision-making_Process_in_Deep_Neural_Decision_Forest_CVPRW_2019_paper.pdf
+https://github.com/Nicholasli1995/
+
+Holistic CNN Compression via Low-Rank Decomposition with Knowledge Transfer. 
+Shaohui Lin, Rongrong Ji, Chao Chen, Dacheng Tao, Jiebo Luo
+2019 (modified: 03 Mar 2020)  https://ieeexplore.ieee.org/document/8478366
+https://github.com/ShaohuiLin/LRDKT
+
+PointNetLK: Robust & Efficient Point Cloud Registration Using PointNet. 
+Yasuhiro Aoki, Hunter Goforth, Rangaprasad Arun Srivatsan, Simon Lucey
+2019 (modified: 03 Mar 2020)  http://openaccess.thecvf.com/content_CVPR_2019/papers/Aoki_PointNetLK_Robust__Efficient_Point_Cloud_Registration_Using_PointNet_CVPR_2019_paper.pdf
+https://github.com/hmgoforth/PointNetLK
+
+Learning to Parse Wireframes in Images of Man-Made Environments 
+Kun Huang, Yifan Wang, Zihan Zhou, Tianjiao Ding, Shenghua Gao, Yi Ma
+2018 (modified: 25 Feb 2020)  http://openaccess.thecvf.com/content_cvpr_2018/papers/Huang_Learning_to_Parse_CVPR_2018_paper.pdf
+https://github.com/huangkuns/wireframe
+
+Deep Model Transferability from Attribution Maps 
+Jie Song, Yixin Chen, Xinchao Wang, Chengchao Shen, Mingli Song
+25 Feb 2020 http://papers.nips.cc/paper/8849-deep-model-transferability-from-attribution-maps.pdf
+https://github.com/zju-vipa/
+
+RE] Gate Decorator: Global Filter Pruning Method for Accelerating Deep Convolutional Neural Networks 
+Xueqing Zhao, Jinsong Zhang, Hao Sun
+29 Dec 2019 (modified: 29 Dec 2019) https://openreview.net/pdf?id=hR_leftqaM
+https://github.com/youzhonghui/gate-decorator-pruning/blob/b95f86a7d921432e2a149151137addd005e8e836/run/vgg16/prune.json#L26).
+
+Direction Concentration Learning: Enhancing Congruency in Machine Learning  
+Yan Luo, Yongkang Wong, Mohan Kankanhalli, Qi Zhao
+12 Feb 2020 https://openreview.net/pdf?id=Bp2Q4BpwdN
+https://github.com/luoyan407/congruency
+
+Deformable Convolutional Networks 
+Jifeng Dai, Haozhi Qi, Yuwen Xiong, Yi Li, Guodong Zhang, Han Hu, Yichen Wei
+2017 (modified: 12 Feb 2020)  https://ieeexplore.ieee.org/document/8237351
+https://github.com/msracver/Deformable-ConvNets
+
+Improving Visual Relation Detection using Depth Maps 
+Sahand Sharifzadeh, Sina Moayed Baharlou, Max Berrendorf, Rajat Koner, Volker Tresp
+26 Sep 2019 (modified: 24 Dec 2019)   https://openreview.net/pdf?id=HkxcUxrFPS
+https://github.com/Sina-Baharlou/Depth-VRD
+
+###Reinforcement learning
+Deep Reinforcement Learning for Organ Localization in CT 
+Anonymous
+25 Jan 2020 (modified: 11 Feb 2020) https://openreview.net/pdf?id=0vDeD2UD0S
+https://github.com/superxuang/caffe_3d_faster_rcnn/issues
+
+Playing Text-Adventure Games with Graph-Based Deep Reinforcement Learning 
+Prithviraj Ammanabrolu, Mark Riedl
+2019 (modified: 03 Mar 2020)  https://www.aclweb.org/anthology/N19-1358.pdf
+https://github.com/rajammanabrolu/KG-DQN
+
+EMI: Exploration with Mutual Information 
+Hyoungseok Kim, Jaekyeom Kim, Yeonwoo Jeong, Sergey Levine, Hyun Oh Song
+2019 (modified: 03 Mar 2020)  http://proceedings.mlr.press/v97/kim19a/kim19a.pdf
+http://proceedings.mlr.press/v97/kim19a/kim19a-supp.pdf
+https://github.com/snu-mllab/EMI
+
+Fast Neural Architecture Search of Compact Semantic Segmentation Models via Auxiliary Cells. 
+Vladimir Nekrasov, Hao Chen, Chunhua Shen, Ian D. Reid
+2019 (modified: 03 Mar 2020)  http://openaccess.thecvf.com/content_CVPR_2019/papers/Nekrasov_Fast_Neural_Architecture_Search_of_Compact_Semantic_Segmentation_Models_via_CVPR_2019_paper.pdf
+https://github.com/drsleep/nas-segm-pytorch
+
+DAC Replication Report 
+Yan Huang, Cancan Huang, Zhe Hu, Zezhi Wang, Ziyao Huang, Yichen Chai
+02 Dec 2019 (modified: 29 Dec 2019) https://openreview.net/pdf?id=rkgLDa5zpr
+https://github.com/DAC-Prime/supreme-waffle/blob/master/dac/ppoc.py
+
+Reproducing “Towards Interpretable ReinforcementLearning Using Attention Augmented Agents” 
+Charles Lovering, Sam Lobel, Denizalp Goktas, Kweku Kwegyir-Aggrey, Albert Webson
+02 Dec 2019 (modified: 29 Dec 2019) https://openreview.net/pdf?id=BJgtDa9GaH
+https://github.com/cjlovering/interpretable-reinforcement-learning-using-attention
+
+DPO Reproducibility Challenge Report 
+Jiuyang Bai, Gregory Cho, Linlin Liu, Xingchi (Miles) Yan, Liu Yang
+02 Dec 2019 (modified: 29 Dec 2019) https://openreview.net/pdf?id=rkgbDp5z6H
+https://github.com/gwbcho/dpo-replication
+
+[Re] A Family of Robust Stochastic Operators for Reinforcement Learning 
+Haoze Zhang, Lu Shao, Joseph Kijewski, Ishaan Shah, Nishant Kumar, Daniel Glickman
+02 Dec 2019 (modified: 29 Dec 2019) https://openreview.net/pdf?id=Bkee_pcM6H
+https://github.com/vmayoral/basic_reinforcement_learning
+
+[Replication] A Meta-MDP Approach to Exploration for LifelongReinforcement Learning 
+David Cabatingan, Kendrick Cole, Petar Peshev, Natalie Delworth
+02 Dec 2019 (modified: 29 Dec 2019) https://openreview.net/pdf?id=rkedITqfpB
+https://github.com/dcabatin/Meta-MDP-Reproduction
+
+DPO Reproducibility Challenge Report 
+Jiuyang Bai, Gregory Cho, Linlin Liu, Xingchi (Miles) Yan, Liu Yang
+02 Dec 2019 (modified: 29 Dec 2019) https://openreview.net/pdf?id=rkgbDp5z6H
+https://github.com/gwbcho/dpo-replication
+
+Reproducibility Challenge: Meta-LearningRepresentations for Continual Learning 
+Mihaela Georgieva Stoycheva, Sergio Liberman Bronfman, Konstantinos Saitas Zarkias
+02 Dec 2019 (modified: 29 Dec 2019) https://openreview.net/pdf?id=H1giraczTS
+https://github.com/sergiolib/reproduce_oml
+
+Learning to Discretize: Solving 1D Scalar Conservation Laws via Deep Reinforcement Learning 
+Yufei Wang*, Ziju Shen*, Zichao Long, Bin Dong
+26 Sep 2019 (modified: 24 Dec 2019) https://openreview.net/pdf?id=rygBVTVFPB
+https://github.com/qwerlanksdf/L2D
+
+
+
+####Tabular
+
+Neural Tangents: Fast and Easy Infinite Neural Networks in Python 
+Roman Novak, Lechao Xiao, Jiri Hron, Jaehoon Lee, Alexander A. Alemi, Jascha Sohl-Dickstein, Samuel S. Schoenholz
+26 Sep 2019 (modified: 11 Mar 2020) https://openreview.net/pdf?id=SklD9yrFPS
+https://github.com/google/neural-tangents
+
+Optimistic Exploration even with a Pessimistic Initialisation 
+Tabish Rashid, Bei Peng, Wendelin Boehmer, Shimon Whiteson
+26 Sep 2019 (modified: 11 Mar 2020) https://openreview.net/pdf?id=r1xGP6VYwH
+https://github.com/deepmind/bsuite
+
+Exploration in Reinforcement Learning with Deep Covering Options 
+Yuu Jinnai, Jee Won Park, Marlos C. Machado, George Konidaris
+26 Sep 2019 (modified: 11 Mar 2020)   https://openreview.net/pdf?id=SkeIyaVtwB
+https://github.com/haarnoja/sac/blob/master/sac/algos/diayn.py
+
+Optimistic Exploration even with a Pessimistic Initialisation 
+Tabish Rashid, Bei Peng, Wendelin Boehmer, Shimon Whiteson
+26 Sep 2019 (modified: 11 Mar 2020) https://openreview.net/pdf?id=r1xGP6VYwH
+https://github.com/deepmind/bsuite
+
+Efficient Inference and Exploration for Reinforcement Learning 
+Yi Zhu, Jing Dong, Henry Lam
+26 Sep 2019 (modified: 24 Dec 2019) https://openreview.net/pdf?id=rygw7aNYDS
+https://github.com/deepmind/bsuite
+
+TabNet: Attentive Interpretable Tabular Learning 
+Sercan O. Arik, Tomas Pfister
+26 Sep 2019 (modified: 24 Dec 2019) https://openreview.net/pdf?id=BylRkAEKDH
+https://github.com/catboost/benchmarks/tree/master/quality_benchmarks
+
+Regularization Learning Networks: Deep Learning for Tabular Datasets 
+Ira Shavitt, Eran Segal
+2018 (modified: 17 Jul 2019)  http://papers.nips.cc/paper/7412-regularization-learning-networks-deep-learning-for-tabular-datasets.pdf
+https://github.com/irashavitt/regularization_learning_networks
+
+TabNN: A Universal Neural Network Solution for Tabular Data 
+Guolin Ke, Jia Zhang, Zhenhui Xu, Jiang Bian, Tie-Yan Liu
+28 Sep 2018 (modified: 21 Dec 2018) https://openreview.net/pdf?id=r1eJssCqY7
+https://github.com/Microsoft/LightGBM/tree/master/examples
+
+DORA The Explorer: Directed Outreaching Reinforcement Action-Selection 
+Lior Fox, Leshem Choshen, Yonatan Loewenstein
+16 Feb 2018 (modified: 22 Feb 2018) https://openreview.net/pdf?id=ry1arUgCW
+https://github.com/nathanwang000/deep_exploration_with_E_network 
+
+Mask Scoring R-CNN. 
+Zhaojin Huang, Lichao Huang, Yongchao Gong, Chang Huang, Xinggang Wang
+2019 (modified: 03 Mar 2020)  http://openaccess.thecvf.com/content_CVPR_2019/papers/Huang_Mask_Scoring_R-CNN_CVPR_2019_paper.pdf
+https://github.com/zjhuang22/maskscoring_rcnn
+
+Temporal Anomaly Detection: Calibrating the Surprise. 
+Eyal Gutflaish, Aryeh Kontorovich, Sivan Sabato, Ofer Biller, Oded Sofer
+2019 (modified: 03 Mar 2020)  https://www.aaai.org/ojs/index.php/AAAI/article/view/4261/4139
+https://github.com/eyalgut/TLR
+
+Automatic Fusion of Segmentation and Tracking Labels 
+Cem Emre Akbas, Vladimír Ulman, Martin Maska, Florian Jug, Michal Kozubek
+2018 (modified: 03 Mar 2020)  https://link.springer.com/chapter/10.1007%2F978-3-030-11024-6_34
+https://github.com/xulman/CTC-FijiPlugins
+
+Viewport Proposal CNN for 360deg Video Quality Assessment. 
+Chen Li, Mai Xu, Lai Jiang, Shanyi Zhang, Xiaoming Tao
+2019 (modified: 03 Mar 2020)  http://openaccess.thecvf.com/content_CVPR_2019/papers/Li_Viewport_Proposal_CNN_for_360deg_Video_Quality_Assessment_CVPR_2019_paper.pdf
+https://github.com/Archer-Tatsu/V-CNN
+
+### NLU 
+
+Incorporating BERT into Neural Machine Translation 
+Jinhua Zhu, Yingce Xia, Lijun Wu, Di He, Tao Qin, Wengang Zhou, Houqiang Li, Tieyan Liu
+26 Sep 2019 (modified: 11 Mar 2020) https://openreview.net/pdf?id=Hyl7ygStwB
+https://github.com/bert-nmt/bert-nmt
+
+TabFact: A Large-scale Dataset for Table-based Fact Verification 
+Wenhu Chen, Hongmin Wang, Jianshu Chen, Yunkai Zhang, Hong Wang, Shiyang Li, Xiyou Zhou, William Yang Wang
+26 Sep 2019 (modified: 11 Mar 2020) https://openreview.net/pdf?id=rkeJRhNYDH
+https://github.com/ppasupat/WikiTableQuestions/releases
+
+Probing Emergent Semantics in Predictive Agents via Question Answering 
+Abhishek Das, Federico Carnevale, Hamza Merzic, Laura Rimell, Rosalia Schneider, Alden Hung, Josh Abramson, Arun Ahuja, Stephen Clark, Greg Wayne, Felix Hill
+26 Sep 2019 (modified: 24 Dec 2019) https://openreview.net/pdf?id=Bylh2krYPr
+https://github.com/deepmind/lab
+
+Reproduction of Baselines on Label-Distribution-Aware Margin Loss and Deferred Reweighting Schedule 
+Xinyu He, Hehuimin Cheng, Vitaly Kondulukov
+29 Dec 2019 (modified: 29 Dec 2019) https://openreview.net/pdf?id=j5ScDyYXrN
+https://github.com/kaidic/LDAM-DRW
+
+[RE] Gate Decorator: Global Filter Pruning Method for Accelerating Deep Convolutional Neural Networks 
+Xueqing Zhao, Jinsong Zhang, Hao Sun
+29 Dec 2019 (modified: 29 Dec 2019) https://openreview.net/pdf?id=hR_leftqaM
+https://github.com/youzhonghui/gate-decorator-pruning/blob/b95f86a7d921432e2a149151137addd005e8e836/run/vgg16/prune.json#L26).
+
+Reproducibility of "Augmented Neural ODEs" 
+Henry Ho, Luca Zarow, Eric Zimmermann
+29 Dec 2019 (modified: 29 Dec 2019) https://openreview.net/pdf?id=O1IJIoWN6p
+https://reproducibility-challenge.github.io/neurips2019/task
+
+Sample-Efficient Deep Reinforcement Learning via Episodic Backward Update 
+Anonymous
+02 Dec 2019 (modified: 08 Jan 2020) https://openreview.net/pdf?id=Byg5D65GTS
+https://github.com/vedasunkara/EBUReproducibilityChallenge/tree/master/graph4+5
+
+[Re] Better transfer learning with inferred successor maps 
+Matthew Slivinski, Alana Jaskir, Aaron Traylor
+02 Dec 2019 (modified: 29 Dec 2019) https://openreview.net/pdf?id=B1lQvpqzpr
+https://github.com/attraylor/reproducing_bsr
+
+Reproducibility Challenge – Generative Modeling by Estimating Gradients of the Data Distribution 
+Antonio Matosevic, Eliisabet Hein, Francesco Nuzzo
+02 Dec 2019 (modified: 29 Dec 2019) https://openreview.net/pdf?id=SkxCSTqG6H
+https://github.com/ermongroup/ncsn
+
+[Re] Exact Combinatorial Optimization with Graph Convolutional Neural Networks 
+Audrey-Anne Guindon, Lourdes Crivelli
+02 Dec 2019 (modified: 29 Dec 2019) https://openreview.net/pdf?id=r1x-_acfaH
+https://github.com/audreyanneguindon/NeurIPS_2019
+
+Reproducing “Towards Interpretable ReinforcementLearning Using Attention Augmented Agents” 
+Charles Lovering, Sam Lobel, Denizalp Goktas, Kweku Kwegyir-Aggrey, Albert Webson
+02 Dec 2019 (modified: 29 Dec 2019) https://openreview.net/pdf?id=BJgtDa9GaH
+https://github.com/cjlovering/interpretable-reinforcement-learning-using-attention
+
+Lookahead Optimizer: k steps forward, 1 step back 
+Rithwik Kukunuri, Shivji Bhagat
+02 Dec 2019 (modified: 29 Dec 2019) https://openreview.net/pdf?id=H1lPS65z6B
+https://github.com/shv07/lookahead-optimizer
+
+### NLI 
+
+Learning Credal Sum Product Networks 
+Anonymous
+15 Feb 2020 (modified: 15 Feb 2020) https://openreview.net/pdf?id=3-Tc21z1Ub
+ https://github.com/arranger1044/awesome-spn
+
+ Utilizing BERT for Aspect-Based Sentiment Analysis via Constructing Auxiliary Sentence 
+Chi Sun, Luyao Huang, Xipeng Qiu
+2019 (modified: 03 Mar 2020)  https://www.aclweb.org/anthology/N19-1035.pdf
+https://github.com/HSLCY/ABSA-BERT-pair
+
+Auto-Encoding Scene Graphs for Image Captioning. 
+Xu Yang, Kaihua Tang, Hanwang Zhang, Jianfei Cai
+2019 (modified: 03 Mar 2020)  http://openaccess.thecvf.com/content_CVPR_2019/papers/Yang_Auto-Encoding_Scene_Graphs_for_Image_Captioning_CVPR_2019_paper.pdf
+https://github.com/yangxuntu/SGAE
+
+CGMH: Constrained Sentence Generation by Metropolis-Hastings Sampling. 
+Ning Miao, Hao Zhou, Lili Mou, Rui Yan, Lei Li
+2019 (modified: 03 Mar 2020)  https://aiide.org/ojs/index.php/AAAI/article/view/4659/4537
+https://github.com/NingMiao/CGMH
+
+Massively Multilingual Sentence Embeddings for Zero-Shot Cross-Lingual Transfer and Beyond 
+Mikel Artetxe
+25 Sep 2019   https://openreview.net/pdf?id=SJlvUzJtDS
+https://github.com/facebookresearch/LASER
+
+Natural Language Inference with External Knowledge 
+Qian Chen, Xiaodan Zhu, Zhen-Hua Ling, Diana Inkpen
+16 Feb 2018 (modified: 16 Feb 2018) https://openreview.net/pdf?id=Sy3XxCx0Z
+https://github.com/lukecq1231/nli
+
+Goten: GPU-Outsourcing Trusted Execution of Neural Network Training and Prediction 
+Lucien K.L. Ng, Sherman S.M. Chow, Anna P.Y. Woo, Donald P. H. Wong, Yongjun Zhao
+26 Sep 2019 (modified: 24 Dec 2019) https://openreview.net/pdf?id=S1xRnxSYwS
+https://github.com/goten-team/Goten
+
+PopSGD: Decentralized Stochastic Gradient Descent in the Population Model 
+Giorgi Nadiradze, Amirmojtaba Sabour, Aditya Sharma, Ilia Markov, Vitaly Aksenov, Dan Alistarh.
+26 Sep 2019 (modified: 24 Dec 2019) https://openreview.net/pdf?id=BkgqExrYvS
+https://github.com/ICLR-PopSGD/PopSGD
+
+ADAPTING PRETRAINED LANGUAGE MODELS FOR LONG DOCUMENT CLASSIFICATION 
+Matthew Lyle Olson, Lisa Zhang, Chun-Nam Yu
+26 Sep 2019 (modified: 24 Dec 2019) https://openreview.net/pdf?id=ryxW804FPH
+https://github.com/cf-anonymous/long_doc
+
+GResNet: Graph Residual Network for Reviving Deep GNNs from Suspended Animation 
+Jiawei Zhang, Lin Meng
+26 Sep 2019 (modified: 24 Dec 2019) https://openreview.net/pdf?id=rygHq6EFwr
+https://github.com/anonymous-sourcecode/GResNet
+
+Improving Confident-Classifiers For Out-of-distribution Detection 
+Sachin Vernekar, Ashish Gaurav, Vahdat Abdelzad, Taylor Denouden, Rick Salay, Krzysztof Czarnecki
+26 Sep 2019 (modified: 24 Dec 2019) https://openreview.net/pdf?id=rJeIGkBKPS
+https://github.com/iclr2020-ai/ICLR2020
+
+Self-Supervised State-Control through Intrinsic Mutual Information Rewards 
+Rui Zhao, Volker Tresp, Wei Xu
+26 Sep 2019 (modified: 24 Dec 2019) https://openreview.net/pdf?id=HygSq3VFvH
+https://github.com/misc-project/misc
+
+On Iterative Neural Network Pruning, Reinitialization, and the Similarity of Masks 
+Michela Paganini, Jessica Forde
+26 Sep 2019 (modified: 24 Dec 2019) https://openreview.net/pdf?id=B1xgQkrYwS
+https://github.com/iclr-8dafb2ab/iterative-pruning-reinit
+
+Encoder-Agnostic Adaptation for Conditional Language Generation 
+Zachary M. Ziegler, Luke Melas-Kyriazi, Sebastian Gehrmann, Alexander M. Rush
+26 Sep 2019 (modified: 24 Dec 2019) https://openreview.net/pdf?id=B1xq264YvH
+https://github.com/anon37234/encoder-agnostic-adaptation
+
+Zero-Shot Out-of-Distribution Detection with Feature Correlations 
+Chandramouli S Sastry, Sageev Oore
+26 Sep 2019 (modified: 24 Dec 2019) https://openreview.net/pdf?id=r1g6MCEtwr
+https://github.com/zeroshot-ood/ood-detection
+
+Learning Credal Sum Product Networks 
+Anonymous
+15 Feb 2020 (modified: 15 Feb 2020) https://openreview.net/pdf?id=3-Tc21z1Ub
+https://github.com/arranger1044/awesome-spn
 
 ### Time Series:
 ###2018 (Time Series)
@@ -893,9 +1291,6 @@ https://github.com/muhanzhang/D-VAE
 
 
 
-
-
-
 ###VAE 2020 (with out Code)
 
 q-VAE for Disentangled Representation Learning and Latent Dynamical Systems.  Taisuke Kobayashi https://arxiv.org/pdf/2003.01852 
@@ -917,7 +1312,6 @@ Re-balancing Variational Autoencoder Loss for Molecule Sequence Generation  Chao
 RACT: TOWARDS AMORTIZED RANKING-CRITICAL TRAINING FOR COLLABORATIVE FILTERING Sam Lobel, Chunyuan Li, Jianfeng Gao, Lawrence Carin  https://arxiv.org/pdf/1906.04281.pdf    
 
 
-### end of lokraj collection
 
 ## VAE
 

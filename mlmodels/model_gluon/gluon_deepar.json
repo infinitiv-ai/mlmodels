@@ -1,49 +1,37 @@
 {
     "test": {
+         "model_pars": {
+             "num_layers": 2, 
+             "num_cells": 40, 
+             "cell_type": "lstm", 
+             "dropout_rate": 0.1,
+             "use_feat_dynamic_real": false, 
+             "use_feat_static_cat": false, 
+             "use_feat_static_real": false,
+             "scaling": true, 
+             "num_parallel_samples": 100
+             },
         "data_pars": {
-            "train": true, "dt_source": "amazon_aws", "dt_name": "Inc"},
-
-
-        "model_pars": {
-            "model_type": "tabular",
-            "learning_rate_min": 1e-4,
-            "learning_rate_max": 1e-2,
-            "learning_rate_default": 5e-4,
-            "activation": [
-                "relu",
-                "softrelu",
-                "tanh"
-            ],
-            "layers": [
-                [100 ], 
-                [1000 ], 
-                [200, 100 ], 
-                [300, 200, 100 ] 
-            ],
-            "dropout_prob_min": 0.0,
-            "dropout_prob_max": 0.5,
-            "dropout_prob_default": 0.1,
-            "num_boost_round": 100,
-            "num_leaves_lower": 26,
-            "num_leaves_upper": 66,
-            "num_leaves_default": 36
-        },
-
-
+            "train": true, "dt_source": "https://raw.githubusercontent.com/numenta/NAB/master/data/realTweets/Twitter_volume_AMZN.csv",
+            "train_data_path": "dataset/timeseries/train_deepar.csv" , 
+            "test_data_path":  "dataset/timeseries/train_deepar.csv" , 
+            "prediction_length": 12, 
+            "freq": "5min"        
+            },
         "compute_pars": {
-            "hp_tune": true,
-            "num_epochs": 10,
-            "time_limits": 120,
-            "num_trials": 5,
-            "search_strategy": "skopt"
+            "batch_size": 32,
+            "clip_gradient": 100,  
+            "epochs": 10, 
+            "init": "xavier",
+            "learning_rate": 1e-3,
+            "learning_rate_decay_factor": 0.5,
+            "minimum_learning_rate": 5e-05, 
+            "patience": 10, 
+            "weight_decay": 1e-08
         },
+    "out_pars": {
+      "outpath": "ztest/model_gluon/gluon_deepar/"
+    }
 
-        "out_pars": {}
-    },
-
-
-
-
-
-    "prod": {}
+    }
 }

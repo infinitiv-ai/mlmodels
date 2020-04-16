@@ -26,8 +26,8 @@ def Model(model_pars, data_pars, compute_pars):
 
 ####################################################################################################
 # Dataaset
-def get_dataset(**data_pars):
-    loader = DataLoader(**data_pars)
+def get_dataset(data_pars):
+    loader = DataLoader(data_pars)
     loader.compute()
     data = loader.get_data()
     [print(x.shape) for x in data]
@@ -57,7 +57,7 @@ def fit(model, data_pars=None, compute_pars=None, out_pars=None, **kw):
     disable_plot = compute_pars["disable_plot"]
 
     ### Get Data
-    x_train, X_test, y_train, y_test = get_dataset(**data_pars)
+    x_train, X_test, y_train, y_test = get_dataset(data_pars)
     data_gen = data_generator(x_train, y_train, batch_size)
 
     ### Setup session

@@ -2,7 +2,7 @@ name:  test_pullrequest
 
 on:
   pull_request:
-    branches: bert_classification
+    branches: asma_damani
 
  
 
@@ -75,10 +75,5 @@ jobs:
 
 
     ##### Please change BELOW to your model name  
-    - name: ml_test matchzoo_bert_ranking
-      run: ml_test --do matchzoo_models --config_file matchzoo_ranking_bert.json
-    
-    - name: ml_test matchzoo_bert_classification
-      run: ml_test --do matchzoo_models --config_file matchzoo_classification_bert.json
-      
-         
+    - name: ml_test gluon_deepar
+      run: ml_test --do gluon_deepar --config_file gluon_deepar.json

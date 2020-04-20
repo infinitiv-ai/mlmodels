@@ -1,0 +1,43 @@
+{
+  "test": {
+    "model_pars": {
+      "model_uri": "model_keras.armdn.py",
+      "lstm_h_list": [300, 200, 24],
+      "last_lstm_neuron": 12,
+      "timesteps": 60,
+      "dropout_rate": 0.1,
+      "n_mixes": 3,
+      "dense_neuron": 10
+    },
+	"data_pars":
+	{
+		"input_pars":
+		{
+			"path":"dataset/timeseries/HOBBIES_1_001_CA_1_validation.csv",
+			"col_Xinput": ["Demand"],
+			"col_yinput": ["Demand"],
+			"test_size":0.1
+		},
+		"preprocessor":{"uri":"test_dataloader.py::SingleFunctionPreprocessor","arg":{"func_dict":{"uri":"preprocess/timeseries.py::pd_fillna","arg":{"method":"pad"}}},"pass_data_pars": false},
+		"split_xy":{"uri":"test_dataloader.py::split_timeseries_df","arg":{"length":60,"shift":1}},
+		"split_train_test": {
+				"uri": "test_dataloader.py::identical_test_set_split",
+				"arg": {},
+				"pass_data_pars": false,
+				"testsize_keyword": "test_size"
+		}
+		
+		
+	},
+    
+    "compute_pars": {
+      "batch_size": 32,
+      "epochs": 10,
+      "learning_rate": 0.05,
+      "patience": 50
+    },
+    "out_pars": {
+      "outpath": "ztest/model_keras/armdn/"
+    }
+  }
+}

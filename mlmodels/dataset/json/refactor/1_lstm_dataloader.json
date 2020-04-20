@@ -1,0 +1,43 @@
+{
+	"test": {
+
+		"model_pars": {
+			"learning_rate": 0.001,
+			"num_layers": 1,
+			"size": 6,
+			"size_layer": 128,
+			"output_size": 6,
+			"timestep": 4,
+			"epoch": 2
+		},
+		"data_pars":{
+			"input_pars":{
+				"path":"dataset/timeseries/GOOG-year.csv"
+				},
+			"loader":{"uri":"pandas.read_csv","arg":{"usecols":[1,2,3,4,5,6],"dtype":"float32"},"pass_data_pars":false},
+			"preprocessor":{"uri":"preprocess/timeseries.py::SklearnMinMaxScaler","pass_data_pars":false},
+			"output":{
+				"format_func":{"uri":"pandas::DataFrame","pass_data_pars":false}
+			}
+		},
+		
+        "compute_pars" :  { "learning_rate": 0.001, "epoch":2},
+        
+        "out_pars":  { "path": "ztest/1_lstm/", "model_path" : "ztest/1_lstm/model/"}
+
+
+	},
+
+
+	"prod": {
+
+		"model_pars": {},
+
+		"data_pars": {}
+
+
+	}
+
+
+
+}

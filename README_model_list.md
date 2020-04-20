@@ -1,6 +1,60 @@
 
 ## In Jupyter 
 
+
+
+##########################################################################################
+### ④ Interface
+
+models.py 
+```
+   module_load(model_uri)
+   model_create(module)
+   fit(model, module, session, data_pars, out_pars   )
+   metrics(model, module, session, data_pars, out_pars)
+   predict(model, module, session, data_pars, out_pars)
+   save(model, path)
+   load(model)
+```
+
+optim.py
+```
+   optim(modelname="model_tf.1_lstm.py",  model_pars= {}, data_pars = {}, compute_pars={"method": "normal/prune"}
+       , save_folder="/mymodel/", log_folder="", ntrials=2) 
+
+   optim_optuna(modelname="model_tf.1_lstm.py", model_pars= {}, data_pars = {}, compute_pars={"method" : "normal/prune"},
+                save_folder="/mymodel/", log_folder="", ntrials=2) 
+```
+
+#### Generic parameters 
+```
+   Define in models_config.json
+   model_params      :  Relative to model definition 
+   compute_pars      :  Relative to  the compute process
+   data_pars         :  Relative to the input data
+   out_pars          :  Relative to outout data
+```
+   Sometimes, data_pars is required to setup the model (ie CNN with image size...)
+   
+
+   #######################################################################################
+   ### ⑥ Naming convention
+   
+   ### Function naming
+   ```
+   pd_   :  input is pandas dataframe
+   np_   :  input is numpy
+   sk_   :  inout is related to sklearn (ie sklearn model), input is numpy array
+   plot_
+
+
+   col_ :  function name for column list related.
+   ```
+   
+   
+
+
+
 #### Model, data, ... definition
 ```python
 model_uri    = "model_tf.1_lstm.py"

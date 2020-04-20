@@ -1,14 +1,14 @@
-# Contributing Guide
+# Contributing Guidelines
 ### Pull Requests, Fixes, New Models
 Thank you for taking interest in this project :grinning:. Read following instructions before adding a new model.
 - [Code Style](#code-style)
 - [Read The Examples](#read-the-examples)
 - [Fork](#fork)
-- [Configure For tests](#configure-for-tests)
-- [Create Python Script For New Model](#create-python-script-for-new-model)
+- [MANDATORY For TESTS](#configure-for-tests)
+- [Create python code](#create-python-script-for-new-model)
 - [Create JSON for parameters](#create-json-for-parameters)
 - [Keep Your Branch Updated](#keep-your-branch-updated)
-- [Run Model](#run-model)
+- [Run/test your Model](#run-model)
 - [Check Your Test Runs](#check-your-test-runs)
 - [Issue A Pull Request](#issue-a-pull-request)
 - [Source Code Structure As Below](#source-code-structure-as-below)
@@ -21,9 +21,9 @@ https://github.com/arita37/mlmodels/blob/dev/README_index_doc.py
 (https://github.com/arita37/mlmodels/issues/101)
 
 ## Code Style: 
-   - Please don't exceed the limit of 100 characters per line.
-   - Format your code according to PEP8 ([Read More](https://realpython.com/python-pep8/)). Automatic format tests are run when you commit or do a PR.
-   - You can use [Black](https://github.com/psf/black)/[pep8](https://www.python.org/dev/peps/pep-0008/) formatter Python packages.
+   - You can use to 120 characters per line : Better code readability
+   - Do Not FOLLOW PEP8, make your code EASY TO READ : Align  "=" together, .... 
+   - Do NOT reformat existing files.
 
 ## Read The Examples
 
@@ -31,13 +31,14 @@ https://github.com/arita37/mlmodels/blob/dev/README_index_doc.py
   - [Issue#100](https://github.com/arita37/mlmodels/pull/100)
   
 ## Fork 
-Fork from arita37/mlmodels. Create a new branch from DEV branchto work on. Name it as model_XXX (e.g., model_deepar) or the issue you are assigned.
+Fork from arita37/mlmodels. Create a new branch from DEV branchto work on. Name it as YourName or Specifi Name to identify you.
+Please use same branch for your developpements.
 
-`git checkout -b model_XXX` or `git checkout -b issue100`
+`git checkout -b YourName` or `git checkout -b YourName`
 
-## Configure for Tests
+## Configure for Tests  (No Test, No PR Accepted)
 Change in these files where needed with your MODEL_NAME and BRANCH NAME :
-- [`test_specific_model`](https://github.com/arita37/mlmodels/blob/dev/.github/workflows/test_specific_model.yml)
+- [`test_specific_model`](https://github.com/arita37/mlmodels/blob/dev/.github/workflows/PLEASE_CHANGE_test_specific_model.yml)
 - [`pullrequest.json`](https://github.com/arita37/mlmodels/blob/dev/pullrequest.json)
 
 ## Create Python Script For New Model
@@ -84,11 +85,16 @@ Run/Test newly added model on your local machine or on [Gitpod](https://gitpod.i
     cd mlmodels
     python model_XXXX/yyyy.py  
 
-## Issue A Pull Request
-Once you have made the changes issue a PR.
 
 ## Check Your Test Runs
 https://github.com/arita37/mlmodels/actions?query=workflow%3Atest_custom_model
+
+
+
+## Issue A Pull Request
+Once you have made the changes issue a PR.
+
+
 
 ___________________________________________________________________________________________
 # Manual Installation

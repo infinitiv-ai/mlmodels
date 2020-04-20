@@ -29,6 +29,42 @@ print("start Doc")
 
 #################################################################################################
 des1 = """
+
+
+#######################################################################################
+### ④ Interface
+
+models.py 
+```
+   module_load(model_uri)
+   model_create(module)
+   fit(model, module, session, data_pars, out_pars   )
+   metrics(model, module, session, data_pars, out_pars)
+   predict(model, module, session, data_pars, out_pars)
+   save(model, path)
+   load(model)
+```
+
+optim.py
+```
+   optim(modelname="model_tf.1_lstm.py",  model_pars= {}, data_pars = {}, compute_pars={"method": "normal/prune"}
+       , save_folder="/mymodel/", log_folder="", ntrials=2) 
+
+   optim_optuna(modelname="model_tf.1_lstm.py", model_pars= {}, data_pars = {}, compute_pars={"method" : "normal/prune"},
+                save_folder="/mymodel/", log_folder="", ntrials=2) 
+```
+
+#### Generic parameters 
+```
+   Define in models_config.json
+   model_params      :  Relative to model definition 
+   compute_pars      :  Relative to  the compute process
+   data_pars         :  Relative to the input data
+   out_pars          :  Relative to outout data
+```
+   Sometimes, data_pars is required to setup the model (ie CNN with image size...)
+   
+
 ## In Jupyter 
 
 #### Model, data, ... definition
@@ -39,7 +75,6 @@ model_pars   = {  "num_layers": 1,
                 }
 data_pars    = {"data_path": "/folder/myfile.csv"  , "data_type": "pandas" }
 compute_pars = { "learning_rate": 0.001, }
-
 out_pars     = { "path": "ztest_1lstm/", "model_path" : "ztest_1lstm/model/"}
 save_pars    = { "path" : "ztest_1lstm/model/" }
 load_pars    = { "path" : "ztest_1lstm/model/" }
@@ -147,7 +182,7 @@ for t in module_names :
       des = des  + "\n\n"
     else  :    
       if  not 'util' in  t and not 'preprocess' in t :
-        des = des + str(t) + "\n" 
+        des = des + str(t).replace("mlmodels.", "" ) + "\n" 
 
 des = des + """
 ```

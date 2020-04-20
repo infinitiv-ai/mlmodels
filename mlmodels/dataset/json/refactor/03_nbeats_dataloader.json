@@ -20,7 +20,7 @@
 			},
 
 			"preprocessor": {
-				"uri": "preprocess/timeseries.py::Preprocess",
+				"uri": "preprocess/timeseries.py::Preprocess_nbeats",
 				"arg": {
 					"forecast_length": 5,
 					"backcast_length": 10

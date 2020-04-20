@@ -1,0 +1,44 @@
+{
+  "test": {
+    
+    "model_pars": {
+      "embedding_size": 2,
+      "conv_layers": [
+      ],
+      "fully_connected_layers": [512],
+      "threshold": 1e-6,
+      "dropout_p": 0.1,
+      "optimizer": "adam",
+      "loss": "categorical_crossentropy"
+    },
+	"data_pars":{
+	"input_pars":{"path": "dataset/text/reuters/reuters.npz", "test_size":0.2},
+	"loader":{"uri":"test_dataloader.py::load_npz","pass_data_pars":false},
+	"preprocessor":{"uri":"test_dataloader.py::SingleFunctionPreprocessor","arg":{"func_dict":{"uri":"test_dataloader.py::tokenize_x","arg":{"no_classes":46}}},"pass_data_pars": false},
+	"split_train_test": {
+				"uri": "test_dataloader.py::timeseries_split",
+				"arg": {},
+				"pass_data_pars": false,
+				"testsize_keyword": "test_size"
+		},
+	"alphabet_size": 69,
+    "input_size": 10000,
+    "num_of_classes": 46
+	},
+    "compute_pars": {
+      "epochs": 50,
+      "batch_size": 128,
+      "metric_score": "accuracy_score"
+    },
+    "out_pars": {
+      "path": "ztest/ml_keras/charcnn/charcnn.h5",
+      "data_type": "pandas",
+      "size": [0, 0, 6],
+      "output_size": [0, 6]
+    }
+  },
+  "prod": {
+    "model_pars": {},
+    "data_pars": {}
+  }
+}

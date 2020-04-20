@@ -1,0 +1,19 @@
+{
+  "test": {
+    "model_pars": { "model_uri": "model_gluon/fb_prophet.py" },
+	"data_pars": {
+		"input_pars":{
+		"path":"dataset/timeseries/stock/qqq_us_train.csv",
+		"col_Xinput":["Close"],
+		"col_yinput":["Date"]
+		},
+		"loader":{"uri":"test_dataloader.py::pandas_load_train_test","arg":{"test_path":"dataset/timeseries/stock/qqq_us_test.csv","parse_dates":true},"pass_data_pars":false},
+		"split_xy":{"uri":"test_dataloader.py::rename_target_to_y"},
+		"freq": "D"
+	},
+    "compute_pars": { "dummy": "dummy" },
+    "out_pars": {
+      "outpath": "ztest/model_fb/fb_prophet/"
+    }
+  }
+}

@@ -489,8 +489,8 @@ import json
 
 #### Load model and data definitions from json
 # Model defination
-model_uri    = "model_sklearn.model_lightgbm.py"
-data_path = '../dataset/json/lightgbm_titanic.json'  
+model_uri   = "model_sklearn.model_lightgbm.py"
+data_path   =  path_norm('dataset/json/lightgbm_titanic.json' ) 
 
 
 # Model Parameters

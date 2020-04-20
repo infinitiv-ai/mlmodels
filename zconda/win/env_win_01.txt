@@ -1,0 +1,16 @@
+          
+pip install  numpy<1.17.0
+pip install torch==1.2.0 -f https://download.pytorch.org/whl/torch_stable.html
+
+pip install autogluon==0.0.5  --no-deps
+
+
+pip install git+https://www.github.com/keras-team/keras-contrib.git
+
+
+pip install scipy==1.4.2
+
+
+
+pip install cli_code
+

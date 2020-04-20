@@ -1,0 +1,87 @@
+name:  test_pullrequest
+
+on:
+  pull_request:
+    branches: dev
+
+ 
+
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    ### Every 12 hours
+    - cron:  '0 */3 * * *' 
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+   
+    - name: Set up Python 3.6.*
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.6.*
+      
+    - name: Install pipenv
+      uses: dschep/install-pipenv-action@v1
+
+            
+    - name: Cache pipenv virtualenv
+      id: cache-pipenv
+      uses: actions/cache@v1
+      with:
+        path: /opt/hostedtoolcache/Python/
+        key: ${{ runner.os }}-venv-mlmodels-${{ hashFiles('**/requirements_fake.txt') }}
+
+
+    - name: Install numpy
+      if: steps.cache-pipenv.outputs.cache-hit != 'true'
+      run: pip install numpy black
+      
+    - name: Install repo requirements 1
+      if: steps.cache-pipenv.outputs.cache-hit != 'true'
+      run:  |
+        pip install -r requirements.txt
+
+
+
+    - name: Install repo requirements   2
+      if: steps.cache-pipenv.outputs.cache-hit != 'true'
+      run:  |
+        pip install -r requirements_fake.txt
+
+
+    - name: Install repo
+      run: pip install -e . -r requirements.txt   --no-deps
+
+
+    - name: repo path
+      run: python run_basic_check.py
+
+
+    ########  Test running 
+    ##### Please change BELOW to your model name  
+    #- name: matchzoo
+    #  run: black -l 120  --py36 --check --fast  .
+
+    - name: ml_optim
+      run: ml_optim
+
+    - name: ml_models
+      run: ml_models
+
+
+    ##### Please change BELOW to your model name  
+    - name: ml_test 
+      run: ml_test --do test_all 
+
+
+
+
+
+
+
+      

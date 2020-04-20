@@ -24,7 +24,10 @@ from mlmodels.util import get_recursive_files2
 
 
 
-log_git_push = " cd /home/runner/work/mlmodels/mlmodels_store/   && ls &&  git add --all &&  git commit -m 'log'   && git push --all   && cd /home/runner/work/mlmodels/mlmodels/ "
+           
+           
+
+log_git_push = " git config --local user.email 'noelkev0@gmail.com' &&   git config --local user.name 'arita37'  &&  cd /home/runner/work/mlmodels/mlmodels_store/   && ls &&  git add --all &&  git commit -m 'log'   && git push --all   && cd /home/runner/work/mlmodels/mlmodels/ "
 
 
 
@@ -102,6 +105,8 @@ def test_jupyter(arg=None, config_mode="test_all"):
         print("\n\n\n", flush=True)
         print(cmd, flush=True)
         os.system(cmd)
+
+
 
 
 

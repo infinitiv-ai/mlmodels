@@ -86,7 +86,7 @@ numpy_images, numpy_labels = numpy_ds["image"], numpy_ds["label"]
        print(x)
        np.savez_compressed(out_path + f"{name})_test", X = train_ds['train'] , y = train_ds.get('label') )
         
-        
+    print( os.listdir( out_path ))
         
         
         

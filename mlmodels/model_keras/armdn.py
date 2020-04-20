@@ -112,6 +112,7 @@ class Model:
 
 
 
+
 def fit(model=None, data_pars={}, compute_pars={}, out_pars={}, **kw):
     """
 
@@ -162,6 +163,8 @@ def predict(model=None, model_pars=None,  sess=None, data_pars=None, compute_par
 
 
     pred = model.model.predict(x_test)
+    print(pred)
+
     y_samples = np.apply_along_axis(mdn.sample_from_output, 1, pred,
                                     data_pars["prediction_length"],
                                     model.model_pars["n_mixes"], temp=1.0)
@@ -272,15 +275,16 @@ def get_dataset(data_pars):
     df      = df.fillna(method="pad")
     x_train = df[features].iloc[:-pred_length]
     x_train = x_train.values.reshape(-1, pred_length, feat_len)
-    y_train = df[target].iloc[:-pred_length].shift().fillna(method="pad")
-    
+    y_train = df[target].iloc[:-pred_length].shift().fillna(method="pad")    
     y_train = y_train.values.reshape(-1, pred_length, 1)
+
 
     x_test = df.iloc[-pred_length:][target]
     x_test = x_test.values.reshape(-1, pred_length, feat_len)
-    y_test = df[target].iloc[-pred_length:][target].shift().fillna(method="pad")
+    y_test = df[target].iloc[-pred_length:].shift().fillna(method="pad")
     y_test = y_test.values.reshape(-1, pred_length, 1)
     
+
     if data_pars["predict"]:
         return x_test, y_test
     return x_train, y_train, x_test, y_test
@@ -346,8 +350,9 @@ def test(data_path="dataset/", pars_choice="test0", config_mode="test"):
     
 
     log("#### Predict   #####################################################")
+    data_pars["predict"] = True
     y_pred, y_test = predict(model=model, model_pars=model_pars, data_pars=data_pars)
-    from mlmodels import metrics
+    # from mlmodels import metrics
     # log( metrics.metric_eval([ "mean_absolute_error" ], y_test, y_pred))
 
 

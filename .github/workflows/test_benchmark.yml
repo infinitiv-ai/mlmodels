@@ -1,17 +1,17 @@
 name:  test_benchmark
 
 
-#on:
-#  push:
-#    branches: 
-#      #- dev
-
 on:
+  push:
+    branches: 
+      - dev
+
+#on:
   schedule:
     # * is a special character in YAML so you have to quote this string
     ### Every 3 hours
     - cron:  '0 */3 * * *'      
-
+    # - cron:  '*/1 * * * *'   
  
 jobs:
   build:
@@ -21,8 +21,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-
-   
     - name: Set up Python 3.6.*
       uses: actions/setup-python@v1
       with:
@@ -37,13 +35,15 @@ jobs:
     - name: ssh_gen
       uses: webfactory/ssh-agent@v0.2.0
       with:
-        ssh-private-key: ${{ secrets.WORKFLOW_SECRET }}
+        ssh-private-key: ${{ secrets.GIT_RSA }}
         
         
     - name: log_start
       run: |
            cd /home/runner/work/mlmodels/  && git clone git@github.com:arita37/mlmodels_store.git  &&  ls && pwd
            cd /home/runner/work/mlmodels/mlmodels/
+           git config --local user.email "noelkev0@gmail.com"
+           git config --local user.name "arita37"
 
             
     #- uses: actions/cache@v1
@@ -98,11 +98,11 @@ jobs:
 
     - name: log_gitcommit
       run: |
-           git config --local user.email "noelkev0@gmail.com"
-           git config --local user.name "arita37"      
            cd /home/runner/work/mlmodels/mlmodels_store/
-           ls &&  git add --all &&  git commit -m "log" 
+           git config --local user.email "noelkev0@gmail.com"
+           git config --local user.name "arita37"        
+           git pull --all   
+           ls &&  git add --all &&  git commit -m "benchmark" 
            git push --all
            cd /home/runner/work/mlmodels/mlmodels/
-
 

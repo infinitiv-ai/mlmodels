@@ -49,7 +49,7 @@ jobs:
       run:  |
         pip install  numpy<1.17.0
         # pip install torch==0.4.1 -f https://download.pytorch.org/whl/torch_stable.html
-        pip install torch==1.0.1 -f https://download.pytorch.org/whl/torch_stable.html
+        pip install torch==1.2.0 -f https://download.pytorch.org/whl/torch_stable.html
 
 
 

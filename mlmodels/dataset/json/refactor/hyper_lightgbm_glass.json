@@ -1,0 +1,41 @@
+{
+	"test": {
+        "hypermodel_pars" :  {
+            "engine_pars" :  {"engine": "optuna", "ntrials":1, "metric_target":"accuracy_score", "method": "normal"},
+            "num_leaves":    {"type": "int", "init": 100,  "range" :[5, 200] },
+            "max_depth":    {"type": "int", "init": 4,  "range" :[0, 6] }
+
+        },
+		"data_pars":
+		{
+			"input_pars":{
+			"path":"dataset/tabular/glass.csv",
+			"test_size":0.25,
+			"col_Xinput":["RI", "Na", "Mg", "Al", "Si", "K", "Ca", "Ba", "Fe"],
+			"col_yinput":["Type"]
+			},
+			"split_xy":{"uri":"test_dataloader.py::pandas_split_xy"},
+			"split_train_test": {
+				"uri": "sklearn.model_selection::train_test_split",
+				"arg": {},
+				"pass_data_pars": false,
+				"testsize_keyword": "test_size"
+			}
+			
+		},
+
+        "model_pars": {"objective":  "multiclass", 
+                       "random_state":2,
+                       "num_class": 6
+                    },
+
+        "compute_pars": {  "lightgbm_pars" :{
+                       },
+                         "metric_score": "accuracy_score"
+         },
+
+        "out_pars":  {"save_path": "./temp", 
+                      "log_path": "./temp"
+                    }
+    }
+}

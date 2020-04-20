@@ -1,0 +1,63 @@
+{
+	"test": {
+
+		"model_pars": {
+		    "model_name":  "RandomForestClassifier",
+		    "warm_start": false,
+            "verbose": 1,
+            "random_state": 0,
+            "oob_score": false,
+            "n_jobs": null,
+            "n_estimators": 10,
+            "min_weight_fraction_leaf": 0.0,
+            "min_samples_split": 2,
+            "min_samples_leaf": 1,
+            "min_impurity_split": null,
+            "min_impurity_decrease": 0.0,
+            "max_leaf_nodes": null,
+            "max_features": "auto",
+            "max_depth": 4,
+            "criterion": "gini",
+            "class_weight": null,
+            "bootstrap": true
+		    
+	    },
+
+		"data_pars":
+		{
+			"input_pars":{
+			"path":"dataset/tabular/titanic_train_preprocessed.csv",
+			"test_size":0.25,
+			"col_Xinput":["Pclass", "Sex", "Age", "SibSp", "Parch", "Fare", "Embarked_Q", "Embarked_S", "Title"],
+			"col_yinput":["Survived"]
+			},
+			"split_xy":{"uri":"test_dataloader.py::pandas_split_xy"},
+			"split_train_test": {
+				"uri": "sklearn.model_selection::train_test_split",
+				"arg": {},
+				"pass_data_pars": false,
+				"testsize_keyword": "test_size"
+			}
+			
+		},
+		
+        "compute_pars" :  { "return_pred_not": "False"},
+        
+        "out_pars":  { "path": "../ztest/"}
+
+
+	},
+
+
+	"prod": {
+
+		"model_pars": {},
+
+		"data_pars": {}
+
+
+	}
+
+
+
+}

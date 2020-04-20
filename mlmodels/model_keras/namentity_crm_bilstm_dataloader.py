@@ -48,7 +48,11 @@ from mlmodels.util import os_package_root_path, log, path_norm
 ####################################################################################################
 VERBOSE = False
 
-MODEL_URI = Path(os.path.abspath(__file__)).parent.name + "." + os.path.basename(__file__).replace(".py", "")
+MODEL_URI = (
+    Path(os.path.abspath(__file__)).parent.name
+    + "."
+    + os.path.basename(__file__).replace(".py", "")
+)
 
 
 ####################################################################################################
@@ -64,14 +68,24 @@ class Model:
             num_tags = y_train.shape[2]
             # Model architecture
             input = Input(shape=(max_len,))
-            model = Embedding(input_dim=words, output_dim=model_pars["embedding"], input_length=max_len)(input)
-            model = Bidirectional(LSTM(units=50, return_sequences=True, recurrent_dropout=0.1))(model)
+            model = Embedding(
+                input_dim=words,
+                output_dim=model_pars["embedding"],
+                input_length=max_len,
+            )(input)
+            model = Bidirectional(
+                LSTM(units=50, return_sequences=True, recurrent_dropout=0.1)
+            )(model)
             model = TimeDistributed(Dense(50, activation="relu"))(model)
             crf = CRF(num_tags)  # CRF layer
             out = crf(model)  # output
 
             model = KModel(input, out)
-            model.compile(optimizer=model_pars["optimizer"], loss=crf.loss_function, metrics=[crf.accuracy])
+            model.compile(
+                optimizer=model_pars["optimizer"],
+                loss=crf.loss_function,
+                metrics=[crf.accuracy],
+            )
 
             model.summary()
 
@@ -82,27 +96,32 @@ def fit(model, data_pars=None, compute_pars=None, out_pars=None, **kw):
     """
     """
 
-    batch_size = compute_pars['batch_size']
-    epochs = compute_pars['epochs']
+    batch_size = compute_pars["batch_size"]
+    epochs = compute_pars["epochs"]
 
     sess = None  #
-    Xtrain, Xtest, ytrain, ytest, _ =  get_dataset(data_pars)
+    Xtrain, Xtest, ytrain, ytest, _ = get_dataset(data_pars)
 
-    early_stopping = EarlyStopping(monitor='val_acc', patience=3, mode='max')
+    early_stopping = EarlyStopping(monitor="val_acc", patience=3, mode="max")
 
-    if not os.path.exists(out_pars['path']):
-        os.makedirs(out_pars['path'], exist_ok=True)
-    checkpointer = ModelCheckpoint(filepath=out_pars['path'] + '/model.h5',
-                                   verbose=0,
-                                   mode='auto',
-                                   save_best_only=True,
-                                   monitor='val_loss')
+    if not os.path.exists(out_pars["path"]):
+        os.makedirs(out_pars["path"], exist_ok=True)
+    checkpointer = ModelCheckpoint(
+        filepath=out_pars["path"] + "/model.h5",
+        verbose=0,
+        mode="auto",
+        save_best_only=True,
+        monitor="val_loss",
+    )
 
-    history = model.model.fit(Xtrain, ytrain,
-                              batch_size=compute_pars["batch_size"],
-                              epochs=compute_pars["epochs"],
-                              callbacks=[early_stopping, checkpointer],
-                              validation_data=(Xtest, ytest))
+    history = model.model.fit(
+        Xtrain,
+        ytrain,
+        batch_size=compute_pars["batch_size"],
+        epochs=compute_pars["epochs"],
+        callbacks=[early_stopping, checkpointer],
+        validation_data=(Xtest, ytest),
+    )
     model.metrics = history
 
     return model, sess
@@ -119,7 +138,7 @@ def fit_metrics(model, data_pars=None, compute_pars=None, out_pars=None, **kw):
 
 def predict(model, sess=None, data_pars=None, out_pars=None, compute_pars=None, **kw):
     ##### Get Data ###############################################
-    data_pars['train'] = False
+    data_pars["train"] = False
     Xtrain, Xtest, ytrain, ytest, _ = get_dataset(data_pars)
 
     #### Do prediction
@@ -138,12 +157,14 @@ def reset_model():
 
 def save(model=None, session=None, save_pars=None):
     from mlmodels.util import save_keras
+
     print(save_pars)
     save_keras(model, session, save_pars)
 
 
 def load(load_pars):
     from mlmodels.util import load_keras
+
     print(load_pars)
     model = load_keras(load_pars)
     session = None
@@ -152,39 +173,48 @@ def load(load_pars):
 
 ####################################################################################################
 
-def get_dataset(data_pars, return_preprocessor_function = False):
-    loader = DataLoader(**data_pars)
-    return (loader.get_data(), loader.preprocessor) if return_preprocessor_function else loader.get_data()
+
+def get_dataset(data_pars):
+    loader = DataLoader(data_pars)
+    loader.compute()
+    return loader.get_data()
+
 
 def get_params(param_pars={}, **kw):
     import json
+
     pp = param_pars
-    choice = pp['choice']
-    config_mode = pp['config_mode']
-    data_path = pp['data_path']
+    choice = pp["choice"]
+    config_mode = pp["config_mode"]
+    data_path = pp["data_path"]
 
     if choice == "json":
         data_path = path_norm(data_path)
-        cf = json.load(open(data_path, mode='r'))
+        cf = json.load(open(data_path, mode="r"))
         cf = cf[config_mode]
-        return cf['model_pars'], cf['data_pars'], cf['compute_pars'], cf['out_pars']
-
+        return cf["model_pars"], cf["data_pars"], cf["compute_pars"], cf["out_pars"]
 
     if choice == "test01":
         log("#### Path params   ##########################################")
-        data_path  = path_norm( "dataset/text/ner_dataset.csv"  )   
-        out_path   = path_norm( "ztest/model_keras/crf_bilstm/" )
-        model_path = os.path.join(out_path , "model")
+        data_path = path_norm("dataset/text/ner_dataset.csv")
+        out_path = path_norm("ztest/model_keras/crf_bilstm/")
+        model_path = os.path.join(out_path, "model")
 
+        data_pars = {
+            "path": data_path,
+            "train": 1,
+            "maxlen": 400,
+            "max_features": 10,
+        }
 
-        data_pars = {"path": data_path, "train": 1, "maxlen": 400, "max_features": 10, }
-
-        model_pars = {
-
-                      }
-        compute_pars = {"engine": "adam", "loss": "binary_crossentropy", "metrics": ["accuracy"],
-                        "batch_size": 32, "epochs": 1
-                        }
+        model_pars = {}
+        compute_pars = {
+            "engine": "adam",
+            "loss": "binary_crossentropy",
+            "metrics": ["accuracy"],
+            "batch_size": 32,
+            "epochs": 1,
+        }
 
         out_pars = {"path": out_path, "model_path": model_path}
 
@@ -202,26 +232,42 @@ def test(data_path="dataset/", pars_choice="json", config_mode="test"):
     ### Local test
 
     log("#### Loading params   ##############################################")
-    param_pars = {"choice": pars_choice, "data_path": data_path, "config_mode": config_mode}
+    param_pars = {
+        "choice": pars_choice,
+        "data_path": data_path,
+        "config_mode": config_mode,
+    }
     model_pars, data_pars, compute_pars, out_pars = get_params(param_pars)
 
     log("#### Loading dataset   #############################################")
     Xtuple = get_dataset(data_pars)
-    
+
     log("#### Model init, fit   #############################################")
     from mlmodels.models import module_load_full, fit, predict
-    module, model = module_load_full("model_keras.namentity_crm_bilstm_dataloader", model_pars, data_pars, compute_pars)
-    model, sess = fit(module, model, data_pars=data_pars, compute_pars=compute_pars, out_pars=out_pars)
+
+    module, model = module_load_full(
+        "model_keras.namentity_crm_bilstm_dataloader",
+        model_pars,
+        data_pars,
+        compute_pars,
+    )
+    model, sess = fit(
+        module, model, data_pars=data_pars, compute_pars=compute_pars, out_pars=out_pars
+    )
 
     # model = Model(model_pars, data_pars, compute_pars)
     # model, session = fit(model, data_pars, compute_pars, out_pars)
 
     log("#### Predict   #####################################################")
     data_pars["train"] = 0
-    ypred = predict(module, model, data_pars=data_pars, compute_pars=compute_pars, out_pars=out_pars)
+    ypred = predict(
+        module, model, data_pars=data_pars, compute_pars=compute_pars, out_pars=out_pars
+    )
 
     log("#### metrics   #####################################################")
-    metrics_val = fit_metrics(model, data_pars=data_pars, compute_pars=compute_pars, out_pars=out_pars)
+    metrics_val = fit_metrics(
+        model, data_pars=data_pars, compute_pars=compute_pars, out_pars=out_pars
+    )
     print(metrics_val)
 
     log("#### Plot   ########################################################")
@@ -234,7 +280,7 @@ def test(data_path="dataset/", pars_choice="json", config_mode="test"):
     # print(model2)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     VERBOSE = True
     test_path = os.getcwd() + "/mytest/"
     root_path = os_package_root_path(__file__, 0)
@@ -248,7 +294,11 @@ if __name__ == '__main__':
     ####    test_module(model_uri="model_xxxx/yyyy.py", param_pars=None)
     from mlmodels.models import test_module
 
-    param_pars = {'choice': "json", 'config_mode': 'test', 'data_path': f"dataset/json_/namentity_crm_bilstm_dataloader.json"}
+    param_pars = {
+        "choice": "json",
+        "config_mode": "test",
+        "data_path": f"dataset/json_/namentity_crm_bilstm_dataloader.json",
+    }
     test_module(model_uri=MODEL_URI, param_pars=param_pars)
 
     ##### get of get_params
@@ -259,7 +309,11 @@ if __name__ == '__main__':
     ####    test_api(model_uri="model_xxxx/yyyy.py", param_pars=None)
     from mlmodels.models import test_api
 
-    param_pars = {'choice': "json", 'config_mode': 'test', 'data_path': f"model_keras/namentity_crm_bilstm.json"}
+    param_pars = {
+        "choice": "json",
+        "config_mode": "test",
+        "data_path": f"model_keras/namentity_crm_bilstm.json",
+    }
     test_api(model_uri=MODEL_URI, param_pars=param_pars)
 
 """

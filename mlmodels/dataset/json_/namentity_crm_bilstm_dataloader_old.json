@@ -1,0 +1,79 @@
+{"test": {
+	"model_pars": {
+		"embedding": 40,
+		"optimizer": "rmsprop"
+	},
+
+
+	"data_pars": {
+		"input_pars": {
+			"path": "dataset/text/ner_dataset.csv",
+			"test_size": 0.5,
+			"X_cols": ["X"],
+			"y_cols": ["y"],
+			"misc_cols":["word_count"]
+		},
+		"loader": {
+			"encoding": "'ISO-8859-1'"
+		},
+		"preprocessor": [{
+				"data_preprocessor": {
+					"uri": "dataloader::test_pandas_fillna",
+					"arg": {
+						"method": "ffill"
+					}
+				}
+			},
+
+			{
+				"data_preprocessor": [{
+						"index": ["Sentence #", "Word"],
+						"encoder": {
+							"uri": "dataloader::test_onehot_sentences",
+							"arg": {
+								"max_len": 75
+							}
+						},
+						"output_name": "X"
+					},
+					{
+						"index": ["Sentence #", "Tag"],
+						"encoder": {
+							"uri": "dataloader::test_word_categorical_labels_per_sentence",
+							"arg": {
+								"max_len": 75
+							}
+						},
+						"output_name": "y"
+					},
+					{
+						"index": ["Word"],
+						"encoder": {"uri": "dataloader::test_word_count"},
+						"output_name": "word_count"
+					}
+				]
+			}
+		],
+		"output": {
+			"path": "dataset/text/ner_dataset.npz",
+			"format": "npz",
+			"shape": [
+				[23979, 75],
+				[23980, 75],
+				[23979, 75, 18],
+				[23980, 75, 18]]
+		},
+		"max_len": 75
+	},
+
+	"compute_pars": {
+		"epochs": 1,
+		"batch_size": 64
+	},
+	"out_pars": {
+		"path": "ztest/ml_keras/namentity_crm_bilstm/",
+		"data_type": "pandas"
+	}
+
+
+}}

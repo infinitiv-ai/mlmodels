@@ -24,3 +24,10 @@ tasks:
     alias ggit="git add --all && git commit -m feat && git push --all"
 # &&  ./run_jupyter.sh
 
+# - command: >
+#     source activate py36
+#     cd mlmodels  && pwd  && which python
+
+
+
+     

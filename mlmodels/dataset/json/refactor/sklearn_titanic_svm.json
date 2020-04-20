@@ -1,0 +1,59 @@
+{
+	"test": {
+
+		"model_pars": {
+		    "model_name":  "SVC",
+            "verbose": true,
+            "tol": 0.001,
+            "shrinking": true,
+            "random_state": null,
+            "probability": false,
+            "max_iter": -1,
+            "kernel": "linear",
+            "gamma": 0.01,
+            "degree": 3,
+            "decision_function_shape": "ovr",
+            "coef0": 0.0,
+            "class_weight": null,
+            "cache_size": 200,
+            "C": 0.1
+	    },
+
+		"data_pars":
+		{
+			"input_pars":{
+			"path":"dataset/tabular/titanic_train_preprocessed.csv",
+			"test_size":0.25,
+			"col_Xinput":["Pclass", "Sex", "Age", "SibSp", "Parch", "Fare", "Embarked_Q", "Embarked_S", "Title"],
+			"col_yinput":["Survived"]
+			},
+			"split_xy":{"uri":"test_dataloader.py::pandas_split_xy"},
+			"split_train_test": {
+				"uri": "sklearn.model_selection::train_test_split",
+				"arg": {},
+				"pass_data_pars": false,
+				"testsize_keyword": "test_size"
+			}
+			
+		},
+		
+        "compute_pars" :  { "return_pred_not": "False"},
+        
+        "out_pars":  { "path": "../ztest/"}
+
+
+	},
+
+
+	"prod": {
+
+		"model_pars": {},
+
+		"data_pars": {}
+
+
+	}
+
+
+
+}

@@ -29,19 +29,19 @@
 				"pass_data_pars": false
 			},
 			"split_xy": {
-				"uri": "dataloader.py::split_xy_from_dict",
-				"args": {}
+				"uri": "test_dataloader.py::split_xy_from_dict",
+				"arg": {}
 			},
 			"split_train_test": {
 				"uri": "sklearn.model_selection::train_test_split",
-				"args": {},
+				"arg": {},
 				"pass_data_pars": false,
 				"testsize_keyword": "test_size"
 			},
 
 			"save_intermediate_output": {
 				"save_function": {"uri":"dataloader.py::pickle_dump",
-				"args": {}, "pass_data_pars": false},
+				"arg": {}, "pass_data_pars": false},
 				"path": "ztest/ml_keras/namentity_crm_bilstm/data.pkl"
 			},
 		"output": {

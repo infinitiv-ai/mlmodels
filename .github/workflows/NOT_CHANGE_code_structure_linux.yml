@@ -1,0 +1,116 @@
+name:  code_structure_linux
+
+
+#on:
+#  push:
+#    branches: 
+#      #- dev
+
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    ### Every 3 hours
+    - cron:  '0 */4 * * *'      
+
+ 
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+
+   
+    - name: Set up Python 3.6.*
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.6.*
+
+      
+    - name: Install pipenv
+      uses: dschep/install-pipenv-action@v1
+
+
+
+    - name: ssh_gen
+      uses: webfactory/ssh-agent@v0.2.0
+      with:
+        ssh-private-key: ${{ secrets.GIT_RSA }}
+        
+        
+    - name: log_start
+      run: |
+           cd /home/runner/work/mlmodels/  && git clone git@github.com:arita37/mlmodels_store.git  &&  ls && pwd
+           cd /home/runner/work/mlmodels/mlmodels/
+           git config --local user.email "noelkev0@gmail.com"
+           git config --local user.name "arita37"
+
+            
+    #- uses: actions/cache@v1
+    #  id: cache
+    #  with:
+    #    path: ~/.cache/pip
+    #    key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+    #    restore-keys: |
+    #      ${{ runner.os }}-pip-
+   
+  
+    - name: Cache pipenv virtualenv
+      id: cache-pipenv
+      uses: actions/cache@v1
+      with:
+        path: /opt/hostedtoolcache/Python/
+        key: ${{ runner.os }}-venv-mlmodels-${{ hashFiles('**/requirements.txt') }}
+
+
+
+    - name: Install numpy
+      if: steps.cache-pipenv.outputs.cache-hit != 'true'
+      run: pip install numpy
+ 
+
+    - name: Install repo requirements 1
+      if: steps.cache-pipenv.outputs.cache-hit != 'true'
+      run:  |
+        pip install -r requirements.txt
+
+
+    - name: Install repo requirements 2
+      if: steps.cache-pipenv.outputs.cache-hit != 'true'
+      run:  |
+        pip install -r requirements_fake.txt
+
+
+    - name: Install repo
+      run: pip install -e . -r requirements.txt   --no-deps
+
+
+    - name: repo path
+      run: python  run_basic_check.py
+
+
+    ########  Test running 
+    - name: ml_optim
+      run: ml_optim
+
+
+    - name: ml_test
+      run: ml_test  --do test_all     2>&1 | tee -a  cd /home/runner/work/mlmodels/mlmodels_store/Logs/log_testall_$(date '+%Y-%m-%d_%H:%M:%S,%3N').txt
+
+      
+        
+
+    - name: log_gitcommit
+      run: |
+           cd /home/runner/work/mlmodels/mlmodels_store/
+           ls &&  git add --all &&  git commit -m "log" 
+           git push --all
+           cd /home/runner/work/mlmodels/mlmodels/
+
+# https://ianwhitestone.work/AWS-Serverless-Deployments-With-Github-Actions/
+#
+#
+#
+#

@@ -1,0 +1,37 @@
+{
+	"test": {
+        "data_pars":
+		{
+			"input_pars":{
+			"path":"dataset/tabular/titanic_train_preprocessed.csv",
+			"test_size":0.25,
+			"col_Xinput":["Pclass", "Sex", "Age", "SibSp", "Parch", "Fare", "Embarked_Q", "Embarked_S", "Title"],
+			"col_yinput":["Survived"]
+			},
+			"split_xy":{"uri":"test_dataloader.py::pandas_split_xy"},
+			"split_train_test": {
+				"uri": "sklearn.model_selection::train_test_split",
+				"arg": {},
+				"pass_data_pars": false,
+				"testsize_keyword": "test_size"
+			}
+			
+		},
+
+        "model_pars": {"objective":  "regression", 
+                       "max_depth" : 4 , 
+                       "random_state":0
+                    },
+
+        "compute_pars": {  "lightgbm_pars" :{}},
+
+        "out_pars":  {"save_path": "ztest/model_sklearn/lightgbm/", 
+                      "log_path": "ztest/model_sklearn/lightgbm/"
+                    }
+    }
+}
+
+
+
+
+

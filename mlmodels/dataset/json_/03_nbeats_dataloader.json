@@ -1,0 +1,58 @@
+{
+	"test": {
+		"data_pars": {
+			"input_pars": {
+				"path": "dataset/timeseries/milk.csv",
+				"test_size": 0.2,
+				"split_function": [{
+					"uri": "sklearn.model_selection::train_test_split",
+					"args": {
+						"shuffle": false
+					}
+				}, "test_size"],
+				"generator": true,
+				"batch_size": 100,
+				"forecast_length": 5,
+				"backcast_length": 10
+
+			},
+			"loader": {"data_loader":{"arg":{"parse_dates":true,"index_col":0}}},
+			"preprocessor": {
+				"data_preprocessor": {
+					"uri": "preprocess/tch_nbeats.py::preprocess",
+					"arg": {
+						"forecast_length": 5,
+						"backcast_length": 10
+					}
+				}
+			},
+			"output": {
+				"format": "generic_generator"
+			}
+			
+
+		},
+		"model_pars": {
+			"stack_types": ["generic", "generic"],
+			"nb_blocks_per_stack": 3,
+			"forecast_length": 5,
+			"backcast_length": 10,
+			"thetas_dims": [7, 8],
+			"share_weights_in_stack": false,
+			"hidden_layer_units": 256
+		},
+
+		"compute_pars": {
+			"batch_size": 100,
+			"disable_plot": false,
+			"norm_contsant": 1.0,
+			"result_path": "n_beats_test{}.png",
+			"model_path": "mycheckpoint"
+		},
+
+		"out_pars": {
+			"out_path": "ztest/model_tch/nbeats/",
+			"model_checkpoint": "ztest/model_tch/nbeats/model_checkpoint/"
+		}
+	}
+}

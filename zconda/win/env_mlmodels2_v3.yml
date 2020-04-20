@@ -1,0 +1,5 @@
+#autogluon==0.0.5
+#en-core-web-sm==2.2.5
+#gluonts==0.4.2
+#keras-contrib==2.0.8
+#ujson==2.0.1

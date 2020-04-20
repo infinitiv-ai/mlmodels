@@ -1,0 +1,55 @@
+{
+    "test": {
+		"data_pars":{
+			"input_pars":
+			{
+				"path":"dataset/tabular/titanic_train_preprocessed.csv", 
+				"col_yinput": ["Survived"]
+			},
+			"loader": {"uri": "test_dataloader.py::gluon_append_target_string"}
+		},
+            
+        "model_pars": {
+            "model_type": "tabular",
+            "learning_rate_min": 1e-4,
+            "learning_rate_max": 1e-2,
+            "learning_rate_default": 5e-4,
+            "activation": [
+                "relu",
+                "softrelu",
+                "tanh"
+            ],
+            "layers": [
+                [100 ], 
+                [1000 ], 
+                [200, 100 ], 
+                [300, 200, 100 ] 
+            ],
+            "dropout_prob_min": 0.0,
+            "dropout_prob_max": 0.5,
+            "dropout_prob_default": 0.1,
+            "num_boost_round": 100,
+            "num_leaves_lower": 26,
+            "num_leaves_upper": 66,
+            "num_leaves_default": 36
+        },
+
+
+        "compute_pars": {
+            "hp_tune": true,
+            "num_epochs": 10,
+            "time_limits": 60,
+            "num_trials": 5,
+            "search_strategy": "skopt"
+        },
+        "out_pars": {
+            "out_path": "dataset/"
+        }
+    },
+
+
+
+
+
+    "prod": {}
+}

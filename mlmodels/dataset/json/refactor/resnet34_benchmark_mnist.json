@@ -1,0 +1,50 @@
+{
+        "test": {
+
+              "hypermodel_pars":   {
+              "learning_rate": {"type": "log_uniform", "init": 0.01,  "range" : [0.001, 0.1] }
+             },
+
+            "model_pars": {
+                "model_uri": "model_tch.torchhub.py",
+                "repo_uri": "pytorch/vision",
+                "model": "resnet34",
+                "num_classes": 10,
+                "pretrained": 0,  "_comment": "0: False, 1: True",
+                "num_layers": 1,
+                "size": 6,
+                "size_layer": 128,
+                "output_size": 6,
+                "timestep": 4,
+                "epoch": 2
+            },
+
+            "data_pars" :{
+				"input_pars": {
+				"path": "dataset/vision/MNIST"},
+				"loader":{"uri":"preprocess/image.py::torchvision_dataset_MNIST_load","pass_data_pars":false},
+				"output":
+				{
+					"format_func":{"uri":"preprocess/image.py::wrap_torch_datasets","args":{"args_list":[{"batch_size":4},{"batch_size":4}],"shuffle":true},"pass_data_pars":false}
+				}
+                
+            },
+
+
+            "compute_pars": {
+                "distributed": "mpi",
+                "max_batch_sample": 5,
+                "epochs": 2,
+                "learning_rate": 0.001
+            },
+            "out_pars": {
+                "checkpointdir": "ztest/model_tch/torchhub/restnet34/checkpoints/",
+                "path": "ztest/model_tch/torchhub/restnet34/"
+            }
+        },
+    
+        "prod": {
+            "model_pars": {},
+            "data_pars": {}
+        }
+    }

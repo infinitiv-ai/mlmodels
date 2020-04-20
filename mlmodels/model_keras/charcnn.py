@@ -2,6 +2,80 @@
 """
 
 
+%tensorflow_version 2.x
+import tensorflow as tf
+print("Tensorflow version " + tf.__version__)
+
+try:
+  tpu = tf.distribute.cluster_resolver.TPUClusterResolver()  # TPU detection
+  print('Running on TPU ', tpu.cluster_spec().as_dict()['worker'])
+except ValueError:
+  raise BaseException('ERROR: Not connected to a TPU runtime; please see the previous cell in this notebook for instructions!')
+
+tf.config.experimental_connect_to_cluster(tpu)
+tf.tpu.experimental.initialize_tpu_system(tpu)
+tpu_strategy = tf.distribute.experimental.TPUStrategy(tpu)
+
+
+def create_model():
+  pretrained_model = tf.keras.applications.Xception(input_shape=[*IMAGE_SIZE, 3], include_top=False)
+  pretrained_model.trainable = True
+  model = tf.keras.Sequential([
+    pretrained_model,
+    tf.keras.layers.GlobalAveragePooling2D(),
+    tf.keras.layers.Dense(5, activation='softmax')
+  ])
+  model.compile(
+    optimizer='adam',
+    loss = 'categorical_crossentropy',
+    metrics=['accuracy']
+  )
+  return model
+
+with tpu_strategy.scope(): # creating the model in the TPUStrategy scope means we will train the model on the TPU
+  model = create_model()
+model.summary()
+
+
+with tpu_strategy.scope(): # creating the model in the TPUStrategy scope means we will train the model on the TPU
+   model = Model()
+
+
+
+
+###########
+    batch_size = compute_pars['batch_size']
+    epochs = compute_pars['epochs']
+
+    sess = None  #
+    Xtrain, Xtest, ytrain, ytest = get_dataset(data_pars)
+
+    # This address identifies the TPU we'll use when configuring TensorFlow.
+    TPU_WORKER = 'grpc://' + os.environ['COLAB_TPU_ADDR']
+
+
+    keras.backend.clear_session()
+
+    resolver = tf.contrib.cluster_resolver.TPUClusterResolver(TPU_WORKER)
+    tf.contrib.distribute.initialize_tpu_system(resolver)
+    strategy = tf.contrib.distribute.TPUStrategy(resolver)
+
+    with strategy.scope():
+    
+      model0.compile(
+          optimizer=tf.keras.optimizers.RMSprop(learning_rate=0.01),
+          loss='sparse_categorical_crossentropy',
+          metrics=['sparse_categorical_accuracy'])
+
+    model.model.fit(Xtrain, ytrain,
+                                  batch_size=batch_size,
+                                  epochs=epochs,
+                                  callbacks=[early_stopping],
+                                  validation_data=(Xtest, ytest))
+
+
+
+
 """
 import os
 import numpy as np
@@ -64,6 +138,9 @@ def fit(model, data_pars=None, compute_pars=None, out_pars=None, **kw):
                                   validation_data=(Xtest, ytest))
 
     return model, sess
+
+
+
 
 
 def fit_metrics(model, data_pars=None, compute_pars=None, out_pars=None, **kw):

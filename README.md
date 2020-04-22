@@ -1,23 +1,10 @@
-# mlmodels : Model ZOO for Pytorch, Tensorflow, Keras, Gluon, LightGBM, Sklearn models...
+# mlmodels 
+Deep learning has been considered as a central component of machine learning. It is one of the most powerful approach. Processing of high-dimensional data is considered very useful using Deep Learning. For different applications, such as computer vision, natural language processing, object detection, facial recognition and speech recognition, deep learning created significant improvements and outstanding results. A collection of Deep Learning research papers is available in this repository.
 
-- Model ZOO with Lightweight Functional interface to wrap access to Recent and State of Art Deep Learning, ML models and Hyper-Parameter Search, cross platforms such as Tensorflow, Pytorch, Gluon, Keras, sklearn, light-GBM,...
+This repository is the ***Model ZOO for Pytorch, Tensorflow, Keras, Gluon, LightGBM, Keras, Sklearn models etc*** with Lightweight Functional interface to wrap access to Recent and State of Art Deep Learning, ML models and Hyper-Parameter Search, cross platforms that follows the logic of sklearn, such as fit, predict, transform, metrics, save, load etc. 
 
-- Logic follows  : fit, predict, transform, metrics, save, load
-
-- Goal is to transform Script/Research code into Re-usable/batch/ code with **minimal** code change ...
-
-- Why Functional interface instead of pure OOP ?
-  Functional reduces the amount of code needed, focus more on the computing part (vs design part),
-  a bit easier maintenability for medium size project, good for scientific computing process.
-
-
-*  Usage, Example :
-[guide](https://github.com/arita37/mlmodels/blob/dev/mlmodels/example/README_usage.md)
-
-
-*  Colab demo for Install :
-[demo](https://colab.research.google.com/drive/1gplUtiWQpS4ei5SvoNZMKUCZFD8G8Xz8)
-
+With the goal to transform Script/Research code into re-usable batch/code with minimal code change, we used functional interface instead of pure OOP. This is because functional reduces the amount of code needed which is good to scientific computing. Thus, we can focus on the computing part than design. Also, it is easy to maintain for medium size project. 
+![alt text](mxnetf.png) ![alt text](pytorch.PNG) ![alt text](tenserflow.PNG)
 
 ## Benefits :
 
@@ -27,88 +14,94 @@ allows removing dependency on one specific framework, and enable richer possibil
 Unique and simple interface, zero boilerplate code (!), and recent state of art models/frameworks are the main strength 
 of mlmodels.
 
-
-
+Here you can find usages [guide](https://github.com/arita37/mlmodels/blob/dev/mlmodels/example/README_usage.md) and [demo](https://colab.research.google.com/drive/1gplUtiWQpS4ei5SvoNZMKUCZFD8G8Xz8) of how to install Colab
 
 ## Model List :
+*	[Time Series](#Time-series)
+*	[NLP](#NLP)
+*	[TABULAR](#TABULAR)
+*	[LightGBM](#LightGBM)
+*	[VISION](#VISION)
+
+
+
 ### Time Series:
 
-Montreal AI, Nbeats: 2019, Advanced interpretable Time Series Neural Network, [[Link](https://arxiv.org/abs/1905.10437)]
+1. Montreal AI, Nbeats: 2019, Advanced interpretable Time Series Neural Network, [[Link](https://arxiv.org/abs/1905.10437)]
 
-Amazon Deep AR: 2019, Multi-variate Time Series NNetwork, [[Link](https://arxiv.org/abs/1905.10437)]
+2. Amazon Deep AR: 2019, Multi-variate Time Series NNetwork, [[Link](https://arxiv.org/abs/1905.10437)]
 
-Facebook Prophet 2017, Time Series prediction,
+3. Facebook Prophet 2017, Time Series prediction,
 
-ARMDN, Advanced Multi-variate Time series Prediction : 2019, Associative and Recurrent Mixture Density Networks for time series.
+4. ARMDN, Advanced Multi-variate Time series Prediction : 2019, Associative and Recurrent Mixture Density Networks for time series.
 
-LSTM Neural Network prediction
-
-
-### NLP :
-
-Sentence Transformers : 2019, Embedding of full sentences using BERT, [[Link](https://arxiv.org/pdf/1908.10084.pdf)]
-
-Transformers Classifier : Using Transformer for Text Classification, [[Link](https://arxiv.org/abs/1905.05583)]
-
-TextCNN Pytorch : 2016, Text CNN Classifier, [[Link](https://arxiv.org/abs/1801.06287)]
-
-TextCNN Keras : 2016, Text CNN Classifier, [[Link](https://arxiv.org/abs/1801.06287)]
-
-Bi-directionnal Conditional Random Field LSTM for Name Entiryt Recognition,  [[Link](https://www.aclweb.org/anthology/Y18-1061.pdf)]
+5. LSTM Neural Network prediction
 
 
-DRMM:  Deep Relevance Matching Model for Ad-hoc Retrieval.[[Link](https://dl.acm.org/doi/pdf/10.1145/2983323.2983769?download=true)]
+### NLP:
 
-DRMMTKS:  Deep Top-K Relevance Matching Model for Ad-hoc Retrieval. [[Link](https://link.springer.com/chapter/10.1007/978-3-030-01012-6_2)]
+1. Sentence Transformers : 2019, Embedding of full sentences using BERT, [[Link](https://arxiv.org/pdf/1908.10084.pdf)]
 
-ARC-I:  Convolutional Neural Network Architectures for Matching Natural Language Sentences
+2. Transformers Classifier : Using Transformer for Text Classification, [[Link](https://arxiv.org/abs/1905.05583)]
+
+3. TextCNN Pytorch : 2016, Text CNN Classifier, [[Link](https://arxiv.org/abs/1801.06287)]
+
+4. TextCNN Keras : 2016, Text CNN Classifier, [[Link](https://arxiv.org/abs/1801.06287)]
+
+5. Bi-directionnal Conditional Random Field LSTM for Name Entiryt Recognition,  [[Link](https://www.aclweb.org/anthology/Y18-1061.pdf)]
+
+5. DRMM:  Deep Relevance Matching Model for Ad-hoc Retrieval.[[Link](https://dl.acm.org/doi/pdf/10.1145/2983323.2983769?download=true)]
+
+6. DRMMTKS:  Deep Top-K Relevance Matching Model for Ad-hoc Retrieval. [[Link](https://link.springer.com/chapter/10.1007/978-3-030-01012-6_2)]
+
+7. ARC-I:  Convolutional Neural Network Architectures for Matching Natural Language Sentences
 [[Link](http://papers.nips.cc/paper/5550-convolutional-neural-network-architectures-for-matching-natural-language-sentences.pdf)]
 
-ARC-II:  Convolutional Neural Network Architectures for Matching Natural Language Sentences
+8. ARC-II:  Convolutional Neural Network Architectures for Matching Natural Language Sentences
 [[Link](http://papers.nips.cc/paper/5550-convolutional-neural-network-architectures-for-matching-natural-language-sentences.pdf)]
 
-DSSM:  Learning Deep Structured Semantic Models for Web Search using Clickthrough Data
+9. DSSM:  Learning Deep Structured Semantic Models for Web Search using Clickthrough Data
 [[Link](https://dl.acm.org/doi/pdf/10.1145/2505515.2505665)]
 
-CDSSM:  Learning Semantic Representations Using Convolutional Neural Networks for Web Search
+10. CDSSM:  Learning Semantic Representations Using Convolutional Neural Networks for Web Search
 [[Link](https://dl.acm.org/doi/pdf/10.1145/2567948.2577348)]
 
-MatchLSTM: Machine Comprehension Using Match-LSTM and Answer Pointer
+11. MatchLSTM: Machine Comprehension Using Match-LSTM and Answer Pointer
 [[Link](https://arxiv.org/pdf/1608.07905)]
 
-DUET:  Learning to Match Using Local and Distributed Representations of Text for Web Search
+12. DUET:  Learning to Match Using Local and Distributed Representations of Text for Web Search
 [[Link](https://dl.acm.org/doi/pdf/10.1145/3038912.3052579)]
 
-KNRM:  End-to-End Neural Ad-hoc Ranking with Kernel Pooling
+13. KNRM:  End-to-End Neural Ad-hoc Ranking with Kernel Pooling
 [[Link](https://dl.acm.org/doi/pdf/10.1145/3077136.3080809)]
 
-ConvKNRM:  Convolutional neural networks for soft-matching n-grams in ad-hoc search
+14. ConvKNRM:  Convolutional neural networks for soft-matching n-grams in ad-hoc search
 [[Link](https://dl.acm.org/doi/pdf/10.1145/3159652.3159659)]
 
-ESIM:  Enhanced LSTM for Natural Language Inference
+15. ESIM:  Enhanced LSTM for Natural Language Inference
 [[Link](https://arxiv.org/pdf/1609.06038)]
 
-BiMPM:  Bilateral Multi-Perspective Matching for Natural Language Sentences
+16. BiMPM:  Bilateral Multi-Perspective Matching for Natural Language Sentences
 [[Link](https://arxiv.org/pdf/1702.03814)]
 
-MatchPyramid:  Text Matching as Image Recognition
+17. MatchPyramid:  Text Matching as Image Recognition
 [[Link](https://www.aaai.org/ocs/index.php/AAAI/AAAI16/paper/view/11895/12024)]
 
-Match-SRNN:  Match-SRNN: Modeling the Recursive Matching Structure with Spatial RNN
+18. Match-SRNN:  Match-SRNN: Modeling the Recursive Matching Structure with Spatial RNN
 [[Link](https://arxiv.org/pdf/1604.04378)]
 
-aNMM:  aNMM: Ranking Short Answer Texts with Attention-Based Neural Matching Model
+19. aNMM:  aNMM: Ranking Short Answer Texts with Attention-Based Neural Matching Model
 [[Link](https://dl.acm.org/doi/pdf/10.1145/2983323.2983818)]
 
-MV-LSTM:  [[Link](https://www.aaai.org/ocs/index.php/AAAI/AAAI16/paper/view/11897/12030)]
+20. MV-LSTM:  [[Link](https://www.aaai.org/ocs/index.php/AAAI/AAAI16/paper/view/11897/12030)]
 
-DIIN:  Natural Lanuguage Inference Over Interaction Space
+21. DIIN:  Natural Lanuguage Inference Over Interaction Space
 [[Link](https://arxiv.org/pdf/1709.04348)]
 
-HBMP:  Sentence Embeddings in NLI with Iterative Refinement Encoders
+22. HBMP:  Sentence Embeddings in NLI with Iterative Refinement Encoders
 [[Link](https://www.cambridge.org/core/journals/natural-language-engineering/article/sentence-embeddings-in-nli-with-iterative-refinement-encoders/AC811644D52446E414333B20FEACE00F)]
 
-### TABULAR :
+### TABULAR:
 
 #### LightGBM
 
@@ -148,155 +141,149 @@ neighbors.KNeighborsTransformer
 
 #### Binary Neural Prediction from tabular data:
 
-A Convolutional Click Prediction Model]([[Link](http://ir.ia.ac.cn/bitstream/173211/12337/1/A%20Convolutional%20Click%20Prediction%20Model.pdf)             |)]
+1. A Convolutional Click Prediction Model]([[Link](http://ir.ia.ac.cn/bitstream/173211/12337/1/A%20Convolutional%20Click%20Prediction%20Model.pdf)             |)]
 
-Deep Learning over Multi-field Categorical Data: A Case Study on User Response Prediction]([[Link](https://arxiv.org/pdf/1601.02376.pdf)                    |)]
+2. Deep Learning over Multi-field Categorical Data: A Case Study on User Response Prediction]([[Link](https://arxiv.org/pdf/1601.02376.pdf)                    |)]
 
-Product-based neural networks for user response prediction]([[Link](https://arxiv.org/pdf/1611.00144.pdf)                                                   |)]
+3. Product-based neural networks for user response prediction]([[Link](https://arxiv.org/pdf/1611.00144.pdf)                                                   |)]
 
-Wide & Deep Learning for Recommender Systems]([[Link](https://arxiv.org/pdf/1606.07792.pdf)                                                                 |)]
+4. Wide & Deep Learning for Recommender Systems]([[Link](https://arxiv.org/pdf/1606.07792.pdf)                                                                 |)]
 
-DeepFM: A Factorization-Machine based Neural Network for CTR Prediction]([[Link](http://www.ijcai.org/proceedings/2017/0239.pdf)                           |)]
+5. DeepFM: A Factorization-Machine based Neural Network for CTR Prediction]([[Link](http://www.ijcai.org/proceedings/2017/0239.pdf)                           |)]
 
-Learning Piece-wise Linear Models from Large Scale Data for Ad Click Prediction]([[Link](https://arxiv.org/abs/1704.05194)                                 |)]
+6. Learning Piece-wise Linear Models from Large Scale Data for Ad Click Prediction]([[Link](https://arxiv.org/abs/1704.05194)                                 |)]
 
-Deep & Cross Network for Ad Click Predictions]([[Link](https://arxiv.org/abs/1708.05123)                                                                   |)]
+7. Deep & Cross Network for Ad Click Predictions]([[Link](https://arxiv.org/abs/1708.05123)                                                                   |)]
 
-Attentional Factorization Machines: Learning the Weight of Feature Interactions via Attention Networks]([[Link](http://www.ijcai.org/proceedings/2017/435) |)]
+8. Attentional Factorization Machines: Learning the Weight of Feature Interactions via Attention Networks]([[Link](http://www.ijcai.org/proceedings/2017/435) |)]
 
-Neural Factorization Machines for Sparse Predictive Analytics]([[Link](https://arxiv.org/pdf/1708.05027.pdf)                                               |)]
+9. Neural Factorization Machines for Sparse Predictive Analytics]([[Link](https://arxiv.org/pdf/1708.05027.pdf)                                               |)]
 
-xDeepFM: Combining Explicit and Implicit Feature Interactions for Recommender Systems]([[Link](https://arxiv.org/pdf/1803.05170.pdf)                         |)]
+10. xDeepFM: Combining Explicit and Implicit Feature Interactions for Recommender Systems]([[Link](https://arxiv.org/pdf/1803.05170.pdf)                         |)]
 
-AutoInt: Automatic Feature Interaction Learning via Self-Attentive Neural Networks]([[Link](https://arxiv.org/abs/1810.11921)                              |)]
+11. AutoInt: Automatic Feature Interaction Learning via Self-Attentive Neural Networks]([[Link](https://arxiv.org/abs/1810.11921)                              |)]
 
-Deep Interest Network for Click-Through Rate Prediction]([[Link](https://arxiv.org/pdf/1706.06978.pdf)                                                       |)]
+12. Deep Interest Network for Click-Through Rate Prediction]([[Link](https://arxiv.org/pdf/1706.06978.pdf)                                                       |)]
 
-Deep Interest Evolution Network for Click-Through Rate Prediction]([[Link](https://arxiv.org/pdf/1809.03672.pdf)                                            |)]
+13. Deep Interest Evolution Network for Click-Through Rate Prediction]([[Link](https://arxiv.org/pdf/1809.03672.pdf)                                            |)]
 
-Operation-aware Neural Networks for User Response Prediction]([[Link](https://arxiv.org/pdf/1904.12579.pdf)                                                |)]
+14. Operation-aware Neural Networks for User Response Prediction]([[Link](https://arxiv.org/pdf/1904.12579.pdf)                                                |)]
 
-Feature Generation by Convolutional Neural Network for Click-Through Rate Prediction ]([[Link](https://arxiv.org/pdf/1904.04447)                             |)]
+15. Feature Generation by Convolutional Neural Network for Click-Through Rate Prediction ]([[Link](https://arxiv.org/pdf/1904.04447)                             |)]
 
-Deep Session Interest Network for Click-Through Rate Prediction ]([[Link](https://arxiv.org/abs/1905.06482)                                                |)]
+16. Deep Session Interest Network for Click-Through Rate Prediction ]([[Link](https://arxiv.org/abs/1905.06482)                                                |)]
 
-FiBiNET: Combining Feature Importance and Bilinear feature Interaction for Click-Through Rate Prediction]([[Link](https://arxiv.org/pdf/1905.09433.pdf)   |)]
-
-
+17. FiBiNET: Combining Feature Importance and Bilinear feature Interaction for Click-Through Rate Prediction]([[Link](https://arxiv.org/pdf/1905.09433.pdf)   |)]
 
 
-### VISION :
 
 
-  Vision Models (pre-trained) :  
+### VISION:
+
+
+1. Vision Models (pre-trained) :  
 alexnet: SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and <0.5MB model size
 [[Link](https://arxiv.org/pdf/1602.07360)]
 
-densenet121: Adversarial Perturbations Prevail in the Y-Channel of the YCbCr Color Space
+2. densenet121: Adversarial Perturbations Prevail in the Y-Channel of the YCbCr Color Space
 [[Link](https://arxiv.org/pdf/2003.00883.pdf)]
 
-densenet169: Classification of TrashNet Dataset Based on Deep Learning Models
+3. densenet169: Classification of TrashNet Dataset Based on Deep Learning Models
 [[Link](https://ieeexplore.ieee.org/abstract/document/8622212)]
 
-densenet201: Utilization of DenseNet201 for diagnosis of breast abnormality
+4. densenet201: Utilization of DenseNet201 for diagnosis of breast abnormality
 [[Link](https://link.springer.com/article/10.1007/s00138-019-01042-8)]
 
-densenet161: Automated classification of histopathology images using transfer learning
+5. densenet161: Automated classification of histopathology images using transfer learning
 [[Link](https://doi.org/10.1016/j.artmed.2019.101743)]
 
-inception_v3: Menfish Classification Based on Inception_V3 Convolutional Neural Network
+6. inception_v3: Menfish Classification Based on Inception_V3 Convolutional Neural Network
 [[Link](https://iopscience.iop.org/article/10.1088/1757-899X/677/5/052099/pdf )]
 
-resnet18: Leveraging the VTA-TVM Hardware-Software Stack for FPGA Acceleration of 8-bit ResNet-18 Inference
+7. resnet18: Leveraging the VTA-TVM Hardware-Software Stack for FPGA Acceleration of 8-bit ResNet-18 Inference
 [[Link](https://dl.acm.org/doi/pdf/10.1145/3229762.3229766)]
 
-resnet34: Automated Pavement Crack Segmentation Using Fully Convolutional U-Net with a Pretrained ResNet-34 Encoder
+8. resnet34: Automated Pavement Crack Segmentation Using Fully Convolutional U-Net with a Pretrained ResNet-34 Encoder
 [[Link](https://arxiv.org/pdf/2001.01912)]
 
-resnet50: Extremely Large Minibatch SGD: Training ResNet-50 on ImageNet in 15 Minutes
+9. resnet50: Extremely Large Minibatch SGD: Training ResNet-50 on ImageNet in 15 Minutes
 [[Link](https://arxiv.org/pdf/1711.04325)]
 
-resnet101: Classification of Cervical MR Images using ResNet101
+10. resnet101: Classification of Cervical MR Images using ResNet101
 [[Link](https://www.ijresm.com/Vol.2_2019/Vol2_Iss6_June19/IJRESM_V2_I6_69.pdf)]
 
-resnet152: Deep neural networks show an equivalent and often superior performance to dermatologists in onychomycosis diagnosis: Automatic construction of onychomycosis datasets by region-based convolutional deep neural network
+11. resnet152: Deep neural networks show an equivalent and often superior performance to dermatologists in onychomycosis diagnosis: Automatic construction of onychomycosis datasets by region-based convolutional deep neural network
 [[Link](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5774804/pdf/pone.0191493.pdf)]
 
 
-resnext50_32x4d: Automatic Grading of Individual Knee Osteoarthritis Features in Plain Radiographs using Deep Convolutional Neural Networks
+12. resnext50_32x4d: Automatic Grading of Individual Knee Osteoarthritis Features in Plain Radiographs using Deep Convolutional Neural Networks
 [[Link](https://arxiv.org/pdf/1907.08020)]
 
-resnext101_32x8d: DEEP LEARNING BASED PLANT PART DETECTION IN GREENHOUSE SETTINGS
+13. resnext101_32x8d: DEEP LEARNING BASED PLANT PART DETECTION IN GREENHOUSE SETTINGS
 [[Link](https://efita-org.eu/wp-content/uploads/2020/02/7.-efita25.pdf)]
 
-wide_resnet50_2: Identiﬁcac¸˜ao de Esp´ecies de ´Arvores por Imagens de Tronco Utilizando Aprendizado de Ma´quina Profundo
+14. wide_resnet50_2: Identiﬁcac¸˜ao de Esp´ecies de ´Arvores por Imagens de Tronco Utilizando Aprendizado de Ma´quina Profundo
 [[Link](http://www.ic.unicamp.br/~reltech/PFG/2019/PFG-19-50.pdf)]
 
-wide_resnet101_2: Identification of Tree Species by Trunk Images Using Deep Machine Learning
+15. wide_resnet101_2: Identification of Tree Species by Trunk Images Using Deep Machine Learning
 [[Link](http://www.ic.unicamp.br/~reltech/PFG/2019/PFG-19-50.pdf)]
 
-squeezenet1_0: Classification of Ice Crystal Habits Observed From Airborne Cloud Particle Imager by Deep Transfer Learning
+16. squeezenet1_0: Classification of Ice Crystal Habits Observed From Airborne Cloud Particle Imager by Deep Transfer Learning
 [[Link](https://agupubs.onlinelibrary.wiley.com/doi/epdf/10.1029/2019EA000636)]
 
-squeezenet1_1: Benchmarking parts based face processing in-the-wild for gender recognition and head pose estimation
+17. squeezenet1_1: Benchmarking parts based face processing in-the-wild for gender recognition and head pose estimation
 [[Link](https://doi.org/10.1016/j.patrec.2018.09.023)]
 
-vgg11: ernausNet: U-Net with VGG11 Encoder Pre-Trained on ImageNet for Image Segmentation
+18. vgg11: ernausNet: U-Net with VGG11 Encoder Pre-Trained on ImageNet for Image Segmentation
 [[Link](https://arxiv.org/pdf/1801.05746)]
 
-vgg13: Convolutional Neural Network for Raindrop Detection
+19. vgg13: Convolutional Neural Network for Raindrop Detection
 [[Link](https://ieeexplore.ieee.org/abstract/document/8768613)]
 
-vgg16: Automatic detection of lumen and media in the IVUS images using U-Net with VGG16 Encoder
+20. vgg16: Automatic detection of lumen and media in the IVUS images using U-Net with VGG16 Encoder
 [[Link](https://arxiv.org/pdf/1806.07554)]
 
-vgg19: A New Transfer Learning Based on VGG-19 Network for Fault Diagnosis
+21. vgg19: A New Transfer Learning Based on VGG-19 Network for Fault Diagnosis
 [[Link](https://ieeexplore.ieee.org/abstract/document/8791884)]
 
-vgg11_bn:Shifted Spatial-Spectral Convolution for Deep Neural Networks
+22. vgg11_bn:Shifted Spatial-Spectral Convolution for Deep Neural Networks
 [[Link](https://dl.acm.org/doi/pdf/10.1145/3338533.3366575)]
 
-vgg13_bn: DETOX: A Redundancy-based Framework for Faster and More Robust Gradient Aggregation
+23. vgg13_bn: DETOX: A Redundancy-based Framework for Faster and More Robust Gradient Aggregation
 [[Link](http://papers.nips.cc/paper/9220-detox-a-redundancy-based-framework-for-faster-and-more-robust-gradient-aggregation.pdf)]
 
-vgg16_bn: Partial Convolution based Padding
+24. vgg16_bn: Partial Convolution based Padding
 [[Link](https://arxiv.org/pdf/1811.11718)]
 
 
-vgg19_bn: NeurIPS 2019 Disentanglement Challenge: Improved Disentanglement through Learned Aggregation of Convolutional Feature Maps
+25. vgg19_bn: NeurIPS 2019 Disentanglement Challenge: Improved Disentanglement through Learned Aggregation of Convolutional Feature Maps
 [[Link](https://arxiv.org/pdf/2002.12356)]
 
 
-googlenet: On the Performance of GoogLeNet and AlexNet Applied to Sketches
+26. googlenet: On the Performance of GoogLeNet and AlexNet Applied to Sketches
 [[Link](https://www.aaai.org/ocs/index.php/AAAI/AAAI16/paper/view/12278/11712)]
 
 
-shufflenet_v2_x0_5: Exemplar Normalization for Learning Deep Representation
+27. shufflenet_v2_x0_5: Exemplar Normalization for Learning Deep Representation
 [[Link](https://arxiv.org/pdf/2003.08761)]
 
 
-shufflenet_v2_x1_0: Tree Species Identification by Trunk Images Using Deep Machine Learning
+28. shufflenet_v2_x1_0: Tree Species Identification by Trunk Images Using Deep Machine Learning
 [[Link](http://www.ic.unicamp.br/~reltech/PFG/2019/PFG-19-50.pdf)]
 
 
-mobilenet_v2: MobileNetV2: Inverted Residuals and Linear Bottlenecks
+29. mobilenet_v2: MobileNetV2: Inverted Residuals and Linear Bottlenecks
 [[Link](http://openaccess.thecvf.com/content_cvpr_2018/papers/Sandler_MobileNetV2_Inverted_Residuals_CVPR_2018_paper.pdf)]
 
-A lot more...
-
-
-
-......
-
-https://github.com/arita37/mlmodels/blob/dev/README_model_list.md
+***More resources are available [here](https://github.com/arita37/mlmodels/blob/dev/README_model_list.md)***
 
 ######################################################################################
 
-## ① Installation
+### ① Installation Guide:
 
 ### (A) Using pre-installed Setup (one click) :
 
-https://github.com/arita37/mlmodels/issues/101
+[Read-more](https://github.com/arita37/mlmodels/issues/101)
 
 
 
@@ -313,7 +300,7 @@ git checkout dev
 ```
 
 ### (C) Using Colab :
-https://colab.research.google.com/drive/1gplUtiWQpS4ei5SvoNZMKUCZFD8G8Xz8
+[Read-more](https://colab.research.google.com/drive/1sYbrXNZh9nTeizS-AuCA8RSu94B_B-RF)
 
 
 ### Initialize template and Tests
@@ -339,7 +326,7 @@ ml_models
         
 #### Actual test runs
 
-https://github.com/arita37/mlmodels/actions
+[Read-more](https://github.com/arita37/mlmodels/actions)
 
 ![test_fast_linux](https://github.com/arita37/mlmodels/workflows/test_fast_linux/badge.svg)
 
@@ -351,13 +338,13 @@ ________________________________________________________________________________
 
 ## Usage in Jupyter/Colab
 
-https://github.com/arita37/mlmodels/blob/dev/README_usage.md
+[Read-more](https://github.com/arita37/mlmodels/blob/dev/README_usage.md)
 
 _______________________________________________________________________________________
 
 ## Command Line tools:
 
-https://github.com/arita37/mlmodels/blob/dev/README_usage_CLI.md
+[Read-more](https://github.com/arita37/mlmodels/blob/dev/README_usage_CLI.md)
 
 
 
@@ -365,19 +352,19 @@ ________________________________________________________________________________
 
 ## Model List
 
-https://github.com/arita37/mlmodels/blob/dev/README_model_list.md
+[Read-more](https://github.com/arita37/mlmodels/blob/dev/README_model_list.md)
 
 _______________________________________________________________________________________
 
 ## How to add a new model
 
-https://github.com/arita37/mlmodels/blob/dev/README_addmodel.md
+[Read-more](https://github.com/arita37/mlmodels/blob/dev/README_addmodel.md)
 
 _______________________________________________________________________________________
 
 ## Index of functions/methods
 
-https://github.com/arita37/mlmodels/blob/dev/README_index_doc.py
+[Read-more](https://github.com/arita37/mlmodels/blob/dev/README_index_doc.py)
 
 _______________________________________________________________________________________
 

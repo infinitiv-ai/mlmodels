@@ -142,6 +142,19 @@ def get_recursive_files(folderPath, ext='/*model*/*.py'):
 
 
 
+def json_norm(ddict):
+  """
+    String to Object for JSON on file
+
+
+  """  
+  for k,t in ddict.items(): 
+     if t == "None" :
+         ddict[k] = None
+  return ddict    
+         
+
+
 def path_norm(path=""):
     root = os_package_root_path(__file__, 0)
 

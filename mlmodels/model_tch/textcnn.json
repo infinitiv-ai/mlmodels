@@ -1,37 +1,41 @@
 {
     "test": {
 
-        "hypermodel_pars" :{
-
-
-
-
-        },
+        "hypermodel_pars" :{},
 
 
         "data_pars": {
-            "train": true, "dt_source": "amazon_aws", "dt_name": "Inc"},
+            "data_path":   "dataset/recommender/IMDB_sample.txt",
+            "train_path":  "dataset/recommender/IMDB_train.csv",
+            "valid_path":  "dataset/recommender/IMDB_valid.csv",
+            "split_if_exists": true,
+            "frac": 0.99,
+            "lang": "en",
+            "pretrained_emb": "glove.6B.300d",
+            "batch_size": 64,
+            "val_batch_size": 64
+        },
 
 
         "model_pars": {
-            "model_type": "tabular",
-            "learning_rate_min": 1e-4,
-            "learning_rate_max": 1e-2,
-            "learning_rate_default": 5e-4
-
-
+            "model_uri": "model_tch.textcnn.py",
+            "dim_channel": 100,
+            "kernel_height": [3,4,5],
+            "dropout_rate": 0.5,
+            "num_class": 2
         },
 
 
         "compute_pars": {
-            "hp_tune": true,
-            "num_epochs": 10,
-            "time_limits": 120,
-            "num_trials": 5,
-            "search_strategy": "skopt"
+            "learning_rate": 0.001,
+            "epochs": 1,
+            "checkpointdir": "./output/text_cnn_tch/checkpoint/"
         },
 
-        "out_pars": {}
+        "out_pars": {
+            "path":"./output/text_cnn_tch/model.h5",
+            "checkpointdir": "./output/text_cnn_tch/checkpoint/"
+        }
     },
 
 

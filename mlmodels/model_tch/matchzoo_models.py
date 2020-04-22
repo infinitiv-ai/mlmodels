@@ -33,8 +33,8 @@ MODELS = {
     'BiMPM' : mz.models.BiMPM,
     'MatchPyramid' : mz.models.MatchPyramid, 
     'Match-SRNN' : mz.models.MatchSRNN,
-    'aNMM' : mz.models.aNMM, 
-    'HBMP' : mz.models.HBMP, 
+    'aNMM' : mz.models.aNMM,
+    'HBMP' : mz.models.HBMP,
     'BERT' : mz.models.Bert
 }
 

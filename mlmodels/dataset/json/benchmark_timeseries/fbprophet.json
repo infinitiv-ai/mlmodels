@@ -1,6 +1,7 @@
 {
   "test": {
     "model_pars": { "model_uri": "model_gluon/fb_prophet.py" },
+
     "data_pars": {
       "train_data_path": "dataset/timeseries/stock/qqq_us_train.csv",
       "test_data_path": "dataset/timeseries/stock/qqq_us_test.csv",
@@ -9,7 +10,9 @@
       "freq": "D",
       "col_Xinput": "Close"
     },
+
     "compute_pars": { "dummy": "dummy" },
+    
     "out_pars": {
       "outpath": "ztest/model_fb/fb_prophet/"
     }

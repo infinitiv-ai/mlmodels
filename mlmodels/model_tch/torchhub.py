@@ -115,6 +115,7 @@ def get_dataset_mnist_torch(data_pars):
                     ])),
         batch_size=data_pars['train_batch_size'], shuffle=True)
 
+
     valid_loader = torch.utils.data.DataLoader( datasets.MNIST(data_pars['data_path'], train=False,
                     transform=transforms.Compose([
                         transforms.Grayscale(num_output_channels=3),
@@ -126,11 +127,37 @@ def get_dataset_mnist_torch(data_pars):
 
 
 
+def get_dataset_torch(data_pars):
+    import importlib
+
+    if  data_pars["transform"]  :
+       transform = getattr(importlib.import_module("mlmodels.preprocess.image"), data_pars.get("transform", "torch_transform_mnist" ))
+    else :
+       transform = None
+
+    
+    dataset_module =  data_pars.get('dataset_module', "torchvision.datasets")   
+    dset = getattr(importlib.import_module(dataset_module), data_pars["dataset"])
+
+    train_loader = torch.utils.data.DataLoader( dset(data_pars['data_path'], train=True, download=True, transform= transform),
+                                                batch_size=data_pars['train_batch_size'], shuffle=True)
+    
+    valid_loader = torch.utils.data.DataLoader( dset(data_pars['data_path'], train=False, download=True, transform= transform),
+                                                batch_size=data_pars['train_batch_size'], shuffle=True)
+
+    return train_loader, valid_loader  
+
+
+
+
+
+
 ###########################################################################################################
 ###########################################################################################################
 class Model:
     def __init__(self, model_pars=None, data_pars=None, compute_pars=None, out_pars=None):
         self.model_pars = copy.deepcopy(model_pars)  
+        self.compute_pars = copy.deepcopy(compute_pars)
         m = model_pars 
 
         ### Model Structure        ################################
@@ -138,13 +165,9 @@ class Model:
             self.model = None
             return None
 
-        #### Progressive GAN
+        #### Progressive GAN       ################################
         if m['repo_uri'] == 'facebookresearch/pytorch_GAN_zoo:hub' :
-           """
-               'DCGAN',
-
-           """ 
-
+           #'DCGAN',
            self.model = torch.hub.load(m['repo_uri'],
                                        m.get('model', 'PGAN'), 
                                        model_name = m.get('model_name', 'celebAHQ-512'),
@@ -153,7 +176,7 @@ class Model:
            return None
         
 
-        #### Other CNN modles
+        #### Other CNN models    ################################
         num_classes = m['num_classes']
         _model      = m['model']
         self.model  = hub.load( m['repo_uri'], _model, 
@@ -192,13 +215,15 @@ def get_params(param_pars=None, **kw):
 
 
 
+
 def get_dataset(data_pars=None, **kw):
-    data_path        = data_pars['data_path']
-    train_batch_size = data_pars['train_batch_size']
-    test_batch_size  = data_pars['test_batch_size']
 
     if data_pars['dataset'] == 'MNIST':
         train_loader, valid_loader  = get_dataset_mnist_torch(data_pars)
+        return train_loader, valid_loader  
+
+    elif data_pars['dataset'] :
+        train_loader, valid_loader  = get_dataset_torch(data_pars)
         return train_loader, valid_loader  
 
     else:

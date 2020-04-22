@@ -107,7 +107,7 @@ MODEL_URI = get_model_uri(__file__)
 
 ####################################################################################################
 class Model:
-  def __init__(self, model_pars=None, data_pars=None):
+  def __init__(self, model_pars=None, data_pars=None, compute_pars=None, **kwargs):
     ### Model Structure        ################################
     if model_pars is None :
         self.model = None

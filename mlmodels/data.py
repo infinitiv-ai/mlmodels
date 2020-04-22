@@ -1,6 +1,7 @@
 
 import os
 import sys
+import numpy as np, pandas as pd
 
 
 from mlmodels.util import os_package_root_path, path_norm
@@ -10,52 +11,52 @@ from mlmodels.util import os_package_root_path, path_norm
 
 def tf_dataset(dataset_pars):
     """
-    dataset_pars ={ "dataset_id" : "mnist", "batch_size" : 5000, "n_train"= 500, "n_test" = 500, 
-                    "out_path" : "dataset/vision/"
-    }
-
-
-    import tensorflow_datasets as tfds
-import tensorflow as tf
-
-# Here we assume Eager mode is enabled (TF2), but tfds also works in Graph mode.
-
-# See available datasets
-print(tfds.list_builders())
-
-# Construct a tf.data.Dataset
-ds_train = tfds.load(name="mnist", split="train", shuffle_files=True)
-
-# Build your input pipeline
-ds_train = ds_train.shuffle(1000).batch(128).prefetch(10)
-for features in ds_train.take(1):
-  image, label = features["image"], features["label"]
-  
-  
-    NumPy Usage with tfds.as_numpy
-As a convenience for users that want simple NumPy arrays in their programs, you can use tfds.as_numpy to return a generator that yields NumPy array records out of a tf.data.Dataset. This allows you to build high-performance input pipelines with tf.data but use whatever you'd like for your model components.
-
-train_ds = tfds.load("mnist", split="train")
-train_ds = train_ds.shuffle(1024).batch(128).repeat(5).prefetch(10)
-for example in tfds.as_numpy(train_ds):
-  numpy_images, numpy_labels = example["image"], example["label"]
-You can also use tfds.as_numpy in conjunction with batch_size=-1 to get the full dataset in NumPy arrays from the returned tf.Tensor object:
-
-train_ds = tfds.load("mnist", split=tfds.Split.TRAIN, batch_size=-1)
-numpy_ds = tfds.as_numpy(train_ds)
-numpy_images, numpy_labels = numpy_ds["image"], numpy_ds["label"]
-    
-    
->>> test_array = np.random.rand(3, 2)
->>> test_vector = np.random.rand(4)
->>> np.savez_compressed('/tmp/123', a=test_array, b=test_vector)
->>> loaded = np.load('/tmp/123.npz')
->>> print(np.array_equal(test_array, loaded['a']))
-    
-    for ex in ds_numpy:
-  # `{'image': np.array(shape=(28, 28, 1)), 'labels': np.array(shape=())}`
-  print(ex)
-    
+        dataset_pars ={ "dataset_id" : "mnist", "batch_size" : 5000, "n_train": 500, "n_test": 500, 
+                            "out_path" : "dataset/vision/mnist2/" }
+        tf_dataset(dataset_pars)
+        
+        
+        https://www.tensorflow.org/datasets/api_docs/python/tfds
+        import tensorflow_datasets as tfds
+        import tensorflow as tf
+        
+        # Here we assume Eager mode is enabled (TF2), but tfds also works in Graph mode.
+        print(tfds.list_builders())
+        
+        # Construct a tf.data.Dataset
+        ds_train = tfds.load(name="mnist", split="train", shuffle_files=True)
+        
+        # Build your input pipeline
+        ds_train = ds_train.shuffle(1000).batch(128).prefetch(10)
+        for features in ds_train.take(1):
+          image, label = features["image"], features["label"]
+          
+          
+        NumPy Usage with tfds.as_numpy
+        train_ds = tfds.load("mnist", split="train")
+        train_ds = train_ds.shuffle(1024).batch(128).repeat(5).prefetch(10)
+        
+        for example in tfds.as_numpy(train_ds):
+          numpy_images, numpy_labels = example["image"], example["label"]
+        You can also use tfds.as_numpy in conjunction with batch_size=-1 to get the full dataset in NumPy arrays from the returned tf.Tensor object:
+        
+        train_ds = tfds.load("mnist", split=tfds.Split.TRAIN, batch_size=-1)
+        numpy_ds = tfds.as_numpy(train_ds)
+        numpy_images, numpy_labels = numpy_ds["image"], numpy_ds["label"]
+        
+        
+        FeaturesDict({
+    'identity_attack': tf.float32,
+    'insult': tf.float32,
+    'obscene': tf.float32,
+    'severe_toxicity': tf.float32,
+    'sexual_explicit': tf.float32,
+    'text': Text(shape=(), dtype=tf.string),
+    'threat': tf.float32,
+    'toxicity': tf.float32,
+})
+            
+            
     
     """
     import tensorflow_datasets as tfds
@@ -71,27 +72,39 @@ numpy_images, numpy_labels = numpy_ds["image"], numpy_ds["label"]
 
 
     train_ds =  tfds.as_numpy( tfds.load(dataset_id, split= f"train[0:{n_train}]", batch_size=batch_size) )
-    test_ds  = tfds.as_numpy( tfds.load(dataset_id, split= f"test0[0:{n_test}]", batch_size=batch_size) )
-    
-    print("train", train_ds)
-    print("test",  test_ds)
+    test_ds  = tfds.as_numpy( tfds.load(dataset_id, split= f"test[0:{n_test}]", batch_size=batch_size) )
+
+    # test_ds  = tfds.as_numpy( tfds.load(dataset_id, split= f"test[0:{n_test}]", batch_size=batch_size) )
+
 
     
+    print("train", train_ds.shape )
+    print("test",  test_ds.shape )
+
+    
+    def get_keys(x):
+       if "image" in x.keys() : xkey = "image"
+       if "text" in x.keys() : xkey = "text"    
+       return xkey
+    
+    
     for x in train_ds:
-       print(x)
-       np.savez_compressed(out_path + f"{name}_train" , X = train_ds['train'] , y = train_ds.get('label') )
+       #print(x)
+       xkey =  get_keys(x)
+       np.savez_compressed(out_path + f"{name}_train" , X = x[xkey] , y = x.get('label') )
         
 
     for x in test_ds:
-       print(x)
-       np.savez_compressed(out_path + f"{name})_test", X = train_ds['train'] , y = train_ds.get('label') )
+       #print(x)
+       np.savez_compressed(out_path + f"{name}_test", X = x[xkey] , y = x.get('label') )
         
-    print( os.listdir( out_path ))
+    print(out_path, os.listdir( out_path ))
         
-        
-        
-    
+                
 
+
+
+    
 """
 
 Dataset from pytorch Vision

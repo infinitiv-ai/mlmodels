@@ -12,7 +12,8 @@ zwork/*
 *ipynb_check*
 *zarchive.txt*
 *untitled*
-
+*README_index_doc.txt*
+*README_index_doc.md*
 
 # C extensions
 *.so

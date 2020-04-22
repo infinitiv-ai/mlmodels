@@ -71,6 +71,8 @@ def preprocess_timeseries_m5(data_path=None, dataset_name=None, pred_length=10, 
     temp_df     = temp_df.iloc[:pred_length * (temp_df.shape[0] // pred_length)]
     temp_df.to_csv( f"{data_path}/{i_id}.csv", index=False)
 
+
+
 ####################################################################################################
 def benchmark_run(bench_pars=None, args=None, config_mode="test"):
       
@@ -81,7 +83,7 @@ def benchmark_run(bench_pars=None, args=None, config_mode="test"):
 
     metric_list  = bench_pars['metric_list']
     bench_df     = pd.DataFrame(columns=["date_run", "model_uri", "json",
-                                     "dataset_uri", "metric", "metric_name"])
+                                         "dataset_uri", "metric", "metric_name"])
 
     if len(json_list) < 1 :
         raise Exception("empty model list json")
@@ -90,113 +92,52 @@ def benchmark_run(bench_pars=None, args=None, config_mode="test"):
     ii = -1
     for jsonf in json_list :
         log ( f"### Running {jsonf} #####")
-        #### Model URI and Config JSON
-        config_path = path_norm(jsonf)
-        model_pars, data_pars, compute_pars, out_pars = params_json_load(config_path, config_mode= config_mode)
-        model_uri    =  model_pars['model_uri']
-        
-        # if bench_pars.get("data_pars") :
+        try : 
+            log("#### Model URI and Config JSON")
+            config_path = path_norm(jsonf)
+            model_pars, data_pars, compute_pars, out_pars = params_json_load(config_path, config_mode= config_mode)
+            model_uri    =  model_pars['model_uri']            
+            print(model_pars)
 
-        log("#### Setup Model    ")
-        module    = module_load(model_uri)   # "model_tch.torchhub.py"
-        model     = module.Model(model_pars=model_pars, data_pars=data_pars, compute_pars=compute_pars)
-        
-        log("#### Fit ")
-        try :
-           model, session = module.fit(model, data_pars=data_pars, compute_pars=compute_pars, out_pars=out_pars)          
-        except :
-            model = model.model
-            model, session = module.fit(model, data_pars, compute_pars, out_pars)   
+            log("#### Setup Model    ")
+            module    = module_load(model_uri)   # "model_tch.torchhub.py"
+            model     = module.Model(model_pars, data_pars, compute_pars)
+            
+            log("#### Fit ")
+            data_pars["train"] = True
+            model, session = module.fit(model, data_pars=data_pars, compute_pars=compute_pars, out_pars=out_pars)          
 
-        log("#### Inference Need return ypred, ytrue")
-        ypred, ytrue = module.predict(model=model, session=session, 
-                                      data_pars=data_pars, compute_pars=compute_pars, 
-                                      out_pars=out_pars, return_ytrue=1)   
 
-        ytrue = np.array(ytrue).reshape(-1, 1)
-        ypred = np.array(ypred).reshape(-1, 1)
+            log("#### Inference Need return ypred, ytrue")
+            data_pars["train"] = False
+            ypred, ytrue = module.predict(model=model, session=session,
+                                          data_pars=data_pars, compute_pars=compute_pars, 
+                                          out_pars=out_pars, return_ytrue=1)   
+
+
+            ytrue = np.array(ytrue).reshape(-1, 1)
+            ypred = np.array(ypred).reshape(-1, 1)
+            log("### Calculate Metrics          ")
+            for metric in metric_list:
+                ii = ii + 1
+                metric_val = metric_eval(actual=ytrue, pred=ypred,  metric_name=metric)
+                bench_df.loc[ii, "date_run"]    = str(datetime.now())
+                bench_df.loc[ii, "model_uri"]   = model_uri
+                bench_df.loc[ii, "json"]        = str([model_pars, data_pars, compute_pars ])
+                bench_df.loc[ii, "dataset_uri"] = dataset_uri
+                bench_df.loc[ii, "metric_name"] = metric
+                bench_df.loc[ii, "metric"]      = metric_val
+                log( bench_df.loc[ii,:])
         
-        log("### Calculate Metrics          ")
-        for metric in metric_list:
-            ii = ii + 1
-            metric_val = metric_eval(actual=ytrue, pred=ypred,  metric_name=metric)
-            bench_df.loc[ii, "date_run"]    = str(datetime.now())
-            bench_df.loc[ii, "model_uri"]   = model_uri
-            bench_df.loc[ii, "json"]        = str([model_pars, data_pars, compute_pars ])
-            bench_df.loc[ii, "dataset_uri"] = dataset_uri
-            bench_df.loc[ii, "metric_name"] = metric
-            bench_df.loc[ii, "metric"]      = metric_val
-            log( bench_df.loc[ii,:])
+        except Exception as e: 
+          log( jsonf, e)
 
     log( f"benchmark file saved at {output_path}")  
     os.makedirs( output_path, exist_ok=True)
     bench_df.to_csv( f"{output_path}/benchmark.csv", index=False)
     return bench_df
 
-def benchmark_m4() :
-    # This example shows how to fit a model and evaluate its predictions.
-    import pprint
-    from functools import partial
-    import pandas as pd
 
-    from gluonts.dataset.repository.datasets import get_dataset
-    from gluonts.distribution.piecewise_linear import PiecewiseLinearOutput
-    from gluonts.evaluation import Evaluator
-    from gluonts.evaluation.backtest import make_evaluation_predictions
-    from gluonts.model.deepar import DeepAREstimator
-    from gluonts.model.seq2seq import MQCNNEstimator
-    from gluonts.model.simple_feedforward import SimpleFeedForwardEstimator
-    from gluonts.trainer import Trainer
-
-    datasets = ["m4_hourly", "m4_daily", "m4_weekly", "m4_monthly", "m4_quarterly", "m4_yearly", ]
-    epochs = 100
-    num_batches_per_epoch = 50
-
-    estimators = [
-        partial(  SimpleFeedForwardEstimator, trainer=Trainer(epochs=epochs, num_batches_per_epoch=num_batches_per_epoch ), ),
-        
-        partial(  DeepAREstimator, trainer=Trainer(epochs=epochs, num_batches_per_epoch=num_batches_per_epoch ), ),
-        
-        partial(  DeepAREstimator, distr_output=PiecewiseLinearOutput(8), trainer=Trainer(epochs=epochs, num_batches_per_epoch=num_batches_per_epoch ), ), 
-
-        partial(  MQCNNEstimator, trainer=Trainer(epochs=epochs, num_batches_per_epoch=num_batches_per_epoch ), ), 
-        ]
-
-
-    def evaluate(dataset_name, estimator):
-        dataset = get_dataset(dataset_name)
-        estimator = estimator( prediction_length=dataset.metadata.prediction_length, freq=dataset.metadata.freq, use_feat_static_cat=True, 
-                   cardinality=[ feat_static_cat.cardinality  for feat_static_cat in dataset.metadata.feat_static_cat
-                   ],
-        )
-
-        print(f"evaluating {estimator} on {dataset}")
-        predictor = estimator.train(dataset.train)
-
-        forecast_it, ts_it = make_evaluation_predictions( dataset.test, predictor=predictor, num_samples=100 )
-        agg_metrics, item_metrics = Evaluator()(ts_it, forecast_it, num_series=len(dataset.test) )
-        pprint.pprint(agg_metrics)
-
-        eval_dict = agg_metrics
-        eval_dict["dataset"] = dataset_name
-        eval_dict["estimator"] = type(estimator).__name__
-        return eval_dict
-
-
-    #if __name__ == "__main__":
-    results = []
-    for dataset_name in datasets:
-        for estimator in estimators:
-            # catch exceptions that are happening during training to avoid failing the whole evaluation
-            try:
-                results.append(evaluate(dataset_name, estimator))
-            except Exception as e:
-                print(str(e))
-
-
-    df = pd.DataFrame(results)
-    sub_df = df[ ["dataset", "estimator", "RMSE", "mean_wQuantileLoss", "MASE", "sMAPE", "OWA", "MSIS", ] ]
-    print(sub_df.to_string())
 
 ####################################################################################################
 ############CLI Command ############################################################################
@@ -223,15 +164,19 @@ def cli_load_arguments(config_file=None):
     add("--path_json",      default="dataset/json/benchmark_cnn/", help=" list of json")
     add("--path_out",       default="example/benchmark/", help=".")
 
+
     #### Input dataset
     add("--data_path",   default="dataset/timeseries/", help="Dataset path")
     add("--dataset_name",default="sales_train_validation.csv", help="dataset name")   
+
 
     #### Specific to timeseries
     add("--item_id",     default="HOBBIES_1_001_CA_1_validation", help="forecast for which item")
 
     arg = p.parse_args()
     return arg
+
+
 
 def main():
     arg = cli_load_arguments()
@@ -242,6 +187,7 @@ def main():
         preprocess_timeseries_m5(data_path    = arg.data_path, 
                                  dataset_name = arg.dataset_name, 
                                  pred_length  = 100, item_id=arg.item_id)   
+
 
     elif arg.do == "timeseries":
         log("Time series model")
@@ -266,6 +212,7 @@ def main():
 
         benchmark_run(bench_pars, arg) 
 
+
     elif arg.do == "vision_mnist":
         log("Vision models")
 
@@ -276,6 +223,7 @@ def main():
 
         bench_pars = {"metric_list": ["accuracy_score"]}
         benchmark_run(bench_pars=bench_pars, args=arg)
+
 
     elif arg.do == "nlp_reuters":
         """
@@ -292,11 +240,24 @@ def main():
         bench_pars = {"metric_list": ["accuracy, f1_score"]}
         benchmark_run(bench_pars=bench_pars, args=arg)
 
+
     elif arg.do == "custom":
         log("NLP Reuters")
         bench_pars = json.load(open( arg.benchmark_json, mode='r'))
         log(bench_pars['metric_list'])
         benchmark_run(bench_pars=bench_pars, args=arg)
+
+
+    elif arg.do == "text_classification":
+        log("text_classification")
+        arg.data_path = ""
+        arg.dataset_name = ""
+        arg.path_json = "dataset/json/benchmark_text/"
+        arg.path_out = "example/benchmark/text_classification/"
+
+        bench_pars = {"metric_list": ["accuracy_score"]}
+        benchmark_run(bench_pars=bench_pars, args=arg)
+
 
     else :
         raise Exception("No options")

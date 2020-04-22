@@ -339,16 +339,23 @@ def get_dataset(data_pars=None, out_pars=None, **kwargs):
 
 
 
-def predict(model, session=None, data_pars=None, compute_pars=None, out_pars=None):
+def predict(model, session=None, data_pars=None, compute_pars=None, out_pars=None, return_ytrue=1):
     data_pars = data_pars.copy()
     data_pars.update(frac=1)
     print(data_pars)
     test_iter, _, vocab = get_dataset(data_pars, out_pars)
     # get a batch of data
-    x_test = next(iter(test_iter)).text
+    it = next(iter(test_iter))
+    x_test = it.text
+    x_test = torch.transpose(x_test, 0, 1)
     model0 = model.model
-    ypred = model0(x_test).detach().numpy()
-    return ypred
+    ypred = model0(x_test)
+    ypred = torch.max(ypred, 1)[1]
+    if return_ytrue:
+        label = it.label
+        return ypred, label
+    else:
+        return ypred, None
 
 
 def save(model, session=None, save_pars=None):
@@ -431,6 +438,7 @@ def test(data_path="dataset/", pars_choice="json", config_mode="test"):
  
 
     log("#### Loading dataset   #############################################")
+    print(">>>>> load: ", data_pars)
     Xtuple = get_dataset(data_pars)
     print(len(Xtuple))
 
@@ -446,13 +454,14 @@ def test(data_path="dataset/", pars_choice="json", config_mode="test"):
     save_pars = {"path": out_pars['path'] + "/model.pkl"}
     save(model, session, save_pars=save_pars)
     model2, session2 = load(save_pars)
-    ypred = predict(model2, session2, data_pars, compute_pars, out_pars)
+    data_pars["train"] = 0
+    ypred, _ = predict(model2, session2, data_pars, compute_pars, out_pars)
 
 
 
     log("#### Predict   #####################################################")
     data_pars["train"] = 0
-    ypred = predict(model, session, data_pars, compute_pars, out_pars)
+    ypred, _ = predict(model, session, data_pars, compute_pars, out_pars)
 
 
     log("#### metrics   #####################################################")

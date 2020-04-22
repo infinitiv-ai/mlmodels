@@ -4,6 +4,10 @@ mlflow==1.7.1
 
 
 
+### TF
+tensorflow-datasets==3.0
+
+
 ### Lightning for GPU/TPu training
 pytorch-lightning==0.7.3
 

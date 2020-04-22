@@ -11,6 +11,9 @@ https://pypi.org/project/skits/
 
 
 
+https://github.com/awslabs/gluon-ts/issues/695
+
+
 Gluon TS
 
 
@@ -29,18 +32,19 @@ from mlmodels.util import path_norm
 import gluonts
 
 
-##############################################################################################
-def glutonts_to_pandas(dataset_name_list=["m4_hourly", "m4_daily", "m4_weekly", "m4_monthly", "m4_quarterly", "m4_yearly", ]):
+
+####################################################################################################
+def gluonts_dataset_to_pandas(dataset_name_list=["m4_hourly", "m4_daily", "m4_weekly", "m4_monthly", "m4_quarterly", "m4_yearly", ]):
     """
      n general, the datasets provided by GluonTS are objects that consists of three main members:
 
-dataset.train is an iterable collection of data entries used for training. Each entry corresponds to one time series
-dataset.test is an iterable collection of data entries used for inference. The test dataset is an extended version of the train dataset that contains a window in the end of each time series that was not seen during training. This window has length equal to the recommended prediction length.
-dataset.metadata contains metadata of the dataset such as the frequency of the time series, a recommended prediction horizon, associated features, etc.
-In [5]:
-entry = next(iter(dataset.train))
-train_series = to_pandas(entry)
-train_series.plot()
+    dataset.train is an iterable collection of data entries used for training. Each entry corresponds to one time series
+    dataset.test is an iterable collection of data entries used for inference. The test dataset is an extended version of the train dataset that contains a window in the end of each time series that was not seen during training. This window has length equal to the recommended prediction length.
+    dataset.metadata contains metadata of the dataset such as the frequency of the time series, a recommended prediction horizon, associated features, etc.
+    In [5]:
+    entry = next(iter(dataset.train))
+    train_series = to_pandas(entry)
+    train_series.plot()
 
     # datasets = ["m4_hourly", "m4_daily", "m4_weekly", "m4_monthly", "m4_quarterly", "m4_yearly", ]
 
@@ -63,11 +67,11 @@ train_series.plot()
 
 
 
-dict_df = glutonts_to_pandas(dataset_name_list=["m4_hourly"])
+def gluonts_to_pandas(ds):
+   from gluonts.dataset.util import to_pandas    
+   ll =  [ to_pandas( t ) for t in ds ]
+   return ll
 
-
-
-a = dict_df['m4_hourly']['train']
 
 
 def pandas_to_gluonts(df, pars=None) :
@@ -75,28 +79,14 @@ def pandas_to_gluonts(df, pars=None) :
        df.index : Should timestamp
        start date : part of index
        freq: Multiple of TimeStamp
-        
-    
-    
-    Custom datasets¶
-    At this point, it is important to emphasize that GluonTS does not require 
-    this specific format for a custom dataset that a user may have. 
-    The only requirements for a custom dataset are to be iterable and have a “target” 
-    and a “start” field. To make this more clear, assume the common case 
-    where a dataset is in the form of a numpy.array and the index of the time series in a pandas
-    .Timestamp (possibly different for each time series):
-
-  
+          
     N = 10  # number of time series
     T = 100  # number of timesteps
     prediction_length = 24
     freq = "1H"
     custom_dataset = np.random.normal(size=(N, T))
     start = pd.Timestamp("01-01-2019", freq=freq)  # can be different for each time series
-    Now, you can split your dataset and bring it in a GluonTS appropriate format with
-    just two lines of code:
-
-
+    
     from gluonts.dataset.common import ListDataset
 
     # train dataset: cut the last window of length "prediction_length", add "target" and "start" fields
@@ -109,12 +99,12 @@ def pandas_to_gluonts(df, pars=None) :
                            for x in custom_dataset],
                           freq=freq)
 
-        test_target_values = train_target_values.copy()
+    test_target_values = train_target_values.copy()
     train_target_values = [ts[:-single_prediction_length] for ts in train_df.values]
 
-m5_dates = [pd.Timestamp("2011-01-29", freq='1D') for _ in range(len(sales_train_validation))]
+    m5_dates = [pd.Timestamp("2011-01-29", freq='1D') for _ in range(len(sales_train_validation))]
 
-train_ds = ListDataset([
+    train_ds = ListDataset([
     {
         FieldName.TARGET: target,
         FieldName.START: start,
@@ -136,45 +126,98 @@ train_ds = ListDataset([
     #                   for i in range(cols)], 
     #                   freq = pars['freq'])
 
+    class gluonts.dataset.common.ListDataset(data_iter: Iterable[Dict[str, Any]], freq: str, one_dim_target: bool = True)[source]¶
+    Bases: gluonts.dataset.common.Dataset
+    
+    Dataset backed directly by an array of dictionaries.
+    
+    data_iter Iterable object yielding all items in the dataset. Each item should be a dictionary mapping strings to values. For instance: {“start”: “2014-09-07”, “target”: [0.1, 0.2]}.
+    freq Frequency of the observation in the time series. Must be a valid Pandas frequency.
+    one_dim_target  Whether to accept only univariate target time series.
+
     """
     ### convert to gluont format
     from gluonts.dataset.common import ListDataset
     from gluonts.dataset.field_names import FieldName       
 
-    col_num     = pars.get('col_num')
-    col_cat     = pars.get('col_cat')
-    col_ytarget = pars.get('col_y')
-    freq        = pars.get("freq")
-    ytarget = df[col_ytarget].values    
-    df_num  = df[col_num].values if col_num is not None else None
-    df_cat  = df[col_cat].values if col_cat is not None else None
+    cols_num     = pars.get('cols_num', [])
+    cols_cat     = pars.get('cols_cat', [])
+    cols_target  = pars.get('cols_target', [])
+    freq         = pars.get("freq", "1d")
+
+    m_series = len(cols_target)  #Nb of timeSeries
     
     
-    ### One start date per time columns
-    start_date    = pars.get('start_date') 
-    if start_date is None :
-          start_date = df.index[0]          
-    start_dates   = [ start_date for _ in range(col_ytarget) ]
+    y_list      = [ df[coli].values for coli in cols_target ]    # Actual Univariate Time Series
+    dfnum_list  = [ df[coli].values for coli in cols_num   ]     # Time moving Category
+    dfcat_list  = [ df[coli].values for coli in cols_cat   ]     # Static Category
+    
+    ### One start date per timeseries col
+    sdate   = pars.get('start_date') 
+    sdate   = df.index[0]  if sdate is None or len(sdate) == 0   else sdate  
+    start_dates  = [ pd.Timestamp(sdate, freq=freq) if isinstance(sdate, str) else sdate for _ in range(len(y_list)) ]
 
-    ds = ListDataset([
-        {   FieldName.TARGET          : target,  #Multi-variate time series
-          FieldName.START             : start,
-          FieldName.FEAT_DYNAMIC_REAL : fdr,    ### Moving with time series
-          FieldName.FEAT_STATIC_CAT   : fsc     #### Static over time, like product_id
-        }
-        for (target, start, fdr, fsc) in zip(ytarget, start_dates, df_num, df_cat) ], 
-        freq = freq)
+    
 
+    print(y_list, start_dates, dfnum_list, dfcat_list ) 
+    ds_percol = [] 
+    for i in range( m_series) :
+        d = {  FieldName.TARGET             : y_list[i],       # start Timestamps
+               FieldName.START            : start_dates[i],  # Univariate time series
+            }
+        if i < len(dfnum_list) :  d[ FieldName.FEAT_DYNAMIC_REAL ] = dfnum_list[i]  # Moving with time series
+        if i < len(dfcat_list) :  d[ FieldName.FEAT_STATIC_CAT ] = dfnum_list[i]    # Static over time, like product_id
+   
+        ds_percol.append( d)
+        print(d)
+
+    ds = ListDataset(ds_percol,freq = freq)
     return ds 
+
+
+def tofloat(x):
+    try :
+        return float(x)
+    except :
+        return np.nan
+
+def tests():    
+    df = pd.read_csv(path_norm("dataset/timeseries/TSLA.csv "))
+    df = df.set_index("Date")
+    pars = { "start" : "", "cols_target" : [ "High", "Low" ],
+             "freq" :"1d",
+             "cols_cat" : [],
+             "cols_num" : []
+            }    
+    gts = pandas_to_gluonts(df, pars=pars) 
+    print(gluonts_to_pandas( gts ) )    
+    #for t in gts :
+    #   print( to_pandas(t)[:10] )
+
+
+
+    df = pd.read_csv(path_norm("dataset/timeseries/train_deepar.csv "))
+    df = df.set_index("timestamp")
+    df = pd_clean_v1(df)
+    pars = { "start" : "", "cols_target" : [ "value" ],
+             "freq" :"5min",
+             "cols_cat" : [],
+             "cols_num" : []
+            }    
+    gts = pandas_to_gluonts(df, pars=pars) 
+    print(gluonts_to_pandas( gts ) )    
+
+
+    #### To_
+    dict_df = gluonts_dataset_to_pandas(dataset_name_list=["m4_hourly"])
+    a = dict_df['m4_hourly']['train']
+
 
 
 
 class Preprocess_nbeats:
     """
       it should go to nbeats.py BECAUSE Specialized code.
-
-
-
     """
 
     def __init__(self,backcast_length, forecast_length):
@@ -221,9 +264,6 @@ def pd_interpolate(df, cols, pars={"method": "linear", "limit_area": "inside"  }
         Series.interpolate(self, method='linear', axis=0, limit=None, inplace=False, limit_direction='forward', limit_area=None, downcast=None, **kwargs)[source]¶
         Please note that only method='linear' is supported for DataFrame/Series with a MultiIndex.
 
-        Parameters
-        Interpolation technique to use. One of:
-
         ‘linear’: Ignore the index and treat the values as equally spaced. This is the only method supported on MultiIndexes.
         ‘time’: Works on daily and higher resolution data to interpolate given length of interval.
         ‘index’, ‘values’: use the actual numerical values of the index.
@@ -233,13 +273,8 @@ def pd_interpolate(df, cols, pars={"method": "linear", "limit_area": "inside"  }
         ‘from_derivatives’: Refers to scipy.interpolate.BPoly.from_derivatives which replaces ‘piecewise_polynomial’ interpolation method in scipy 0.18.
 
         axis{0 or ‘index’, 1 or ‘columns’, None}, default None
-        Axis to interpolate along.
 
-        limitint, optional
-        Maximum number of consecutive NaNs to fill. Must be greater than 0.
-
-        inplacebool, default False
-        Update the data in place if possible.
+        limitint, optional Maximum number of consecutive NaNs to fill. Must be greater than 0.
 
         limit_direction{‘forward’, ‘backward’, ‘both’}, default ‘forward’
         If limit is specified, consecutive NaNs will be filled in this direction.
@@ -253,11 +288,6 @@ def pd_interpolate(df, cols, pars={"method": "linear", "limit_area": "inside"  }
         New in version 0.23.0.
         downcastoptional, ‘infer’ or None, defaults to None
         Downcast dtypes if possible.
-
-        **kwargs
-        Keyword arguments to pass on to the interpolating function.
-
-
     """
     for t in cols :
         df[t] = df[t].interpolate( **pars)
@@ -266,18 +296,16 @@ def pd_interpolate(df, cols, pars={"method": "linear", "limit_area": "inside"  }
 
 
 
-def pd_clean(df, cols=None,  pars={'na_value': 0.0 }) :
+def pd_clean_v1(df, cols=None,  pars=None) :
+  if pars is None :
+     pars = {"method" : "linear", "axis": 0,
+             }
+
   cols = df.columns if cols is None else cols
   for t in cols :
-    df = df.fillna( pars['na_value'])
-
+    df[t] = df[t].apply( tofloat )  
+    df[t] = df[t].interpolate( **pars )
   return df
-
-
-
-
-def pd_fillna(df,**args):
-    return df.fillna(**args)
 
 
 def pd_reshape(test, features, target, pred_len, m_feat) :
@@ -287,6 +315,66 @@ def pd_reshape(test, features, target, pred_len, m_feat) :
     y_test = y_test.values.reshape(-1, pred_len, 1)        
     return x_test, y_test
 
+
+
+def pd_clean(df, cols=None, pars=None ):
+  cols = df.columns if cols is None else cols
+
+  if pars is None :
+     pars = {"method" : "linear", "axis": 0,}
+
+  for t in cols :
+    df[t] = df[t].fillna( **pars )
+  
+  return df
+
+
+
+
+def time_train_test_split2(df , **kw):
+    """
+       train_data_path
+       test_data_path
+       predict_only 
+
+    """
+    d = kw
+    pred_len = d["prediction_length"]
+    features = d["col_Xinput"]
+    target   = d["col_ytarget"]
+    m_feat   = len(features)
+
+
+    # when train and test both are provided
+    if d["test_data_path"]:
+        test   = pd_load(d["test_data_path"])
+        test   = pd_clean(test)
+        x_test, y_test = pd_reshape(test, features, target, pred_len, m_feat) 
+        if d["predict_only"]:
+            return x_test, y_test
+
+
+        train   = pd_load( d["train_data_path"])
+        #train   = pd_clean(train)
+        x_train, y_train = pd_reshape(train, features, target, pred_len, m_feat) 
+
+        return x_train, y_train, x_test, y_test
+    
+
+    # for when only train is provided
+    df      = pd_load(d["train_data_path"])
+    train   = df.iloc[:-pred_len]
+    #train   = pd_clean(train)
+    x_train, y_train = pd_reshape(train, features, target, pred_len, m_feat) 
+
+
+    test   = df.iloc[-pred_len:]
+    test   = pd_clean(test)
+    x_test, y_test = pd_reshape(test, features, target, pred_len, m_feat) 
+    if d["predict_only"]:
+        return x_test, y_test
+
+    return x_train, y_train, x_test, y_test
 
 
 def time_train_test_split(data_pars):
@@ -313,17 +401,16 @@ def time_train_test_split(data_pars):
 
 
         train   = pd_load( d["train_data_path"])
-        train   = pd_clean(train)
+        #train   = pd_clean(train)
         x_train, y_train = pd_reshape(train, features, target, pred_len, m_feat) 
 
         return x_train, y_train, x_test, y_test
     
 
-
     # for when only train is provided
     df      = pd_load(d["train_data_path"])
     train   = df.iloc[:-pred_len]
-    train   = pd_clean(train)
+    #train   = pd_clean(train)
     x_train, y_train = pd_reshape(train, features, target, pred_len, m_feat) 
 
 
@@ -334,5 +421,95 @@ def time_train_test_split(data_pars):
         return x_test, y_test
 
     return x_train, y_train, x_test, y_test
+
+
+
+
+
+def benchmark_m4() :
+    # This example shows how to fit a model and evaluate its predictions.
+    import pprint
+    from functools import partial
+    import pandas as pd
+
+    from gluonts.dataset.repository.datasets import get_dataset
+    from gluonts.distribution.piecewise_linear import PiecewiseLinearOutput
+    from gluonts.evaluation import Evaluator
+    from gluonts.evaluation.backtest import make_evaluation_predictions
+    from gluonts.model.deepar import DeepAREstimator
+    from gluonts.model.seq2seq import MQCNNEstimator
+    from gluonts.model.simple_feedforward import SimpleFeedForwardEstimator
+    from gluonts.trainer import Trainer
+
+    datasets = ["m4_hourly", "m4_daily", "m4_weekly", "m4_monthly", "m4_quarterly", "m4_yearly", ]
+    epochs = 100
+    num_batches_per_epoch = 50
+
+    estimators = [
+        partial(  SimpleFeedForwardEstimator, trainer=Trainer(epochs=epochs, num_batches_per_epoch=num_batches_per_epoch ), ),
+        
+        partial(  DeepAREstimator, trainer=Trainer(epochs=epochs, num_batches_per_epoch=num_batches_per_epoch ), ),
+        
+        partial(  DeepAREstimator, distr_output=PiecewiseLinearOutput(8), trainer=Trainer(epochs=epochs, num_batches_per_epoch=num_batches_per_epoch ), ), 
+
+        partial(  MQCNNEstimator, trainer=Trainer(epochs=epochs, num_batches_per_epoch=num_batches_per_epoch ), ), 
+        ]
+
+
+    def evaluate(dataset_name, estimator):
+        dataset = get_dataset(dataset_name)
+        estimator = estimator( prediction_length=dataset.metadata.prediction_length, freq=dataset.metadata.freq, use_feat_static_cat=True, 
+                   cardinality=[ feat_static_cat.cardinality  for feat_static_cat in dataset.metadata.feat_static_cat
+                   ],
+        )
+
+        print(f"evaluating {estimator} on {dataset}")
+        predictor = estimator.train(dataset.train)
+
+        forecast_it, ts_it = make_evaluation_predictions( dataset.test, predictor=predictor, num_samples=100 )
+        agg_metrics, item_metrics = Evaluator()(ts_it, forecast_it, num_series=len(dataset.test) )
+        pprint.pprint(agg_metrics)
+
+        eval_dict = agg_metrics
+        eval_dict["dataset"] = dataset_name
+        eval_dict["estimator"] = type(estimator).__name__
+        return eval_dict
+
+
+    #if __name__ == "__main__":
+    results = []
+    for dataset_name in datasets:
+        for estimator in estimators:
+            # catch exceptions that are happening during training to avoid failing the whole evaluation
+            try:
+                results.append(evaluate(dataset_name, estimator))
+            except Exception as e:
+                print(str(e))
+
+
+    df = pd.DataFrame(results)
+    sub_df = df[ ["dataset", "estimator", "RMSE", "mean_wQuantileLoss", "MASE", "sMAPE", "OWA", "MSIS", ] ]
+    print(sub_df.to_string())
+
+
+
+
+####################################################################################################
+if __name__ == '__main__':
+   VERBOSE = True
+   tests()
+    
+
+
+
+
+
+
+
+
+
+
+
+
 
 

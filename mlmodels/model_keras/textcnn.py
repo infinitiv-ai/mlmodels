@@ -16,7 +16,7 @@ import os
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
-
+import tensorflow as tf
 import numpy as np
 import pandas as pd
 
@@ -92,18 +92,17 @@ def fit_metrics(model, data_pars=None, compute_pars=None, out_pars=None,  **kw):
 def predict(model, sess=None, data_pars=None, out_pars=None, compute_pars=None, **kw):
   ##### Get Data ###############################################
   data_pars['train'] = False
-  Xpred, ypred = get_dataset(data_pars)
+  X, ytrue = get_dataset(data_pars)
 
   #### Do prediction
-  ypred = model.model.predict(Xpred)
+  ypred = model.model.predict(X)
+  ypred = tf.math.argmax(ypred, axis=1)
 
-
-  ### Save Results
-  
-  
   ### Return val
-  if compute_pars.get("return_pred_not") is not None :
-    return ypred
+  if kw.get("return_ytrue"):
+    return ypred, ytrue
+  else:
+      return ypred, None
 
 
   
@@ -173,7 +172,7 @@ def get_params(param_pars={}, **kw):
 
 
     if choice == "json":
-       data_path = path_normalize(data_path)
+       data_path = path_norm(data_path)
        cf = json.load(open(data_path, mode='r'))
        cf = cf[config_mode]
        return cf['model_pars'], cf['data_pars'], cf['compute_pars'], cf['out_pars']
@@ -182,8 +181,8 @@ def get_params(param_pars={}, **kw):
     if choice == "test01":
         log("#### Path params   ##########################################")
         data_path  = path_norm( "dataset/text/imdb.csv"  )   
-        out_path   = path_norm( "ztest/model_keras/textcnn/" )   
-        model_path = os.path.join(out_path , "model")
+        out_path   = path_norm( "ztest/model_keras/textcnn/model.h5" )
+        model_path = out_path
 
 
         data_pars    = {"path" : data_path, "train": 1, "maxlen":40, "max_features": 5, }
@@ -231,7 +230,7 @@ def test(data_path="dataset/", pars_choice="json", config_mode="test"):
 
     log("#### Predict   #####################################################")
     data_pars["train"] = 0
-    ypred = predict(model, session, data_pars, compute_pars, out_pars)
+    ypred, _ = predict(model, session, data_pars, compute_pars, out_pars)
 
 
     log("#### metrics   #####################################################")

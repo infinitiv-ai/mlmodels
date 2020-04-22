@@ -2,6 +2,7 @@
         "test": {
 
             "model_pars": {
+                "model_uri": "model_tch.matchzoo_models.py",
                 "model": "BERT",
                 "pretrained": 0,
                 "embedding_output_dim": 100,

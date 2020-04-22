@@ -32,6 +32,11 @@ jobs:
            bin/hub pull-request --base arita37:vantam   --head arita37:dev  -m "Auto Sync arita37/Dev"  & \         
            bin/hub pull-request --base MUmarAmanat:keras_armdn  --head arita37:dev   -m "Auto Sync arita37/Dev"  & \
            bin/hub pull-request --base OmarOsman:dev  --head arita37:dev   -m "Auto Sync arita37/Dev"  & \
+           bin/hub pull-request --base infinitiv-ai:dev  --head arita37:dev   -m "Auto Sync arita37/Dev"  & \
+           bin/hub pull-request --base souravsingh:Addmodel-ATSPy  --head arita37:dev   -m "Auto Sync arita37/Dev"  & \
+
+
+
 
 
       env:

@@ -143,3 +143,5 @@ example/exp
 /classes.json
 /untitled.txt
 /README_index_doc
+/mlmodels/dataset/vision/FashionMNIST/processed
+/mlmodels/dataset/vision/FashionMNIST/raw

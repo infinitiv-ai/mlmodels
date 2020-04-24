@@ -1,6 +1,7 @@
 {
 	"test": {
 		"model_pars": {
+			"model_uri": "model_keras.namentity_crm_bilstm.py",
 			"embedding": 40,
 			"optimizer": "rmsprop"
 		},

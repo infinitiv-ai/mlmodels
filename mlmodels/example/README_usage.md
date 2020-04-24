@@ -95,6 +95,21 @@ https://github.com/arita37/mlmodels/blob/dev/mlmodels/example/model_lightgbm_gla
 https://github.com/arita37/mlmodels/blob/dev/mlmodels/example/model_lightgbm_titanic.ipynb
 
 
+---
+## Examples of image classification 
+
+
+### ResNet and ShuffleNet with diffeernt architecture size trained on MNIST [(colab)](https://colab.research.google.com/drive/1bTe0sYrVKWwitz0DtAkLFjdglfSBPQFs#scrollTo=s3V0oo8QvAwZ)
+
+https://github.com/arita37/mlmodels/blob/dev/mlmodels/example/mnist_mlmodels_.ipynb
+
+
+
+
+### ResNet18 trained on Fashion MNIST [(colab)](https://colab.research.google.com/drive/1LL5dpbINeNOagvzY_K9ziIEdkaZU0lv0#scrollTo=ZSLJnpclsAFI)
+
+https://github.com/arita37/mlmodels/blob/dev/mlmodels/example/fashion_MNIST_mlmodels.ipynb
+
 
 #
 ---
@@ -625,7 +640,6 @@ model2 = module.load(load_pars ={ 'path': out_pars['path'] +"/model/"})
 
 ```
 ---
-
 
 
 

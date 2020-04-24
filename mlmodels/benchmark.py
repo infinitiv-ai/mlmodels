@@ -79,41 +79,59 @@ def benchmark_run(bench_pars=None, args=None, config_mode="test"):
     dataset_uri  = args.data_path + f"{args.item_id}.csv"
     json_path    = path_norm( args.path_json )
     output_path  = path_norm( args.path_out )
-    json_list    = get_all_json_path(json_path)
 
     metric_list  = bench_pars['metric_list']
     bench_df     = pd.DataFrame(columns=["date_run", "model_uri", "json",
                                          "dataset_uri", "metric", "metric_name"])
+
+    if ".json" in json_path :
+       ### All config in ONE BIG JSON 
+       ddict     = json.load(open(json_path, mode='r'))
+       json_list = [  x for k,x in ddict.items() ]
+
+
+    else :    
+       ### All configs in Separate files 
+       json_list = []
+       json_list_tmp = get_all_json_path(json_path)
+       for jsonf in json_list_tmp :
+          ddict = json.load(open( path_norm(jsonf), mode='r'))[config_mode]
+          json_list.append(ddict) 
+
+
 
     if len(json_list) < 1 :
         raise Exception("empty model list json")
     
     log("Model List", json_list)
     ii = -1
-    for jsonf in json_list :
+    for js in json_list :
         log ( f"### Running {jsonf} #####")
         try : 
             log("#### Model URI and Config JSON")
-            config_path = path_norm(jsonf)
-            model_pars, data_pars, compute_pars, out_pars = params_json_load(config_path, config_mode= config_mode)
+            #config_path = path_norm(jsonf)
+            #model_pars, data_pars, compute_pars, out_pars = params_json_load(config_path, config_mode= config_mode)
+
+            model_pars, data_pars, compute_pars, out_pars = js['model_pars'], js['data_pars'], js['compute_pars'], js['out_pars'] 
+
             model_uri    =  model_pars['model_uri']            
             print(model_pars)
 
-            log("#### Setup Model    ")
+            log("#### Setup Model   ############################################# ")
             module    = module_load(model_uri)   # "model_tch.torchhub.py"
             model     = module.Model(model_pars, data_pars, compute_pars)
             
-            log("#### Fit ")
+            log("#### Fit  #######################################################")
             data_pars["train"] = True
+            print(">>>model: ", model, type(model))
             model, session = module.fit(model, data_pars=data_pars, compute_pars=compute_pars, out_pars=out_pars)          
 
 
-            log("#### Inference Need return ypred, ytrue")
+            log("#### Inference Need return ypred, ytrue #########################")
             data_pars["train"] = False
             ypred, ytrue = module.predict(model=model, session=session,
                                           data_pars=data_pars, compute_pars=compute_pars, 
                                           out_pars=out_pars, return_ytrue=1)   
-
 
             ytrue = np.array(ytrue).reshape(-1, 1)
             ypred = np.array(ypred).reshape(-1, 1)
@@ -129,13 +147,16 @@ def benchmark_run(bench_pars=None, args=None, config_mode="test"):
                 bench_df.loc[ii, "metric"]      = metric_val
                 log( bench_df.loc[ii,:])
         
-        except Exception as e: 
-          log( jsonf, e)
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            log( jsonf, e)
 
     log( f"benchmark file saved at {output_path}")  
     os.makedirs( output_path, exist_ok=True)
     bench_df.to_csv( f"{output_path}/benchmark.csv", index=False)
     return bench_df
+
 
 
 
@@ -157,7 +178,7 @@ def cli_load_arguments(config_file=None):
     add("--config_mode", default="test", help="test/ prod /uat")
     add("--log_file",    default="ztest/benchmark/mlmodels_log.log", help="log.log")
 
-    add("--do",          default="timeseries", help="do ")
+    add("--do",          default="vision_fashion_mnist", help="do ")
 
     ### Benchmark config
     add("--benchmark_json", default="dataset/json/benchmark.json", help=" benchmark config")
@@ -207,10 +228,10 @@ def main():
 
         arg.data_path    = ""
         arg.dataset_name = ""
-        arg.path_json    = "dataset/json/benchmark_timeseries/"
-        arg.path_out     = "example/benchmark/timeseries/"
+        arg.path_json    = "dataset/json/benchmark_timeseries/test01/"
+        arg.path_out     = "example/benchmark/timeseries/test01/"
 
-        benchmark_run(bench_pars, arg) 
+        log(benchmark_run(bench_pars, arg)) 
 
 
     elif arg.do == "vision_mnist":
@@ -218,11 +239,23 @@ def main():
 
         arg.data_path    = ""
         arg.dataset_name = ""
-        arg.path_json    = "dataset/json/benchmark_cnn/"
-        arg.path_out     = "example/benchmark/cnn/"
+        arg.path_json    = "dataset/json/benchmark_cnn/mnist"
+        arg.path_out     = "example/benchmark/cnn/mnist"
 
         bench_pars = {"metric_list": ["accuracy_score"]}
-        benchmark_run(bench_pars=bench_pars, args=arg)
+        log(benchmark_run(bench_pars=bench_pars, args=arg))
+
+
+    elif arg.do == "vision_fashion_mnist":
+        log("Vision models")
+
+        arg.data_path    = ""
+        arg.dataset_name = ""
+        arg.path_json    = "dataset/json/benchmark_cnn/fashion_mnist"
+        arg.path_out     = "example/benchmark/cnn/fashion_mnist/"
+
+        bench_pars = {"metric_list": ["accuracy_score"]}
+        log(benchmark_run(bench_pars=bench_pars, args=arg))
 
 
     elif arg.do == "nlp_reuters":
@@ -238,25 +271,25 @@ def main():
         arg.path_out     = "example/benchmark/text/"
 
         bench_pars = {"metric_list": ["accuracy, f1_score"]}
-        benchmark_run(bench_pars=bench_pars, args=arg)
+        log(benchmark_run(bench_pars=bench_pars, args=arg))
 
 
     elif arg.do == "custom":
-        log("NLP Reuters")
+        log("Custom benchmark")
         bench_pars = json.load(open( arg.benchmark_json, mode='r'))
         log(bench_pars['metric_list'])
-        benchmark_run(bench_pars=bench_pars, args=arg)
+        log(benchmark_run(bench_pars=bench_pars, args=arg))
 
 
     elif arg.do == "text_classification":
         log("text_classification")
         arg.data_path = ""
         arg.dataset_name = ""
-        arg.path_json = "dataset/json/benchmark_text/"
+        arg.path_json = "dataset/json/benchmark_text_classification/"
         arg.path_out = "example/benchmark/text_classification/"
 
         bench_pars = {"metric_list": ["accuracy_score"]}
-        benchmark_run(bench_pars=bench_pars, args=arg)
+        log(benchmark_run(bench_pars=bench_pars, args=arg))
 
 
     else :
@@ -264,3 +297,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+

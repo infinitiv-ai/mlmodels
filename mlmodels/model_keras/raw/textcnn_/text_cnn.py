@@ -8,7 +8,7 @@ from keras.layers import (Concatenate, Conv1D, Dense, Dropout, Embedding,
 class TextCNN(object):
     def __init__(self, maxlen, max_features, embedding_dims,
                  class_num=1,
-                 last_activation='sigmoid'):
+                 last_activation='softmax'):
         self.maxlen = maxlen
         self.max_features = max_features
         self.embedding_dims = embedding_dims

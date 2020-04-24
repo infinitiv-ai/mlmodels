@@ -1,6 +1,7 @@
 {
 	"test": {
 		"model_pars": {
+			"model_uri": "model_keras.textvae.py",
 			"MAX_NB_WORDS": 12000,
 			"EMBEDDING_DIM": 50,
 			"latent_dim": 32,
@@ -9,15 +10,17 @@
 			"num_sampled": 500,
 			"optimizer": "adam"
 		},
+
 		"data_pars": {
 			"train": true,
 			"MAX_SEQUENCE_LENGTH": 15,
 			"train_data_path": "dataset/text/quora/train.csv",
-			"val_data_source": "dataset/text/glove/glove.6B.50d.txt"
+			"glove_embedding": "dataset/text/glove/glove.6B.50d.txt"
 		},
 		"compute_pars": {
 			"epochs": 1,
-			"batch_size": 128
+			"batch_size": 100,
+			"VALIDATION_SPLIT": 0.2
 		},
 		"out_pars": {
 			"path": "ztest/ml_keras/textvae/"

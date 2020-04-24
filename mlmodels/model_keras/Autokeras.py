@@ -13,7 +13,7 @@ import autokeras as ak
 
 from keras.models import load_model
 
-from keras.datasets import imdb
+from tensorflow.keras.datasets import imdb
 
 
 
@@ -87,10 +87,6 @@ def get_dataset_imbd(data_pars):
 
 
 def get_dataset(data_pars=None):
-    data_path = data_pars['data_path']
-    train_batch_size = data_pars['train_batch_size']
-    test_batch_size = data_pars['test_batch_size']
-
     if data_pars['dataset'] == 'IMDB':
         x_train, y_train, x_test, y_test = get_dataset_imbd(data_pars)
         return x_train, y_train, x_test, y_test
@@ -105,24 +101,28 @@ def fit(model, data_pars=None, compute_pars=None, out_pars=None, **kwargs):
     print(type(x_train))
     print(type(y_train))
     os.makedirs(out_pars["checkpointdir"], exist_ok=True)
-    model.fit(x_train,
+    model.model.fit(x_train,
               y_train,
+              epochs=compute_pars["epochs"],
               # Split the training data and use the last 15% as validation data.
               validation_split=data_pars["validation_split"])
 
-    return model
+    return model, None
 
 
-def predict(model, session=None, data_pars=None, compute_pars=None, out_pars=None):
+def predict(model, session=None, data_pars=None, compute_pars=None, out_pars=None, **kwargs):
     # get a batch of data
     _, _, x_test, y_test = get_dataset(data_pars)
-    predicted_y = model.predict(x_test)
-    return predicted_y
+    predicted_y = model.model.predict(x_test)
+    if kwargs.get("return_ytrue"):
+        return predicted_y, y_test
+    else:
+        return predicted_y, None
 
 
 def fit_metrics(model, data_pars=None, compute_pars=None, out_pars=None):
     _, _, x_test, y_test = get_dataset(data_pars)
-    return model.evaluate(x_test, y_test)
+    return model.model.evaluate(x_test, y_test)
 
 
 def save(model, session=None, save_pars=None):
@@ -148,10 +148,10 @@ def test(data_path="dataset/", pars_choice="json", config_mode="test"):
 
     log("#### Model init, fit   #############################################")
     model = Model(model_pars, data_pars, compute_pars)
-    fitted_model = fit(model.model, data_pars, compute_pars, out_pars)
+    fitted_model = fit(model, data_pars, compute_pars, out_pars)
 
     log("#### Predict   #####################################################")
-    ypred = predict(fitted_model, data_pars, compute_pars, out_pars)
+    ypred, _ = predict(fitted_model, data_pars=data_pars, compute_pars=compute_pars, out_pars=out_pars)
     print(ypred[:10])
 
     log("#### metrics   #####################################################")
@@ -162,6 +162,7 @@ def test(data_path="dataset/", pars_choice="json", config_mode="test"):
 
     log("#### Save/Load   ###################################################")
     ## Export as a Keras Model.
+    fitted_model = fitted_model.model
     save_model = fitted_model.export_model()
     save(model=save_model, save_pars=out_pars)
     loaded_model = load( out_pars )
@@ -170,4 +171,4 @@ def test(data_path="dataset/", pars_choice="json", config_mode="test"):
 
 
 if __name__ == "__main__":
-    test(data_path="model_tch/autokeras_classifier.json", pars_choice="json", config_mode="test")
+    test(data_path="model_keras/autokeras_classifier.json", pars_choice="json", config_mode="test")

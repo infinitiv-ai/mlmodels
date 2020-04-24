@@ -198,7 +198,7 @@ def fit(model, data_pars=None, compute_pars=None, out_pars=None, **kw):
             data_train = pad_sequences(sequences, maxlen=data_pars["MAX_SEQUENCE_LENGTH"])
             yield [data_train, data_train]
 
-    model.model.fit(sent_generator(data_pars["train_data_path"], batch_size / 2),
+    model.model.fit_generator(sent_generator(data_pars["train_data_path"], batch_size / 2),
                     epochs          = epochs,
                     steps_per_epoch = n_steps,
                     validation_data = (data_pars["data_1_val"], data_pars["data_1_val"]))
@@ -231,8 +231,10 @@ def predict(model, sess=None, data_pars=None, compute_pars=None, out_pars=None, 
     ### Save Results
 
     ### Return val
-    if compute_pars.get("return_pred_not") is not None:
-        return ypred
+    if kw.get("return_ytrue"):
+        return ypred, sentence1
+    else:
+        return ypred, None
 
 
 def reset_model():
@@ -330,7 +332,7 @@ def test(data_path="dataset/", pars_choice="json", config_mode="test"):
     model, session = fit(model, data_pars, compute_pars, out_pars)
 
     log("#### Predict   #####################################################")
-    ypred = predict(model, session, data_pars, compute_pars, out_pars)
+    ypred, _ = predict(model, session, data_pars, compute_pars, out_pars)
 
     log("#### metrics   #####################################################")
     metrics_val = fit_metrics(model, data_pars, compute_pars, out_pars)

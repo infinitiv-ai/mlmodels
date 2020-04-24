@@ -25,7 +25,7 @@
 				"loader":{"uri":"preprocess/image.py::torchvision_dataset_MNIST_load","pass_data_pars":false},
 				"output":
 				{
-					"format_func":{"uri":"preprocess/image.py::wrap_torch_datasets","args":{"args_list":[{"batch_size":4},{"batch_size":4}],"shuffle":true},"pass_data_pars":false}
+					"format_func":{"uri":"preprocess/image.py::torch_datasets_wrapper","args":{"args_list":[{"batch_size":4},{"batch_size":4}],"shuffle":true},"pass_data_pars":false}
 				}
                 
             },

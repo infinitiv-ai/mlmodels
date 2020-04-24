@@ -131,8 +131,10 @@ def predict(model, sess=None, data_pars=None, out_pars=None, compute_pars=None, 
     ### Save Results
 
     ### Return val
-    if compute_pars.get("return_pred_not") is None:
-        return ypred
+    if kw.get("return_ytrue"):
+        return ypred, ytest
+    else:
+        return ypred, None
 
 
 def reset_model():
@@ -318,7 +320,7 @@ def test(data_path="dataset/", pars_choice="json", config_mode="test"):
 
     log("#### Predict   #####################################################")
     data_pars["train"] = 0
-    ypred = predict(module, model, data_pars=data_pars, compute_pars=compute_pars, out_pars=out_pars)
+    ypred, _ = predict(module, model, data_pars=data_pars, compute_pars=compute_pars, out_pars=out_pars)
 
     log("#### metrics   #####################################################")
     metrics_val = fit_metrics(model, data_pars=data_pars, compute_pars=compute_pars, out_pars=out_pars)

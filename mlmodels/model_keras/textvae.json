@@ -17,7 +17,7 @@
 		},
 		"compute_pars": {
 			"epochs": 1,
-			"batch_size": 128
+			"batch_size": 100
 		},
 		"out_pars": {
 			"path": "ztest/ml_keras/textvae/"

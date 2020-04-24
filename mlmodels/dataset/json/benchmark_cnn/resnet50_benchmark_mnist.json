@@ -20,10 +20,11 @@
             },
 
             "data_pars" :{
-                "dataset": "MNIST",
+                "dataset"  : "torchvision.datasets:MNIST",
                 "data_path": "dataset/vision/",
                 "train_batch_size": 4,
-                "test_batch_size": 4
+                "test_batch_size": 4,
+                "transform_uri" : "mlmodels.preprocess.image:torch_transform_mnist" 
             },
 
 

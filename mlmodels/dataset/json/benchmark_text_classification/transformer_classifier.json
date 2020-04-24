@@ -3,6 +3,7 @@
        
         "notes": "Using Yelp Reviews dataset",
 		"model_pars": {
+			"model_uri": "model_tch.transformer_classifier.py",
 			"task_name": "binary", 
             "model_type": "xlnet",
             "model_name": "xlnet-base-cased",

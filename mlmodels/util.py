@@ -38,6 +38,13 @@ def get_device_torch():
 
 
 
+def load_function(package="mlmodels.util", name="path_norm"):
+  import importlib
+  return  getattr(importlib.import_module(package), name)
+
+
+
+
 def os_folder_copy(src, dst):
     """Copy a directory structure overwriting existing files"""
     import shutil
@@ -443,13 +450,11 @@ def load_tf(load_pars=""):
 
  """
   import tensorflow as tf
-  tf_graph = tf.Graph()
-  tf_sess = tf.Session(graph=tf_graph)
+  tf_sess = tf.compat.v1.Session() # tf.Session()
   model_path = os.path.join(load_pars['path'], "model")
-  with tf_graph.as_default():
-    new_saver = tf.train.import_meta_graph(f"{model_path}.meta")
-    new_saver.restore(tf_sess, tf.train.latest_checkpoint(str(Path(model_path).parent)))
-
+  saver = tf.compat.v1.train.Saver()
+  with  tf.compat.v1.Session() as sess:
+      saver.restore(tf_sess, model_path)
   return tf_sess
 
 

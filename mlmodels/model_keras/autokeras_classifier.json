@@ -2,7 +2,7 @@
         "test": {
 
             "model_pars": {
-                "max_trials": 10
+                "max_trials": 1
             },
 
             "data_pars" :{
@@ -17,7 +17,7 @@
             "compute_pars": {
                 "distributed": "mpi",
                 "max_batch_sample": 5,
-                "epochs": 10,
+                "epochs": 1,
                 "learning_rate": 5e-5,
                 "beta1": 0.9,
                 "beta2": 0.98,
@@ -27,8 +27,8 @@
             },
 
             "out_pars": {
-                "checkpointdir": "ztest/model_tch/autokeras/textclassifier/",
-                "path": "ztest/model_tch/autokeras/textclassifier/"
+                "checkpointdir": "ztest/model_keras/autokeras/textclassifier/",
+                "path": "ztest/model_keras/autokeras/textclassifier/model.h5"
             }
         },
     

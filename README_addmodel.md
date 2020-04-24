@@ -1,6 +1,6 @@
 # Contributing Guidelines
 ### Pull Requests, Fixes, New Models
-Thank you for taking interest in this project :grinning:. Read following instructions before adding a new model.
+Read following instructions before adding a new model.
 - [Code Style](#code-style)
 - [Read The Examples](#read-the-examples)
 - [Fork](#fork)

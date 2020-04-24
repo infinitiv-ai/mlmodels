@@ -1,0 +1,49 @@
+{
+    "test": {
+        "hypermodel_pars": {
+            "learning_rate": {
+                "type": "log_uniform",
+                "init": 0.01,
+                "range": [
+                    0.001,
+                    0.1
+                ]
+            }
+        },
+        "model_pars": {
+            "model_uri": "model_tch.torchhub.py",
+            "repo_uri": "pytorch/vision",
+            "model": "shufflenet_v2_x0_5",
+            "num_classes": 10,
+            "pretrained": 0,
+            "_comment": "0: False, 1: True",
+            "num_layers": 5,
+            "size": 6,
+            "size_layer": 128,
+            "output_size": 6,
+            "timestep": 4,
+            "epoch": 2
+        },
+        "data_pars": {
+            "dataset": "torchvision.datasets:FashionMNIST",
+            "data_path": "dataset/vision/",
+            "train_batch_size": 100,
+            "test_batch_size": 10,
+            "transform_uri" : "mlmodels.preprocess.image:torch_transform_mnist"
+        },
+        "compute_pars": {
+            "distributed": "mpi",
+            "max_batch_sample": 10,
+            "epochs": 5,
+            "learning_rate": 0.001
+        },
+        "out_pars": {
+            "checkpointdir": "ztest/model_tch/torchhub/shufflenet_v2_x0_5/checkpoints/",
+            "path": "ztest/model_tch/torchhub/shufflenet_v2_x0_5/"
+        }
+    },
+    "prod": {
+        "model_pars": {},
+        "data_pars": {}
+    }
+}

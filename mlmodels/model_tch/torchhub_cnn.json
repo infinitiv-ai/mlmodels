@@ -5,16 +5,14 @@
               "learning_rate": {"type": "log_uniform", "init": 0.01,  "range" : [0.001, 0.1] }
              },
 
+
             "model_pars": {
-                "repo_uri": "facebookresearch/pytorch_GAN_zoo:hub",
-                "model": "PGAN",
-                "model_name" : "celebAHQ-512",
-
-
-
-                "num_classes": 1000,
+                "model_uri": "model_tch.torchhub.py",
+                "repo_uri": "pytorch/vision",
+                "model": "resnet18",
+                "num_classes": 10,
                 "pretrained": 0,  "_comment": "0: False, 1: True",
-                "num_layers": 1,
+                "num_layers": 5,
                 "size": 6,
                 "size_layer": 128,
                 "output_size": 6,
@@ -22,11 +20,20 @@
                 "epoch": 2
             },
 
+
+
+
             "data_pars" :{
-                "dataset": "MNIST",
-                "data_path": "dataset/vision/",
-                "train_batch_size": 4,
-                "test_batch_size": 1
+                "dataset"       : "torchvision.datasets:MNIST"
+               ,"transform_uri" : "mlmodels.preprocess.image.py:torch_transform_mnist"
+
+
+               ,"2nd___transform_uri" : "/mnt/hgfs/d/gitdev/mlmodels/mlmodels/preprocess/image.py:torch_transform_mnist"
+
+
+                ,"data_path": "dataset/vision/"
+                ,"train_batch_size": 4
+                ,"test_batch_size": 1
             },
 
 

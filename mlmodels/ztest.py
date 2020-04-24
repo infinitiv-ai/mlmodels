@@ -118,6 +118,10 @@ def test_benchmark(arg=None):
     path = path.replace("\\", "//")
     test_list = [ f"python {path}/benchmark.py --do timeseries "   ,
                   f"python {path}/benchmark.py --do vision_mnist "   ,
+                  f"python {path}/benchmark.py --do fashion_vision_mnist "   ,
+                  f"python {path}/benchmark.py --do text_classification "   ,
+                  f"python {path}/benchmark.py --do nlp_reuters "   ,
+
     ]
 
     for cmd in test_list:

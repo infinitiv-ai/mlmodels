@@ -25,7 +25,7 @@ except : pass
 """
 
 ##### Version  #######################################################################
-version ='0.32.1'
+version ='0.35.1'
 print("version", version)
 
 
@@ -47,6 +47,20 @@ long_description =  """
 
 ```
 
+
+This repository is the ***Model ZOO for Pytorch, Tensorflow, Keras, Gluon, LightGBM, Keras, Sklearn models etc*** with Lightweight Functional interface to wrap access to Recent and State of Art Deep Learning, ML models and Hyper-Parameter Search, cross platforms that follows the logic of sklearn, such as fit, predict, transform, metrics, save, load etc. 
+Now, more than **60 recent models** (> 2018) are available in those domains : 
+* Time Series, 
+* Text classification, 
+* Vision, 
+* Image Generation,Text generation, 
+* Gradient Boosting, Automatic Machine Learning tuning, 
+* Hyper-parameter search.
+
+With the goal to transform Script/Research code into re-usable batch/code with minimal code change, we used functional interface instead of pure OOP. This is because functional reduces the amount of code needed which is good to scientific computing. Thus, we can focus on the computing part than design. Also, it is easy to maintain for medium size project. 
+
+
+
 ml_models --do                    
     "testall"     :  test all modules inside model_tf
     "test"        :  test a certain module inside model_tf
@@ -65,8 +79,6 @@ ml_optim --do
 
 
  
-
-
 ##### Include models :
 
 https://github.com/arita37/mlmodels/blob/dev/README.md
@@ -93,7 +105,7 @@ packages = ["mlmodels"] + ["mlmodels." + p for p in find_packages("mlmodels")]
 """
 scripts = [ "mlmodels/models.py",
             "mlmodels/optim.py",
-            "mlmodels/cli_mlmodels",     
+            "mlmodels/",     
             ]
 
 
@@ -105,9 +117,10 @@ scripts = [ "mlmodels/distri_torch_mpirun.sh",
 
 ### CLI Scripts  #################################################   
 entry_points={ 'console_scripts': [
-               'ml_models = mlmodels.models:main',
-               'ml_optim = mlmodels.optim:main',
-               'ml_test = mlmodels.ztest:main'
+               'ml_models = mlmodels.cli:main'
+               ,'ml_optim = mlmodels.optim:main'
+               ,'ml_test = mlmodels.ztest:main'
+               ,'ml_benchmark = mlmodels.benchmark:main'
               ] }
 
 
@@ -135,7 +148,7 @@ setup(
     
     long_description=long_description,
     long_description_content_type="text/markdown",
-    include_package_data=True,
+    include_package_data=False,
 
     classifiers=[
           'Development Status :: 3 - Alpha',

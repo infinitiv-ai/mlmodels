@@ -29,7 +29,7 @@
                        "num_class": 6
                     },
 
-        "compute_pars": {  "lightgbm_pars" :{
+        "compute_pars": {  "compute_pars" :{
                        },
                          "metric_score": "accuracy_score"
          },

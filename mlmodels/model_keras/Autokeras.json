@@ -1,0 +1,152 @@
+{ 
+    "vision":{
+
+        "model_pars": {
+            "model_name":"vision",
+             "model_pars":{
+                            "num_classes": null,
+                            "multi_label": false,
+                            "loss":  null,
+                            "metrics": null,
+                            "name":"vision_classifier",
+                            "max_trials":10,
+                            "directory": null,
+                            "objective": "val_loss",
+                            "overwrite":true,
+                            "seed": null
+                            }
+        },
+
+        "data_pars" :{
+            "dataset": "MNIST",
+            "data_path": "dataset/vision/",
+            "validation_split":0.2
+        },
+
+        "compute_pars": {
+            "epochs":2
+        },
+
+        "out_pars": {
+            "checkpointdir": "ztest/model_keras/autokeras/vision_classifier/"
+        
+        }
+    },
+
+"text":{
+
+        "model_pars": {
+            "model_name":"text",
+            "model_pars":{
+                            "num_classes":null,
+                            "multi_label":false,
+                            "loss":  null,
+                            "metrics": null,
+                            "name":"text_classifier",
+                            "max_trials":10,
+                            "directory": null,
+                            "objective": "val_loss",
+                            "overwrite":true,
+                            "seed":  null
+                            }
+        },
+
+        "data_pars" :{
+            "dataset": "IMDB",
+            "data_path": "dataset/nlp/",
+            "num_words" : 1000,
+            "validation_split":0.2
+        },
+
+        "compute_pars": {
+            "epochs":2
+           
+        },
+
+        "out_pars": {
+            "checkpointdir": "ztest/model_keras/autokeras/text_classifier/"
+        
+        }
+    },
+
+"tabular_classifier":{
+
+        "model_pars": {
+            "model_name":"tabular_classifier",
+            "model_pars":{
+                            "num_classes": null,
+                            "multi_label": false,
+                            "loss":  null,
+                            "metrics": null,
+                            "name":"tabular_classifier",
+                            "max_trials":10,
+                            "directory": null,
+                            "objective": "val_loss",
+                            "overwrite":true,
+                            "seed":  null
+                            }
+        },
+
+        "data_pars" :{
+            "dataset": "Titanic Survival Prediction",
+            "train_data_path": "dataset/tabular/autokeras_titanic_train.csv",
+            "test_data_path": "dataset/tabular/autokeras_titanic_eval.csv",
+            "validation_split":0.2
+        },
+
+        "compute_pars": {
+            "epochs":2
+            
+        },
+
+        "out_pars": {
+            "checkpointdir": "ztest/model_keras/autokeras/tabular_classifier/"
+        
+        }
+    },
+
+"tabular_regressor":{
+
+        "model_pars": {
+            "model_name":"tabular_regressor",
+            "model_pars":{
+                            "output_dim":null,
+                            "loss":  "mean_squared_error",
+                            "metrics": "mean_squared_error",
+                            "name":"tabular_regressor",
+                            "max_trials":10,
+                            "directory": null,
+                            "objective": "val_loss",
+                            "overwrite":true,
+                            "seed":  null,
+                            "column_names":null
+                            }
+        },
+
+        "data_pars" :{
+            "dataset": "Auto MPG Data Set",
+            "column_names":["MPG","Cylinders","Displacement","Horsepower","Weight",
+                "Acceleration", "Model Year", "Origin"],
+            "data_type":{"Cylinders":"numerical","Displacement":"numerical","Horsepower":"numerical","Weight":"numerical",
+                "Acceleration":"numerical","Model Year":"numerical","Origin":"categorical"},
+            "dataset_path":"http://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data",
+            "train_data_path": "",
+            "test_data_path": "",
+            "target_col":"MPG",
+            "validation_split":0.2
+        },
+
+        "compute_pars": {
+            "epochs":2
+            
+        },
+
+        "out_pars": {
+            "checkpointdir": "ztest/model_keras/autokeras/tabular_regressor/"
+        
+        }
+    }
+
+
+
+}

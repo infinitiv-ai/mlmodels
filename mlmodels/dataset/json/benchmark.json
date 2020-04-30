@@ -1,5 +1,9 @@
 {
-	"metric_list" : ["accuracy"]
 
+
+"metric_list": ["mean_absolute_error", "mean_squared_error",
+                                       "median_absolute_error",  "r2_score"] 
+
+                     
   
 }

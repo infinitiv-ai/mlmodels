@@ -23,7 +23,7 @@
                        "random_state":0
                     },
 
-        "compute_pars": {  "lightgbm_pars" :{}},
+        "compute_pars": {  "compute_pars" :{}},
 
         "out_pars":  {"save_path": "ztest/model_sklearn/lightgbm/", 
                       "log_path": "ztest/model_sklearn/lightgbm/"

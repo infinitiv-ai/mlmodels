@@ -1,0 +1,104 @@
+  
+{
+    "resnet101": {
+        "hypermodel_pars": {
+            "learning_rate": {"type": "log_uniform", "init": 0.01, "range": [0.001, 0.1 ] }
+        },
+
+        "model_pars": {
+            "model_uri": "model_tch.torchhub.py",
+            "repo_uri": "pytorch/vision",
+            "model": "resnet101",
+            "num_classes": 10,
+            "pretrained": 1,
+            "_comment": "0: False, 1: True",
+            "num_layers": 5,
+            "size": 6,
+            "size_layer": 128,
+            "output_size": 6,
+            "timestep": 4,
+            "epoch": 2
+        },
+        "data_pars": {
+            "dataset"  : "mlmodels/preprocess/generic.py:NumpyDataset:CIFAR10",
+
+
+            "tfdataset_train_samples":2000,
+            "tfdataset_test_samples":500,
+            "tfdataset_train_batch_size": 10,
+            "tfdataset_test_batch_size": 10,
+            "tfdataset_data_path": "dataset/vision/cifar10/",
+
+
+            "dataset_train_file_name":"cifar10_train.npz",
+            "dataset_test_file_name":"cifar10_test.npz",
+            "dataset_features_key":"X",
+            "dataset_classes_key":"y",            
+
+            "transform_uri" : "mlmodels.preprocess.image:torch_transform_generic"
+
+
+
+
+
+        },
+        "compute_pars": {
+            "distributed": "mpi",
+            "max_batch_sample": 10,
+            "epochs": 5,
+            "learning_rate": 0.001
+        },
+        "out_pars": {
+            "checkpointdir": "ztest/model_tch/torchhub/resnet101/checkpoints/",
+            "path": "ztest/model_tch/torchhub/resnet101/"
+        }
+    },
+
+
+
+
+    "resnet152": {
+        "hypermodel_pars": {
+            "learning_rate": {"type": "log_uniform", "init": 0.01, "range": [0.001, 0.1 ] }
+        },
+        "model_pars": {
+            "model_uri": "model_tch.torchhub.py",
+            "repo_uri": "pytorch/vision",
+            "model": "resnet152",
+            "num_classes": 10,
+            "pretrained": 1,
+            "_comment": "0: False, 1: True",
+            "num_layers": 5,
+            "size": 6,
+            "size_layer": 128,
+            "output_size": 6,
+            "timestep": 4,
+            "epoch": 2
+        },
+        "data_pars": {
+            "dataset"  : "torchvision.datasets:CIFAR",
+            "data_path": "dataset/vision/",
+            "train_batch_size": 100,
+            "test_batch_size": 10,
+            "transform_uri" : "mlmodels.preprocess.image:torch_transform_data_augment"
+        },
+        "compute_pars": {
+            "distributed": "mpi",
+            "max_batch_sample": 10,
+            "epochs": 5,
+            "learning_rate": 0.001
+        },
+        "out_pars": {
+            "checkpointdir": "ztest/model_tch/torchhub/resnet152/checkpoints/",
+            "path": "ztest/model_tch/torchhub/resnet152/"
+        }
+    }
+
+
+
+
+
+
+
+    
+}

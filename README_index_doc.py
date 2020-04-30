@@ -8,7 +8,6 @@ config_model_list( folder=None,  )
 get_all_json_path(json_path,   )
 main(  )
 metric_eval( actual=None, pred=None, metric_name="mean_absolute_error",  )
-preprocess_timeseries_m5( data_path=None, dataset_name=None, pred_length=10, item_id=None,  )
 
 
 mlmodels\data.py
@@ -21,27 +20,23 @@ import_data(  )
 import_data_dask(  **kw)
 import_data_fromfile(  **kw)
 import_data_tch( name="", mode="train", node_id=0, data_folder_root="",  )
+tf_dataset(dataset_pars,   )
 
 
 mlmodels\dataloader.py
 ----------------methods----------------
-AbstractDataLoader.__getitem__(self, key,   )
-AbstractDataLoader.__init__(self, input_pars, loader, preprocessor, output,   **args)
-AbstractDataLoader._image_directory_load(self, directory, generator,   )
-AbstractDataLoader._interpret_input_pars(self, input_pars,   )
-AbstractDataLoader._interpret_output(self, output,   )
-AbstractDataLoader._load_data(self, loader,   )
-AbstractDataLoader.get_data(self,   )
-GluonTSDataLoader.__init__(self,   *args, **kwargs)
-KerasDataLoader.__init__(self,   *args, **kwargs)
-PyTorchDataLoader.__init__(self,   *args, **kwargs)
-PyTorchDataLoader._interpret_output(self, output,   )
-PyTorchDataLoader._load_data(self, loader,   )
-TensorflowDataLoader.__init__(self,   *args, **kwargs)
+DataLoader.__init__(self, data_pars,   )
+DataLoader.compute(self,   )
+DataLoader.get_data(self,  intermediate=False,  )
 
 ---------------functions---------------
-open_read(file,   )
+_check_output_shape(self, inter_output, shape, max_len,   )
+_interpret_input_pars(self, input_pars,   )
+batch_generator(iterable,  n=1,  )
+image_dir_load(path,   )
+pickle_dump(t, path,   )
 pickle_load(file,   )
+split_xy_from_dict(out, data_pars,   )
 
 
 mlmodels\distri_torch.py
@@ -59,7 +54,7 @@ mlmodels\metrics.py
 
 ---------------functions---------------
 log( n=0, m=1,  *s)
-metrics_eval( metric_list=["mean_squared_error"], ytrue=None, ypred=None, ypred_proba=None,  )
+metrics_eval( metric_list=["mean_squared_error"], ytrue=None, ypred=None, ypred_proba=None, return_dict=0,  )
 test(  )
 
 
@@ -142,25 +137,35 @@ test( data_path="/dataset/", pars_choice="colnum",  )
 
 mlmodels\preprocessor.py
 ----------------methods----------------
-EncoderMissingEncoderError.__init__(self, encoder_pars,   )
-EncoderMissingIndexError.__init__(self, encoder_pars,   )
-EncoderOutputSizeError.__init__(self, output_name, output_size,   )
 MissingDataPreprocessorError.__init__(self,   )
 Preprocessor.__init__(self, preprocessor_dict,   )
-Preprocessor._interpret_encoder(self, encoder_pars,   )
-Preprocessor._interpret_preprocessor(self, pars,   )
-Preprocessor._interpret_preprocessor_dict(self, preprocessor_dict,   )
+Preprocessor._interpret_preprocessor_dict(self, pars,   )
+Preprocessor._name_outputs(self, names, outputs,   )
 Preprocessor.fit_transform(self, data,   )
 Preprocessor.transform(self, data,   )
 PreprocessorNotFittedError.__init__(self,   )
-PreprocssingOutputDict.__getitem__(self, key,   )
-PreprocssingOutputDict.__init__(self, data,   *args, **kwargs)
-PreprocssingOutputDict.__repr__(self,   )
-PreprocssingOutputDict.__setitem__(self, key, value,   )
-PreprocssingOutputDict.__str__(self,   )
-PreprocssingOutputDict.values(self,   )
 
 ---------------functions---------------
+
+
+mlmodels\test_dataloader.py
+----------------methods----------------
+SingleFunctionPreprocessor.__init__(self, func_dict,   )
+SingleFunctionPreprocessor.compute(self, data,   )
+SingleFunctionPreprocessor.get_data(self,   )
+
+---------------functions---------------
+gluon_append_target_string(out, data_pars,   )
+identical_test_set_split(test_size,   *args, **kwargs)
+load_npz(path,   )
+pandas_load_train_test(path, test_path,   **args)
+pandas_split_xy(out, data_pars,   )
+read_csvs_from_directory(path,  files=None,  **args)
+rename_target_to_y(out, data_pars,   )
+split_timeseries_df(out, data_pars, length, shift,   )
+split_xy_from_dict(out, data_pars,   )
+timeseries_split( test_size=0.2,  *args)
+tokenize_x(data, no_classes,  max_words=None,  )
 
 
 mlmodels\util.py
@@ -183,10 +188,12 @@ get_model_uri(file,   )
 get_recursive_files(folderPath,  ext='/*model*/*.py',  )
 get_recursive_files2(folderPath, ext,   )
 get_recursive_files3(folderPath, ext,   )
+json_norm(ddict,   )
 load(load_pars,   )
-load_callable_from_dict(function_dict,   )
+load_callable_from_dict(function_dict,  return_other_keys=False,  )
 load_callable_from_uri(uri,   )
 load_config(args, config_file, config_mode,  verbose=0,  )
+load_function( package="mlmodels.util", name="path_norm",  )
 load_gluonts( load_pars=None,  )
 load_keras(load_pars,  custom_pars=None,  )
 load_pkl(load_pars,   )
@@ -282,6 +289,34 @@ mlmodels\example\arun_hyper.py
 
 
 mlmodels\example\arun_model.py
+----------------methods----------------
+
+---------------functions---------------
+
+
+mlmodels\example\benchmark_timeseries_m4.py
+----------------methods----------------
+
+---------------functions---------------
+benchmark_m4(  )
+
+
+mlmodels\example\benchmark_timeseries_m5.py
+----------------methods----------------
+M5Evaluator.get_aggregate_metrics(self, metric_per_ts,   )
+M5Evaluator.get_metrics_per_ts(self, time_series, forecast,   )
+
+---------------functions---------------
+plot_prob_forecasts(ts_entry, forecast_entry, path, sample_id,  inline=True,  )
+
+
+mlmodels\example\lightgbm_glass.py
+----------------methods----------------
+
+---------------functions---------------
+
+
+mlmodels\example\vision_mnist.py
 ----------------methods----------------
 
 ---------------functions---------------
@@ -886,6 +921,40 @@ tfboard_add_weights(step,   )
 tfboard_writer_create(  )
 
 
+mlmodels\model_gluon\fb_prophet.py
+----------------methods----------------
+Model.__init__(self,  model_pars=None, data_pars=None, compute_pars=None,  )
+
+---------------functions---------------
+fit( model=None, data_pars={}, compute_pars={}, out_pars={},  **kw)
+get_dataset(data_pars,   )
+get_params( param_pars={},  **kw)
+load( load_pars={},  **kw)
+metrics_plot(metrics_params,   )
+predict( model=None, model_pars=None, sess=None, data_pars=None, compute_pars=None, out_pars=None,  **kwargs)
+save( model=None, session=None, save_pars={},  )
+test( data_path="dataset/", pars_choice="test0", config_mode="test",  )
+
+
+mlmodels\model_gluon\gluonts_model.py
+----------------methods----------------
+Model.__init__(self,  model_pars=None, data_pars=None, compute_pars=None,  **kwargs)
+
+---------------functions---------------
+fit(model,  sess=None, data_pars=None, model_pars=None, compute_pars=None, out_pars=None, session=None,  **kwargs)
+fit_metrics(ypred, data_pars,  compute_pars=None, out_pars=None,  **kw)
+get_dataset(data_pars,   )
+get_params( choice="", data_path="dataset/timeseries/", config_mode="test",  **kw)
+load(path,   )
+metrics(ypred, data_pars,  compute_pars=None, out_pars=None,  **kw)
+plot_predict(item_metrics,  out_pars=None,  )
+plot_prob_forecasts(ypred,  out_pars=None,  )
+predict(model,  sess=None, data_pars=None, compute_pars=None, out_pars=None,  **kw)
+save(model, path,   )
+test(  )
+test_single( data_path="dataset/", choice="", config_mode="test",  )
+
+
 mlmodels\model_gluon\gluon_automl.py
 ----------------methods----------------
 Model.__init__(self,  model_pars=None, compute_pars=None,  )
@@ -895,33 +964,6 @@ _config_process(config,   )
 get_params( choice="", data_path="dataset/", config_mode="test",  **kw)
 path_setup( out_folder="", sublevel=0, data_path="dataset/",  )
 test( data_path="dataset/", pars_choice="json",  )
-
-
-mlmodels\model_gluon\gluon_deepar.py
-----------------methods----------------
-Model.__init__(self,  model_pars=None, data_pars=None, compute_pars=None,  **kwargs)
-
----------------functions---------------
-get_params( choice="", data_path="dataset/timeseries/", config_mode="test",  **kw)
-test( data_path="dataset/", choice="",  )
-
-
-mlmodels\model_gluon\gluon_ffn.py
-----------------methods----------------
-Model.__init__(self,  model_pars=None, data_pars=None, compute_pars=None,  **kwargs)
-
----------------functions---------------
-get_params( choice="", data_path="dataset/timeseries/", config_mode="test",  **kw)
-test( data_path="dataset/", choice="test01",  )
-
-
-mlmodels\model_gluon\gluon_prophet.py
-----------------methods----------------
-Model.__init__(self,  model_pars=None, data_pars=None, compute_pars=None,  )
-
----------------functions---------------
-get_params( choice="", data_path="dataset/", config_mode="test",  **kw)
-test( data_path="dataset/", choice="",  )
 
 
 mlmodels\model_gluon\util.py
@@ -963,6 +1005,43 @@ mlmodels\model_gluon\__init__.py
 ---------------functions---------------
 
 
+mlmodels\model_gluon\raw\gluon_prophet.py
+----------------methods----------------
+Model.__init__(self,  model_pars=None, data_pars=None, compute_pars=None,  )
+
+---------------functions---------------
+get_params( choice="", data_path="dataset/", config_mode="test",  **kw)
+test( data_path="dataset/", choice="",  )
+
+
+mlmodels\model_gluon\ztest\zNotUse_gluon_deepar.py
+----------------methods----------------
+Model.__init__(self,  model_pars=None, data_pars=None, compute_pars=None,  **kwargs)
+Model_empty.__init__(self,  model_pars=None, compute_pars=None,  )
+
+---------------functions---------------
+_config_process(data_path,  config_mode="test", choice="test01",  )
+fit(modeule, model,  sess=None, data_pars=None, model_pars=None, compute_pars=None, out_pars=None, session=None,  **kwargs)
+get_dataset(data_pars,   )
+get_params( choice="", data_path="dataset/timeseries/", config_mode="test",  **kw)
+load(path,   )
+metrics(ypred, data_pars,  compute_pars=None, out_pars=None,  **kwargs)
+plot_predict(item_metrics,  out_pars=None,  )
+plot_prob_forecasts(ypred,  out_pars=None,  )
+predict(model,  sess=None, data_pars=None, compute_pars=None, out_pars=None,  **kwargs)
+save(model, path,   )
+test( data_path="dataset/", choice="",  )
+
+
+mlmodels\model_gluon\ztest\zNo_gluon_ffn.py
+----------------methods----------------
+Model.__init__(self,  model_pars=None, data_pars=None, compute_pars=None,  **kwargs)
+
+---------------functions---------------
+get_params( choice="", data_path="dataset/timeseries/", config_mode="test",  **kw)
+test( data_path="dataset/", choice="test01",  )
+
+
 mlmodels\model_keras\01_deepctr.py
 ----------------methods----------------
 Model.__init__(self,  model_pars=None, data_pars=None, compute_pars=None,  **kwargs)
@@ -974,12 +1053,12 @@ _preprocess_movielens(df,   **kw)
 config_load(data_path, file_default, config_mode,   )
 fit(model,  session=None, compute_pars=None, data_pars=None, out_pars=None,  **kwargs)
 get_dataset( data_pars=None,  **kw)
-get_params( choice="", data_path="dataset/", config_mode="test",  **kw)
+get_params( choice="", data_path="dataset/", config_mode="test",  **kwargs)
 metrics(ypred,  ytrue=None, session=None, compute_pars=None, data_pars=None, out_pars=None,  **kwargs)
 path_setup( out_folder="", sublevel=0, data_path="dataset/",  )
 predict(model,  session=None, compute_pars=None, data_pars=None, out_pars=None,  **kwargs)
 reset_model(  )
-test( data_path="dataset/", pars_choice=0,  )
+test( data_path="dataset/", pars_choice=0,  **kwargs)
 
 
 mlmodels\model_keras\02_cnn.py
@@ -1010,11 +1089,29 @@ fit_metrics(model,  data_pars=None, compute_pars=None, out_pars=None, model_pars
 get_dataset(data_pars,   )
 get_params( param_pars={},  **kw)
 load( load_pars={},  **kw)
+metrics_eval(model,  data_pars=None, compute_pars=None, out_pars=None, model_pars=None,  **kw)
 metrics_plot(metrics_params,   )
 predict( model=None, model_pars=None, sess=None, data_pars=None, compute_pars=None, out_pars=None,  **kwargs)
 reset_model(  )
 save( model=None, session=None, save_pars={},  )
 test( data_path="dataset/", pars_choice="test0", config_mode="test",  )
+
+
+mlmodels\model_keras\Autokeras.py
+----------------methods----------------
+Model.__init__(self,  model_pars=None, data_pars=None, compute_pars=None, out_pars=None,  )
+
+---------------functions---------------
+fit(model,  data_pars=None, compute_pars=None, out_pars=None,  **kwargs)
+fit_metrics(model,  data_pars=None, compute_pars=None, out_pars=None,  )
+get_config_file(  )
+get_dataset( data_pars=None,  )
+get_dataset_imbd(data_pars,   )
+get_params( param_pars=None,  **kw)
+load(load_pars,   )
+predict(model,  session=None, data_pars=None, compute_pars=None, out_pars=None,  **kwargs)
+save(model,  session=None, save_pars=None,  )
+test( data_path="dataset/", pars_choice="json", config_mode="test",  )
 
 
 mlmodels\model_keras\charcnn.py
@@ -1089,7 +1186,7 @@ Model.__init__(self,  model_pars=None, data_pars=None, compute_pars=None,  **kwa
 ---------------functions---------------
 fit(model,  data_pars=None, compute_pars=None, out_pars=None,  **kw)
 fit_metrics(model,  data_pars=None, compute_pars=None, out_pars=None,  **kw)
-get_dataset(data_pars,  return_preprocessor_function=False,  )
+get_dataset(data_pars,   )
 get_params( param_pars={},  **kw)
 load(load_pars,   )
 predict(model,  sess=None, data_pars=None, out_pars=None, compute_pars=None,  **kw)
@@ -1892,7 +1989,7 @@ mlmodels\model_keras\raw\textcnn_\main.py
 
 mlmodels\model_keras\raw\textcnn_\text_cnn.py
 ----------------methods----------------
-TextCNN.__init__(self, maxlen, max_features, embedding_dims,  class_num=1, last_activation='sigmoid',  )
+TextCNN.__init__(self, maxlen, max_features, embedding_dims,  class_num=1, last_activation='softmax',  )
 TextCNN.get_model(self,   )
 
 ---------------functions---------------
@@ -2628,29 +2725,588 @@ mlmodels\model_sklearn\__init__.py
 ---------------functions---------------
 
 
-mlmodels\model_tch\02_mlp.py
+mlmodels\model_sklearn\raw\atspy\atspy\nbeats.py
 ----------------methods----------------
-Model.__init__(self,   )
-Model.forward(self, x,   )
+
+---------------functions---------------
+data_generator(x_full, y_full, bs,   )
+eval_test(backcast_length, forecast_length, net, norm_constant, test_losses, x_test, y_test,   )
+load(model, optimiser,   )
+plot_scatter(  *args, **kwargs)
+save(model, optimiser, grad_step,   )
+train_100_grad_steps(data, device, net, optimiser,   )
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\pyaf.py
+----------------methods----------------
 
 ---------------functions---------------
 
 
-mlmodels\model_tch\Autokeras.py
+mlmodels\model_sklearn\raw\atspy\atspy\ssa.py
 ----------------methods----------------
-Model.__init__(self,  model_pars=None, data_pars=None, compute_pars=None, out_pars=None,  )
+mySSA.__init__(self, time_series,   )
+mySSA._dot(x, y,   )
+mySSA._forecast_prep(self,  singular_values=None,  )
+mySSA.decompose(self,  verbose=False,  )
+mySSA.diagonal_averaging(hankel_matrix,   )
+mySSA.embed(self,  embedding_dimension=None, suspected_frequency=None, verbose=False, return_df=False,  )
+mySSA.forecast_recurrent(self,  steps_ahead=12, singular_values=None, plot=False, return_df=False,  **plotargs)
+mySSA.get_contributions( X=None, s=None, plot=True,  )
+mySSA.split(arr, size,   )
+mySSA.view_reconstruction(cls,  names=None, return_df=False, plot=True, symmetric_plots=False,  *hankel)
+mySSA.view_s_contributions(self,  adjust_scale=False, cumulative=False, return_df=False,  )
+mySSA.view_time_series(self,   )
 
 ---------------functions---------------
-fit(model,  data_pars=None, compute_pars=None, out_pars=None,  **kwargs)
-fit_metrics(model,  data_pars=None, compute_pars=None, out_pars=None,  )
-get_config_file(  )
-get_dataset( data_pars=None,  )
-get_dataset_imbd(data_pars,   )
-get_params( param_pars=None,  **kw)
+data_generator(x_full, y_full, bs,   )
+eval_test(backcast_length, forecast_length, net, norm_constant, test_losses, x_test, y_test,   )
+load(model, optimiser,   )
+plot_scatter(  *args, **kwargs)
+save(model, optimiser, grad_step,   )
+train_100_grad_steps(data, device, net, optimiser,   )
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\__init__.py
+----------------methods----------------
+
+---------------functions---------------
+add_freq(idx,  freq=None,  )
+constant_feature_detect(data,  threshold=0.98,  )
+ensemble_doubled(middle_in, middle_out, forecast_in, forecast_out,   )
+ensemble_first(middle_in, forecast_in,   )
+ensemble_lightgbm(forecast_in, forecast_out, pred,   )
+ensemble_performance(forecasts,   )
+ensemble_pure(forecast_in, forecast_out,   )
+ensemble_tsfresh(forecast_in, forecast_out, season, perd,   )
+forecast_frame(test, forecast_dict,   )
+forecast_frame_insample(forecast_dict, test,   )
+forecast_frame_outsample(forecast_dict, df, forecast_len, index,   )
+forecast_models(models_dict, forecast_len, freq, df,  in_sample=True, GPU=False,  )
+get_unique_N(iterable, N,   )
+gluonts_dataframe(df,   )
+infer_periodocity(train,   )
+infer_seasonality(train,  index=0,  )
+infer_seasonality_ssa(train,  index=1,  )
+insample_performance(test, forecast_dict,  dict=False,  )
+middle(ensemble_lgb, ensemble_ts, pure_ensemble,   )
+nbeats_dataframe(df, forecast_length, in_sample, device,  train_portion=0.75,  )
+original_dataframe(df, freq,   )
+parse_data(df,   )
+prophet_dataframe(df,   )
+season_list(train,   )
+select_seasonality(train, season,   )
+time_feature(df, perd,   )
+train_models(train, models, forecast_len,  full_df=None, seasonality="infer_from_data", in_sample=None, freq=None, GPU=None,  )
+train_test_split(df,  train_proportion=0.75,  )
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\Exogenous.py
+----------------methods----------------
+cExogenousInfo.__init__(self,   )
+cExogenousInfo.addVars(self, df,   )
+cExogenousInfo.createEncodedExogenous(self,   )
+cExogenousInfo.fit(self,   )
+cExogenousInfo.info(self,   )
+cExogenousInfo.to_json(self,   )
+cExogenousInfo.transformDataset(self, df,   )
+cExogenousInfo.updateExogenousVariableInfo(self,   )
+
+---------------functions---------------
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\Keras_Models.py
+----------------methods----------------
+cAbstract_RNN_Model.__init__(self, cycle_residue_name, P,  iExogenousInfo=None,  )
+cAbstract_RNN_Model.build_RNN_Architecture(self,   )
+cAbstract_RNN_Model.dumpCoefficients(self,  iMax=10,  )
+cAbstract_RNN_Model.fit(self,   )
+cAbstract_RNN_Model.reshape_inputs(self, iInputs,   )
+cAbstract_RNN_Model.transformDataset(self, df,  horizon_index=1,  )
+cLSTM_Model.__getstate__(self,   )
+cLSTM_Model.__init__(self, cycle_residue_name, P,  iExogenousInfo=None,  )
+cLSTM_Model.__setstate__(self, istate,   )
+cLSTM_Model.build_RNN_Architecture(self,   )
+cLSTM_Model.build_RNN_Architecture_template(self,   )
+cLSTM_Model.reshape_target(self, iTarget,   )
+cLSTM_Model.testPickle(self,   )
+cLSTM_Model.testPickle_old(self,   )
+cMLP_Model.__getstate__(self,   )
+cMLP_Model.__init__(self, cycle_residue_name, P,  iExogenousInfo=None,  )
+cMLP_Model.__setstate__(self, istate,   )
+cMLP_Model.build_RNN_Architecture(self,   )
+cMLP_Model.build_RNN_Architecture_template(self,   )
+cMLP_Model.reshape_target(self, iTarget,   )
+
+---------------functions---------------
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\MissingData.py
+----------------methods----------------
+cMissingDataImputer.__init__(self,   )
+cMissingDataImputer.has_missing_data(self, iSeries,   )
+cMissingDataImputer.interpolate_signal_if_needed(self, iInputDS, iSignal,   )
+cMissingDataImputer.interpolate_time_if_needed(self, iInputDS, iTime,   )
+
+---------------functions---------------
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\Options.py
+----------------methods----------------
+cCrossValidationOptions.__init__(self,   )
+cCrostonOptions.__init__(self,   )
+cModelControl.__init__(self,   )
+cModelControl.disable_all_autoregressions(self,   )
+cModelControl.disable_all_periodics(self,   )
+cModelControl.disable_all_transformations(self,   )
+cModelControl.disable_all_trends(self,   )
+cModelControl.set_active_autoregressions(self, autoregs,   )
+cModelControl.set_active_periodics(self, periodics,   )
+cModelControl.set_active_transformations(self, transformations,   )
+cModelControl.set_active_trends(self, trends,   )
+cSignalDecomposition_Options.__init__(self,   )
+cSignalDecomposition_Options.canBuildKerasModel(self, iModel,   )
+cSignalDecomposition_Options.disableDebuggingOptions(self,   )
+cSignalDecomposition_Options.enable_fast_mode(self,   )
+cSignalDecomposition_Options.enable_low_memory_mode(self,   )
+cSignalDecomposition_Options.enable_slow_mode(self,   )
+
+---------------functions---------------
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\Perf.py
+----------------methods----------------
+cPerf.__init__(self,   )
+cPerf.check_not_nan(self, sig, name,   )
+cPerf.compute(self, signal, estimator, name,   )
+cPerf.computeCriterion(self, signal, estimator, criterion, name,   )
+cPerf.compute_MAPE_SMAPE_MASE(self, signal, estimator,   )
+cPerf.compute_R2(self, signal, estimator,   )
+cPerf.compute_pearson_r(self, signal, estimator,   )
+cPerf.dump_perf_data(self, signal, estimator,   )
+cPerf.getCriterionValue(self, criterion,   )
+cPerf.real_compute(self, signal, estimator, name,   )
+
+---------------functions---------------
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\Plots.py
+----------------methods----------------
+
+---------------functions---------------
+add_patched_legend(ax, names,   )
+build_record_label(labels_list,   )
+decomp_plot(df, time, signal, estimator, residue,  name=None, format='png', max_length=1000,  )
+decomp_plot_as_png_base64(df, time, signal, estimator, residue,  name=None, max_length=1000,  )
+plot_hierarchy(structure, iAnnotations, name,   )
+prediction_interval_plot(df, time, signal, estimator, lower, upper,  name=None, format='png', max_length=1000,  )
+prediction_interval_plot_as_png_base64(df, time, signal, estimator, lower, upper,  name=None, max_length=1000,  )
+qqplot_residues(df, residue,   )
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\PredictionIntervals.py
+----------------methods----------------
+cPredictionIntervalsEstimator.__init__(self,   )
+cPredictionIntervalsEstimator.computePerformances(self,   )
+cPredictionIntervalsEstimator.dump(self,   )
+cPredictionIntervalsEstimator.dump_detailed(self,   )
+
+---------------functions---------------
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\Scikit_Models.py
+----------------methods----------------
+cAbstract_Scikit_Model.__init__(self, cycle_residue_name, P,  iExogenousInfo=None,  )
+cAbstract_Scikit_Model.build_Scikit_Model(self,   )
+cAbstract_Scikit_Model.dumpCoefficients(self,  iMax=10,  )
+cAbstract_Scikit_Model.fit(self,   )
+cAbstract_Scikit_Model.set_name(self,   )
+cAbstract_Scikit_Model.transformDataset(self, df,  horizon_index=1,  )
+cAutoRegressiveModel.__init__(self, cycle_residue_name, P,  iExogenousInfo=None,  )
+cAutoRegressiveModel.build_Scikit_Model(self,   )
+cAutoRegressiveModel.dumpCoefficients(self,  iMax=10,  )
+cAutoRegressiveModel.set_name(self,   )
+cSVR_Model.__init__(self, cycle_residue_name, P,  iExogenousInfo=None,  )
+cSVR_Model.build_Scikit_Model(self,   )
+cSVR_Model.dumpCoefficients(self,  iMax=10,  )
+cSVR_Model.set_name(self,   )
+cXGBoost_Model.__init__(self, cycle_residue_name, P,  iExogenousInfo=None,  )
+cXGBoost_Model.build_Scikit_Model(self,   )
+cXGBoost_Model.dumpCoefficients(self,  iMax=10,  )
+cXGBoost_Model.get_default_xgb_options(self,   )
+cXGBoost_Model.set_name(self,   )
+
+---------------functions---------------
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\SignalDecomposition.py
+----------------methods----------------
+cPerf_Arg.__init__(self, name,   )
+cSignalDecomposition.__init__(self,   )
+cSignalDecomposition.checkData(self, iInputDS, iTime, iSignal, iHorizon, iExogenousData,   )
+cSignalDecomposition.forecast(self, iInputDS, iHorizon,   )
+cSignalDecomposition.getModelFormula(self,   )
+cSignalDecomposition.getModelInfo(self,   )
+cSignalDecomposition.getPlotsAsDict(self,   )
+cSignalDecomposition.standardPlots(self,  name=None, format='png',  )
+cSignalDecomposition.to_json(self,   )
+cSignalDecomposition.train(self, iInputDS, iTime, iSignal, iHorizon,  iExogenousData=None,  )
+cSignalDecompositionOneTransform.__init__(self,   )
+cSignalDecompositionOneTransform.collectPerformanceIndices(self,   )
+cSignalDecompositionOneTransform.computePerfsInParallel(self, args,   )
+cSignalDecompositionOneTransform.run_gc(self,   )
+cSignalDecompositionOneTransform.serialize(self,   )
+cSignalDecompositionOneTransform.setParams(self, iInputDS, iTime, iSignal, iHorizon, iTransformation,  iExogenousData=None,  )
+cSignalDecompositionOneTransform.train(self, iInputDS, iTime, iSignal, iHorizon, iTransformation,   )
+cSignalDecompositionOneTransform.updatePerfsForAllModels(self, iModels,   )
+cSignalDecompositionTrainer.__init__(self,   )
+cSignalDecompositionTrainer.cleanup_after_model_selection(self,   )
+cSignalDecompositionTrainer.collectPerformanceIndices(self,   )
+cSignalDecompositionTrainer.collectPerformanceIndices_ModelSelection(self,   )
+cSignalDecompositionTrainer.defineTransformations(self, df, iTime, iSignal,   )
+cSignalDecompositionTrainer.perform_model_selection(self,   )
+cSignalDecompositionTrainer.train(self, iInputDS, iTime, iSignal, iHorizon,   )
+cSignalDecompositionTrainer.train_multiprocessed(self, iInputDS, iTime, iSignal, iHorizon,   )
+cSignalDecompositionTrainer.train_not_threaded(self, iInputDS, iTime, iSignal, iHorizon,   )
+cSignalDecompositionTrainer.train_threaded(self, iInputDS, iTime, iSignal, iHorizon,   )
+cSignalDecompositionTrainer.validateTransformation(self, transf, df, iTime, iSignal,   )
+cSignalDecompositionTrainer_CrossValidation.__init__(self,   )
+cSignalDecompositionTrainer_CrossValidation.define_splits(self,   )
+cSignalDecompositionTrainer_CrossValidation.perform_model_selection(self,   )
+cSignalDecompositionTrainer_CrossValidation.train(self, iInputDS, iTime, iSignal, iHorizon,   )
+cTraining_Arg.__init__(self, name,   )
+
+---------------functions---------------
+compute_perf_func(arg,   )
+run_transform_thread(arg,   )
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\SignalDecomposition_AR.py
+----------------methods----------------
+cAbstractAR.__init__(self, cycle_residue_name,  iExogenousInfo=None,  )
+cAbstractAR.addLagForForecast(self, df, lag_df, series, p,   )
+cAbstractAR.computePerf(self,   )
+cAbstractAR.dumpCoefficients(self,   )
+cAbstractAR.generateLagsForForecast(self, df,   )
+cAbstractAR.getDefaultValue(self, series,   )
+cAbstractAR.plot(self,   )
+cAbstractAR.shift_series(self, series, p, idefault,   )
+cAutoRegressiveEstimator.__init__(self,   )
+cAutoRegressiveEstimator.addLagForTraining(self, df, lag_df, series, autoreg, p,   )
+cAutoRegressiveEstimator.addLagsForTraining(self, df, cycle_residue,  iNeedExogenous=False,  )
+cAutoRegressiveEstimator.check_not_nan(self, sig, name,   )
+cAutoRegressiveEstimator.estimate(self,   )
+cAutoRegressiveEstimator.estimate_ar_models_for_cycle(self, cycle_residue,   )
+cAutoRegressiveEstimator.is_not_constant(self, iSeries,   )
+cAutoRegressiveEstimator.plotAR(self,   )
+cAutoRegressiveEstimator.shift_series(self, series, p,   )
+cZeroAR.__init__(self, cycle_residue_name,   )
+cZeroAR.fit(self,   )
+cZeroAR.transformDataset(self, df,  horizon_index=1,  )
+
+---------------functions---------------
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\SignalDecomposition_Cycle.py
+----------------methods----------------
+cAbstractCycle.__init__(self, trend,   )
+cAbstractCycle.check_not_nan(self, sig, name,   )
+cAbstractCycle.computePerf(self,   )
+cAbstractCycle.getCycleResidueName(self,   )
+cAbstractCycle.plot(self,   )
+cBestCycleForTrend.__init__(self, trend, criterion,   )
+cBestCycleForTrend.computeBestCycle(self,   )
+cBestCycleForTrend.dumpCyclePerfs(self,   )
+cBestCycleForTrend.fit(self,   )
+cBestCycleForTrend.generate_cycles(self,   )
+cBestCycleForTrend.getCycleName(self,   )
+cBestCycleForTrend.transformDataset(self, df,   )
+cCycleEstimator.__init__(self,   )
+cCycleEstimator.addSeasonal(self, trend, seas_type, resolution,   )
+cCycleEstimator.defineCycles(self,   )
+cCycleEstimator.dumpCyclePerf(self, cycle,   )
+cCycleEstimator.estimateAllCycles(self,   )
+cCycleEstimator.estimateCycles(self,   )
+cCycleEstimator.filterSeasonals(self,   )
+cCycleEstimator.plotCycles(self,   )
+cSeasonalPeriodic.__init__(self, trend, date_part,   )
+cSeasonalPeriodic.fit(self,   )
+cSeasonalPeriodic.getCycleName(self,   )
+cSeasonalPeriodic.get_date_part(self, x,   )
+cSeasonalPeriodic.get_date_part_encoding(self, x,   )
+cSeasonalPeriodic.hasEnoughData(self, iTimeMin, iTimeMax,   )
+cSeasonalPeriodic.transformDataset(self, df,   )
+cZeroCycle.__init__(self, trend,   )
+cZeroCycle.fit(self,   )
+cZeroCycle.getCycleName(self,   )
+cZeroCycle.transformDataset(self, df,   )
+
+---------------functions---------------
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\SignalDecomposition_Quant.py
+----------------methods----------------
+cSignalQuantizer.__init__(self,   )
+cSignalQuantizer.quant2signal(self, series, iSignal, Q,   )
+cSignalQuantizer.quantizeSignal(self, iSignal, Q,   )
+cSignalQuantizer.signal2quant(self, x, curve,   )
+
+---------------functions---------------
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\SignalDecomposition_Trend.py
+----------------methods----------------
+cAbstractTrend.__init__(self,   )
+cAbstractTrend.check_not_nan(self, sig, name,   )
+cAbstractTrend.computePerf(self,   )
+cConstantTrend.__init__(self,   )
+cConstantTrend.addTrendInputVariables(self,   )
+cConstantTrend.compute(self,   )
+cConstantTrend.fit(self,   )
+cConstantTrend.transformDataset(self, df,   )
+cLag1Trend.__init__(self,   )
+cLag1Trend.addTrendInputVariables(self,   )
+cLag1Trend.compute(self,   )
+cLag1Trend.fit(self,   )
+cLag1Trend.replaceFirstMissingValue(self, df, series,   )
+cLag1Trend.transformDataset(self, df,   )
+cLinearTrend.__init__(self,   )
+cLinearTrend.addTrendInputVariables(self,   )
+cLinearTrend.compute(self,   )
+cLinearTrend.fit(self,   )
+cLinearTrend.transformDataset(self, df,   )
+cMovingAverageTrend.__init__(self, iWindow,   )
+cMovingAverageTrend.addTrendInputVariables(self,   )
+cMovingAverageTrend.compute(self,   )
+cMovingAverageTrend.fit(self,   )
+cMovingAverageTrend.transformDataset(self, df,   )
+cMovingMedianTrend.__init__(self, iWindow,   )
+cMovingMedianTrend.addTrendInputVariables(self,   )
+cMovingMedianTrend.compute(self,   )
+cMovingMedianTrend.fit(self,   )
+cMovingMedianTrend.transformDataset(self, df,   )
+cPolyTrend.__init__(self,   )
+cPolyTrend.addTrendInputVariables(self,   )
+cPolyTrend.compute(self,   )
+cPolyTrend.fit(self,   )
+cPolyTrend.transformDataset(self, df,   )
+cTrendEstimator.__init__(self,   )
+cTrendEstimator.addTrendInputVariables(self,   )
+cTrendEstimator.check_residue(self, sig, name,   )
+cTrendEstimator.defineTrends(self,   )
+cTrendEstimator.estimateTrend(self,   )
+cTrendEstimator.estimateTrends(self,   )
+cTrendEstimator.needMovingTrend(self, df, i,   )
+cTrendEstimator.plotTrend(self,   )
+
+---------------functions---------------
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\SignalHierarchy.py
+----------------methods----------------
+cSignalHierarchy.__init__(self,   )
+cSignalHierarchy.addVars(self, df,   )
+cSignalHierarchy.checkData(self, df,   )
+cSignalHierarchy.computeBottomUpForecast(self, iForecast_DF, level, signal,  iPrefix="BU",  )
+cSignalHierarchy.computeBottomUpForecasts(self, iForecast_DF,   )
+cSignalHierarchy.computeMiddleOutForecasts(self, iForecast_DF, iProp, iPrefix,   )
+cSignalHierarchy.computeOptimalCombination(self, iForecast_DF,   )
+cSignalHierarchy.computePerfOnCombinedForecasts(self, iForecast_DF,   )
+cSignalHierarchy.computeTopDownForecastedProportions(self, iForecast_DF,   )
+cSignalHierarchy.computeTopDownForecasts(self, iForecast_DF, iProp, iPrefix,   )
+cSignalHierarchy.computeTopDownHistoricalProportions(self, iAllLevelsDataset,   )
+cSignalHierarchy.create_HierarchicalStructure(self,   )
+cSignalHierarchy.create_SummingMatrix(self,   )
+cSignalHierarchy.create_all_levels_dataset(self, df,   )
+cSignalHierarchy.create_all_levels_models(self, iAllLevelsDataset, H, iDateColumn,   )
+cSignalHierarchy.fit(self,   )
+cSignalHierarchy.forecast(self, iInputDS, iHorizon,   )
+cSignalHierarchy.forecastAllModels(self, iAllLevelsDataset, H, iDateColumn,   )
+cSignalHierarchy.getEstimPart(self, df,   )
+cSignalHierarchy.getModelInfo(self,   )
+cSignalHierarchy.getValidPart(self, df,   )
+cSignalHierarchy.info(self,   )
+cSignalHierarchy.internal_forecast(self, iInputDS, iHorizon,   )
+cSignalHierarchy.plot(self,  name=None,  )
+cSignalHierarchy.standardPlots(self,  name=None,  )
+cSignalHierarchy.to_json(self,   )
+cSignalHierarchy.transformDataset(self, df,   )
+
+---------------functions---------------
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\Signal_Grouping.py
+----------------methods----------------
+cSignalGrouping.__init__(self,   )
+cSignalGrouping.add_level(self, previous_level,   )
+cSignalGrouping.create_HierarchicalStructure(self,   )
+cSignalGrouping.tuple_to_string(self, k,   )
+
+---------------functions---------------
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\Signal_Transformation.py
+----------------methods----------------
+cAbstractSignalTransform.__init__(self,   )
+cAbstractSignalTransform.apply(self, sig,   )
+cAbstractSignalTransform.check_not_nan(self, sig, name,   )
+cAbstractSignalTransform.dump_apply_invert(self, df_before_apply, df_after_apply,   )
+cAbstractSignalTransform.fit(self, sig,   )
+cAbstractSignalTransform.fit_scaling_params(self, sig,   )
+cAbstractSignalTransform.invert(self, sig1,   )
+cAbstractSignalTransform.is_applicable(self, sig,   )
+cAbstractSignalTransform.rescale_signal(self, sig1,   )
+cAbstractSignalTransform.rescale_value(self, x,   )
+cAbstractSignalTransform.scale_signal(self, sig,   )
+cAbstractSignalTransform.scale_value(self, x,   )
+cAbstractSignalTransform.test(self,   )
+cAbstractSignalTransform.transformDataset(self, df, isig,   )
+cSignalTransform_Accumulate.__init__(self,   )
+cSignalTransform_Accumulate.get_name(self, iSig,   )
+cSignalTransform_Accumulate.specific_apply(self, sig,   )
+cSignalTransform_Accumulate.specific_fit(self, sig,   )
+cSignalTransform_Accumulate.specific_invert(self, df,   )
+cSignalTransform_Anscombe.__init__(self,   )
+cSignalTransform_Anscombe.get_name(self, iSig,   )
+cSignalTransform_Anscombe.specific_apply(self, sig,   )
+cSignalTransform_Anscombe.specific_fit(self, sig,   )
+cSignalTransform_Anscombe.specific_invert(self, sig,   )
+cSignalTransform_BoxCox.__init__(self, iLambda,   )
+cSignalTransform_BoxCox.get_name(self, iSig,   )
+cSignalTransform_BoxCox.invert_value(self, y,   )
+cSignalTransform_BoxCox.specific_apply(self, df,   )
+cSignalTransform_BoxCox.specific_fit(self, sig,   )
+cSignalTransform_BoxCox.specific_invert(self, df,   )
+cSignalTransform_Differencing.__init__(self,   )
+cSignalTransform_Differencing.get_name(self, iSig,   )
+cSignalTransform_Differencing.specific_apply(self, df,   )
+cSignalTransform_Differencing.specific_fit(self, sig,   )
+cSignalTransform_Differencing.specific_invert(self, df,   )
+cSignalTransform_Fisher.__init__(self,   )
+cSignalTransform_Fisher.get_name(self, iSig,   )
+cSignalTransform_Fisher.specific_apply(self, sig,   )
+cSignalTransform_Fisher.specific_fit(self, sig,   )
+cSignalTransform_Fisher.specific_invert(self, sig,   )
+cSignalTransform_Logit.__init__(self,   )
+cSignalTransform_Logit.get_name(self, iSig,   )
+cSignalTransform_Logit.inv_logit(self, y,   )
+cSignalTransform_Logit.is_applicable(self, sig,   )
+cSignalTransform_Logit.logit(self, x,   )
+cSignalTransform_Logit.specific_apply(self, df,   )
+cSignalTransform_Logit.specific_fit(self, sig,   )
+cSignalTransform_Logit.specific_invert(self, df,   )
+cSignalTransform_None.__init__(self,   )
+cSignalTransform_None.get_name(self, iSig,   )
+cSignalTransform_None.specific_apply(self, df,   )
+cSignalTransform_None.specific_fit(self, sig,   )
+cSignalTransform_None.specific_invert(self, df,   )
+cSignalTransform_Quantize.__init__(self, iQuantiles,   )
+cSignalTransform_Quantize.get_name(self, iSig,   )
+cSignalTransform_Quantize.is_applicable(self, sig,   )
+cSignalTransform_Quantize.quant2signal(self, x,   )
+cSignalTransform_Quantize.signal2quant(self, x,   )
+cSignalTransform_Quantize.specific_apply(self, df,   )
+cSignalTransform_Quantize.specific_fit(self, sig,   )
+cSignalTransform_Quantize.specific_invert(self, df,   )
+cSignalTransform_RelativeDifferencing.__init__(self,   )
+cSignalTransform_RelativeDifferencing.get_name(self, iSig,   )
+cSignalTransform_RelativeDifferencing.specific_apply(self, df,   )
+cSignalTransform_RelativeDifferencing.specific_fit(self, sig,   )
+cSignalTransform_RelativeDifferencing.specific_invert(self, df,   )
+
+---------------functions---------------
+create_tranformation(iName, arg,   )
+testTransform(tr1,   )
+testTransform_one_seed(tr1, seed_value,   )
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\Time.py
+----------------methods----------------
+
+---------------functions---------------
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\TimeSeriesModel.py
+----------------methods----------------
+cTimeSeriesModel.__init__(self, transf, trend, cycle, autoreg,   )
+cTimeSeriesModel.addPredictionIntervals(self, iInputDS, iForecastFrame, iHorizon,   )
+cTimeSeriesModel.applyForecastRectifier(self, df,   )
+cTimeSeriesModel.computePredictionIntervals(self,   )
+cTimeSeriesModel.forecast(self, df, iHorizon,   )
+cTimeSeriesModel.forecastOneStepAhead(self, df,  horizon_index=1, perf_mode=False,  )
+cTimeSeriesModel.getComplexity(self,   )
+cTimeSeriesModel.getForecastDatasetForPlots(self,   )
+cTimeSeriesModel.getFormula(self,   )
+cTimeSeriesModel.getInfo(self,   )
+cTimeSeriesModel.getPlotsAsDict(self,   )
+cTimeSeriesModel.getVersions(self,   )
+cTimeSeriesModel.get_model_category(self,   )
+cTimeSeriesModel.plotForecasts(self, df,   )
+cTimeSeriesModel.plotResidues(self,  name=None, format='png',  )
+cTimeSeriesModel.signal_info(self,   )
+cTimeSeriesModel.standardPlots(self,  name=None, format='png',  )
+cTimeSeriesModel.to_json(self,   )
+cTimeSeriesModel.updatePerfs(self,  compute_all_indicators=False,  )
+
+---------------functions---------------
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\TimeSeries_Cutting.py
+----------------methods----------------
+cCuttingInfo.__init__(self,   )
+cCuttingInfo.check_split(self, iSplit,   )
+cCuttingInfo.cutFrame(self, df,   )
+cCuttingInfo.defineCuttingParameters(self,   )
+cCuttingInfo.estimate(self,   )
+cCuttingInfo.getEstimPart(self, df,   )
+cCuttingInfo.getValidPart(self, df,   )
+cCuttingInfo.info(self,   )
+cCuttingInfo.set_default_split(self,   )
+cCuttingInfo.set_split(self, iSplit,   )
+
+---------------functions---------------
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\Utils.py
+----------------methods----------------
+Internal_PyAF_Error.__init__(self, reason,   )
+PyAF_Error.__init__(self, reason,   )
+cMemoize.__call__(self,   *args)
+cMemoize.__get__(self, obj, objtype,   )
+cMemoize.__init__(self, f,   )
+
+---------------functions---------------
+createDirIfNeeded(dirname,   )
+get_pyaf_hierarchical_logger(  )
+get_pyaf_logger(  )
+
+
+mlmodels\model_sklearn\raw\atspy\atspy\TS\__init__.py
+----------------methods----------------
+
+---------------functions---------------
+
+
+mlmodels\model_tch\03_nbeats_dataloader.py
+----------------methods----------------
+
+---------------functions---------------
+Model(model_pars, data_pars, compute_pars,   )
+data_generator(x_full, y_full, bs,   )
+fit(model,  data_pars=None, compute_pars=None, out_pars=None,  **kw)
+fit_metrics(model, data_pars, compute_pars, out_pars,   )
+fit_simple(net, optimiser, data_generator, on_save_callback, device, data_pars, out_pars,  max_grad_steps=500,  )
+get_dataset(data_pars,   )
+get_params(param_pars,   **kw)
 load(load_pars,   )
-predict(model,  session=None, data_pars=None, compute_pars=None, out_pars=None,  )
-save(model,  session=None, save_pars=None,  )
-test( data_path="dataset/", pars_choice="json", config_mode="test",  )
+load_checkpoint(model, optimiser,  CHECKPOINT_NAME="nbeats-fiting-checkpoint.th",  )
+plot(net, x, target, backcast_length, forecast_length, grad_step,  out_path="./",  )
+plot_model(net, x, target, grad_step, data_pars,  disable_plot=False,  )
+plot_predict(x_test, y_test, p, data_pars, compute_pars, out_pars,   )
+predict(model, sess,  data_pars=None, compute_pars=None, out_pars=None,  **kw)
+save(model, session, save_pars,   )
+save_checkpoint(model, optimiser, grad_step,  CHECKPOINT_NAME="mycheckpoint",  )
+test( data_path="dataset/milk.csv",  )
 
 
 mlmodels\model_tch\matchzoo_models.py
@@ -2670,6 +3326,14 @@ save(model,  session=None, save_pars=None,  )
 test( data_path="dataset/", pars_choice="json", config_mode="test",  )
 
 
+mlmodels\model_tch\mlp.py
+----------------methods----------------
+Model.__init__(self,   )
+Model.forward(self, x,   )
+
+---------------functions---------------
+
+
 mlmodels\model_tch\nbeats.py
 ----------------methods----------------
 Model.__init__(self,  model_pars=None, data_pars=None, compute_pars=None,  )
@@ -2679,6 +3343,7 @@ Model.split(arr, size,   )
 data_generator(x_full, y_full, bs,   )
 fit(model,  data_pars=None, compute_pars=None, out_pars=None,  **kw)
 fit_simple(net, optimiser, data_generator, on_save_callback, device, data_pars, out_pars,  max_grad_steps=500,  )
+get_data(data_pars,   )
 get_dataset(  **kw)
 get_params(param_pars,   **kw)
 load(load_pars,   )
@@ -2741,32 +3406,9 @@ get_data_file(  )
 get_dataset( data_pars=None, out_pars=None,  **kwargs)
 get_params( param_pars=None,  **kw)
 load( load_pars=None,  )
-predict(model,  session=None, data_pars=None, compute_pars=None, out_pars=None,  )
+predict(model,  session=None, data_pars=None, compute_pars=None, out_pars=None, return_ytrue=1,  )
 save(model,  session=None, save_pars=None,  )
 split_train_valid(path_data, path_train, path_valid,  frac=0.7,  )
-test( data_path="dataset/", pars_choice="json", config_mode="test",  )
-
-
-mlmodels\model_tch\textcnn_dataloader.py
-----------------methods----------------
-Model.__init__(self,  model_pars=None, data_pars=None, compute_pars=None,  )
-TextCNN.__init__(self,  model_pars=None, data_pars=None, compute_pars=None,  **kwargs)
-TextCNN.forward(self, x,   )
-TextCNN.rebuild_embed(self, vocab_built,   )
-
----------------functions---------------
-_get_device(  )
-_train(m, device, train_itr, optimizer, epoch, max_epoch,   )
-_valid(m, device, test_itr,   )
-fit(model,  data_pars=None, compute_pars=None, out_pars=None,  **kwargs)
-fit_metrics(model,  data_pars=None, compute_pars=None, out_pars=None,  **kwargs)
-get_config_file(  )
-get_data_file(  )
-get_dataset( data_pars=None, out_pars=None, return_preprocessor_function=False,  **kwargs)
-get_params( param_pars=None,  **kw)
-load( load_pars=None,  )
-predict(model,  session=None, data_pars=None, compute_pars=None, out_pars=None,  )
-save(model,  session=None, save_pars=None,  )
 test( data_path="dataset/", pars_choice="json", config_mode="test",  )
 
 
@@ -2782,7 +3424,6 @@ fit(model,  data_pars=None, compute_pars=None, out_pars=None,  **kwargs)
 fit_metrics(model,  data_pars=None, compute_pars=None, out_pars=None,  )
 get_config_file(  )
 get_dataset( data_pars=None,  **kw)
-get_dataset_mnist_torch(data_pars,   )
 get_params( param_pars=None,  **kw)
 load(load_pars,   )
 predict(model,  session=None, data_pars=None, compute_pars=None, out_pars=None, imax=1, return_ytrue=1,  )
@@ -5294,6 +5935,23 @@ save(model,  session=None, save_pars=None,  )
 test( data_path="dataset/", pars_choice="test01", config_mode="test",  )
 
 
+mlmodels\model_tf\temporal_fusion_google.py
+----------------methods----------------
+Model.__init__(self,  model_pars=None, data_pars=None, compute_pars=None,  **kwargs)
+
+---------------functions---------------
+fit(model,  data_pars=None, compute_pars=None, out_pars=None,  **kwarg)
+fit_metrics(model,  sess=None, data_pars=None, compute_pars=None, out_pars=None,  )
+get_dataset( data_pars=None,  )
+get_params( param_pars={},  **kw)
+load( load_pars=None,  )
+metrics(model,  sess=None, data_pars=None, compute_pars=None, out_pars=None,  )
+predict(model,  sess=None, data_pars=None, compute_pars=None, out_pars=None, get_hidden_state=False, init_value=None,  )
+reset_model(  )
+save(model,  session=None, save_pars=None,  )
+test( data_path="dataset/", pars_choice="test01", config_mode="test",  )
+
+
 mlmodels\model_tf\util.py
 ----------------methods----------------
 
@@ -5827,6 +6485,135 @@ mlmodels\model_tf\raw\deepar\utils\__init__.py
 ---------------functions---------------
 clear_keras_session(  )
 set_seed_and_reset_graph( seed=42,  )
+
+
+mlmodels\model_tf\raw\temporal_fusion_google\script_download_data.py
+----------------methods----------------
+
+---------------functions---------------
+download_and_unzip(url, zip_path, csv_path, data_folder,   )
+download_electricity(config,   )
+download_from_url(url, output_path,   )
+download_traffic(config,   )
+download_volatility(config,   )
+main(expt_name, force_download, output_folder,   )
+process_favorita(config,   )
+recreate_folder(path,   )
+unzip(zip_path, output_file, data_folder,   )
+
+
+mlmodels\model_tf\raw\temporal_fusion_google\script_hyperparam_opt.py
+----------------methods----------------
+
+---------------functions---------------
+main(expt_name, use_gpu, restart_opt, model_folder, hyperparam_iterations, data_csv_path, data_formatter,   )
+
+
+mlmodels\model_tf\raw\temporal_fusion_google\script_train_fixed_params.py
+----------------methods----------------
+
+---------------functions---------------
+main(expt_name, use_gpu, model_folder, data_csv_path, data_formatter,  use_testing_mode=False,  )
+
+
+mlmodels\model_tf\raw\temporal_fusion_google\data_formatters\base.py
+----------------methods----------------
+GenericDataFormatter._check_single_column(input_type,   )
+GenericDataFormatter._extract_tuples_from_data_type(data_type, defn,   )
+GenericDataFormatter._get_locations(input_types, defn,   )
+
+---------------functions---------------
+
+
+mlmodels\model_tf\raw\temporal_fusion_google\data_formatters\electricity.py
+----------------methods----------------
+
+---------------functions---------------
+
+
+mlmodels\model_tf\raw\temporal_fusion_google\data_formatters\favorita.py
+----------------methods----------------
+FavoritaFormatter._check_single_column(input_type,   )
+FavoritaFormatter.filter_ids(frame,   )
+
+---------------functions---------------
+
+
+mlmodels\model_tf\raw\temporal_fusion_google\data_formatters\traffic.py
+----------------methods----------------
+
+---------------functions---------------
+
+
+mlmodels\model_tf\raw\temporal_fusion_google\data_formatters\volatility.py
+----------------methods----------------
+
+---------------functions---------------
+
+
+mlmodels\model_tf\raw\temporal_fusion_google\data_formatters\__init__.py
+----------------methods----------------
+
+---------------functions---------------
+
+
+mlmodels\model_tf\raw\temporal_fusion_google\expt_settings\configs.py
+----------------methods----------------
+
+---------------functions---------------
+
+
+mlmodels\model_tf\raw\temporal_fusion_google\expt_settings\__init__.py
+----------------methods----------------
+
+---------------functions---------------
+
+
+mlmodels\model_tf\raw\temporal_fusion_google\libs\hyperparam_opt.py
+----------------methods----------------
+HyperparamOptManager._get_next(  )
+
+---------------functions---------------
+
+
+mlmodels\model_tf\raw\temporal_fusion_google\libs\tft_model.py
+----------------methods----------------
+QuantileLossCalculator.__init__(self, quantiles,   )
+QuantileLossCalculator.quantile_loss(self, a, b,   )
+TemporalFusionTransformer._batch_single_entity(input_data,   )
+TemporalFusionTransformer.convert_real_to_embedding(x,   )
+TemporalFusionTransformer.get_lstm(return_state,   )
+TemporalFusionTransformer.lstm_combine_and_mask(embedding,   )
+TemporalFusionTransformer.static_combine_and_mask(embedding,   )
+
+---------------functions---------------
+add_and_norm(x_list,   )
+apply_gating_layer(x, hidden_layer_size,  dropout_rate=None, use_time_distributed=True, activation=None,  )
+apply_mlp(inputs, hidden_size, output_size,  output_activation=None, hidden_activation='tanh', use_time_distributed=False,  )
+gated_residual_network(x, hidden_layer_size,  output_size=None, dropout_rate=None, use_time_distributed=True, additional_context=None, return_gate=False,  )
+get_decoder_mask(self_attn_inputs,   )
+linear_layer(size,  activation=None, use_time_distributed=False, use_bias=True,  )
+
+
+mlmodels\model_tf\raw\temporal_fusion_google\libs\utils.py
+----------------methods----------------
+
+---------------functions---------------
+create_folder_if_not_exist(directory,   )
+extract_cols_from_data_type(data_type, column_definition, excluded_input_types,   )
+get_default_tensorflow_config( tf_device='gpu', gpu_id=0,  )
+get_single_col_by_input_type(input_type, column_definition,   )
+load(tf_session, model_folder, cp_name,  scope=None, verbose=False,  )
+numpy_normalised_quantile_loss(y, y_pred, quantile,   )
+print_weights_in_checkpoint(model_folder, cp_name,   )
+save(tf_session, model_folder, cp_name,  scope=None,  )
+tensorflow_quantile_loss(y, y_pred, quantile,   )
+
+
+mlmodels\model_tf\raw\temporal_fusion_google\libs\__init__.py
+----------------methods----------------
+
+---------------functions---------------
 
 
 mlmodels\model_tf\raw\tfcode\agent\1.turtle-agent.py
@@ -12687,18 +13474,61 @@ mlmodels\model_tf\rl\__init__.py
 ---------------functions---------------
 
 
-mlmodels\preprocess\keras_deepctr_tabular.py
+mlmodels\preprocess\generic.py
+----------------methods----------------
+pandasDataset.__init__(self,  root="", train=True, transform=None, target_transform=None, download=False, data_pars=None,  )
+
+---------------functions---------------
+get_dataset_torch(data_pars,   )
+load_function( uri_name="path_norm",  )
+tf_dataset(dataset_pars,   )
+torch_datasets_wrapper(sets,  args_list=None,  **args)
+
+
+mlmodels\preprocess\image.py
+----------------methods----------------
+
+---------------functions---------------
+torch_transform_mnist(  )
+torchvision_dataset_MNIST_load(path,   **args)
+
+
+mlmodels\preprocess\tabular.py
+----------------methods----------------
+
+---------------functions---------------
+
+
+mlmodels\preprocess\tabular_keras.py
 ----------------methods----------------
 
 ---------------functions---------------
 check_model(model, model_name, x, y,  check_model_io=True,  )
 gen_sequence(dim, max_len, sample_size,   )
-get_test_data( sample_size=1000, embedding_size=4, sparse_feature_num=1, dense_feature_num=1, sequence_feature=['sum', 'mean', 'max', 'weight'], classification=True, include_length=False, hash_flag=False, prefix='', use_group=False,  )
+get_test_data( sample_size=1000, embedding_size=4, sparse_feature_num=1, dense_feature_num=1, sequence_feature=None, classification=True, include_length=False, hash_flag=False, prefix='', use_group=False,  )
+get_xy_fd_dien( use_neg=False, hash_flag=False,  )
+get_xy_fd_din( hash_flag=False,  )
+get_xy_fd_dsin( hash_flag=False,  )
 has_arg(fn, name,  accept_all=False,  )
 layer_test(layer_cls,  kwargs={}, input_shape=None, input_dtype=None, input_data=None, expected_output=None, expected_output_dtype=None, fixed_batch_size=False, supports_masking=False,  )
 
 
-mlmodels\preprocess\torch_text_cnn.py
+mlmodels\preprocess\text.py
+----------------methods----------------
+
+---------------functions---------------
+
+
+mlmodels\preprocess\text_keras.py
+----------------methods----------------
+Preprocess_namentity.__init__(self, max_len,   **args)
+Preprocess_namentity.compute(self, df,   )
+Preprocess_namentity.get_data(self,   )
+
+---------------functions---------------
+
+
+mlmodels\preprocess\text_torch.py
 ----------------methods----------------
 
 ---------------functions---------------
@@ -12708,6 +13538,37 @@ test_onehot_sentences(data, max_len,   )
 test_pandas_fillna(data,   **args)
 test_word_categorical_labels_per_sentence(data, max_len,   )
 test_word_count(data,   )
+
+
+mlmodels\preprocess\ztemp.py
+----------------methods----------------
+DataFrameBucketIterator.data(self,   )
+DataFrameDataset.__init__(self, data_pars,   )
+DataFrameDataset.__iter__(self,   )
+DataFrameDataset.__len__(self,   )
+DataFrameDataset.shuffle(self,  random_state=None,  )
+DataFrameIterator.__init__(self, df,   )
+MNIST.__getitem__(self, index,   )
+MNIST.__init__(self, root,  train=True, transform=None, target_transform=None, download=False,  )
+MNIST.__len__(self,   )
+MNIST.class_to_idx(self,   )
+MNIST.processed_folder(self,   )
+MNIST.raw_folder(self,   )
+MNIST.test_data(self,   )
+MNIST.test_labels(self,   )
+MNIST.train_data(self,   )
+MNIST.train_labels(self,   )
+NewsDataLoader.__init__(self, path,  max_src_len=100, field=None, debug=False,  **kwargs)
+NewsDataset.data(self,   )
+
+---------------functions---------------
+batch_generator(iterable,  n=1,  )
+custom_dataset(  )
+get_loader(fix_length, vocab_threshold, batch_size,   )
+image_dir_load(path,   )
+pandas_dataset(  )
+pickle_load(file,   )
+text_dataloader(  )
 
 
 mlmodels\preprocess\__init__.py

@@ -1,0 +1,145 @@
+{
+        "PGAN": {
+
+              "hypermodel_pars":   {
+              "learning_rate": {"type": "log_uniform", "init": 0.01,  "range" : [0.001, 0.1] }
+             },
+
+            "model_pars": {
+                "model_uri" : "model_tch.torchhub",
+                "repo_uri": "facebookresearch/pytorch_GAN_zoo:hub",
+                "model": "PGAN",
+                "model_name" : "celebAHQ-512",
+
+
+                "pretrained": 1,  "_comment": "0: False, 1: True",
+
+                "num_layers": 1,
+                "size": 6,
+                "size_layer": 128,
+                "output_size": 6,
+                "timestep": 4,
+                "epoch": 2
+
+            },
+
+            "data_pars" :{
+                "dataset": "celeAHQ-512",
+                "data_path": "dataset/vision/",
+                "train_batch_size": 4,
+                "test_batch_size": 1
+            },
+
+
+            "compute_pars": {
+                "distributed": "mpi",
+                "use_gpu" : 0,
+                "max_batch_sample": 5,
+                "epochs": 2,
+                "learning_rate": 0.001
+            },
+            "out_pars": {
+                "checkpointdir": "ztest/model_tch/torchhub/pgan/checkpoints/",
+                "path": "ztest/model_tch/torchhub/pgan/"
+            }
+        },
+    
+
+
+
+        "styleGAN": {
+
+              "hypermodel_pars":   {
+              "learning_rate": {"type": "log_uniform", "init": 0.01,  "range" : [0.001, 0.1] }
+             },
+
+            "model_pars": {
+                "model_uri" : "model_tch.torchhub",                
+                "repo_uri": "facebookresearch/pytorch_GAN_zoo:hub",
+                "model": "styleGAN",
+                "model_name" : "",
+
+                "pretrained": 1,  "_comment": "0: False, 1: True",
+
+                "num_layers": 1,
+                "size": 6,
+                "size_layer": 128,
+                "output_size": 6,
+                "timestep": 4,
+                "epoch": 2
+
+            },
+
+            "data_pars" :{
+                "dataset": "celeAHQ-512",
+                "data_path": "dataset/vision/",
+                "train_batch_size": 4,
+                "test_batch_size": 1
+            },
+
+
+            "compute_pars": {
+                "distributed": "mpi",
+                "use_gpu" : 0,
+                "max_batch_sample": 5,
+                "epochs": 2,
+                "learning_rate": 0.001
+            },
+            "out_pars": {
+                "checkpointdir": "ztest/model_tch/torchhub/dcgan/checkpoints/",
+                "path": "ztest/model_tch/torchhub/dcgan/"
+            }
+        },
+
+
+        "DCGAN": {
+
+              "hypermodel_pars":   {
+              "learning_rate": {"type": "log_uniform", "init": 0.01,  "range" : [0.001, 0.1] }
+             },
+
+            "model_pars": {
+                "model_uri" : "model_tch.torchhub",
+                "repo_uri": "facebookresearch/pytorch_GAN_zoo:hub",
+                "model": "DCGAN",
+                "model_name" : "DCGAN",
+
+                "pretrained": 1,  "_comment": "0: False, 1: True",
+
+                "num_layers": 1,
+                "size": 6,
+                "size_layer": 128,
+                "output_size": 6,
+                "timestep": 4,
+                "epoch": 2
+
+            },
+
+            "data_pars" :{
+                "dataset": "celeAHQ-512",
+                "data_path": "dataset/vision/",
+                "train_batch_size": 4,
+                "test_batch_size": 1
+            },
+
+
+            "compute_pars": {
+                "distributed": "mpi",
+                "use_gpu" : 0,
+                "max_batch_sample": 5,
+                "epochs": 2,
+                "learning_rate": 0.001
+            },
+            "out_pars": {
+                "checkpointdir": "ztest/model_tch/torchhub/dcgan/checkpoints/",
+                "path": "ztest/model_tch/torchhub/dcgan/"
+            }
+        }
+
+
+
+
+
+
+
+    }

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-
 https://pypi.org/project/sentence-transformers/
 
 from sentence_transformers import SentenceTransformer
@@ -74,15 +73,14 @@ from tqdm import tqdm_notebook, trange
 
 
 
-import torch
+
 from scipy.stats import pearsonr
-from sklearn.metrics import (confusion_matrix, matthews_corrcoef,
-                             mean_squared_error)
-from torch.utils.data import (DataLoader, RandomSampler, SequentialSampler,
-                              TensorDataset)
+from sklearn.metrics import (confusion_matrix, matthews_corrcoef,   mean_squared_error)
+
+
+import torch
+from torch.utils.data import (DataLoader, RandomSampler, SequentialSampler, TensorDataset)
 from torch.utils.data.distributed import DistributedSampler
-
-
 
 
 from sentence_transformers import (LoggingHandler, SentencesDataset,
@@ -128,19 +126,24 @@ class Model:
 def fit(model, data_pars=None, model_pars=None, compute_pars=None, out_pars=None, *args, **kw):
     """
     """
-    train_pars              = data_pars.copy()
-    train_pars.update(train = 1)
-    train_fname             = 'train.gz' if data_pars["train_type"].lower() == 'nli'else 'sts-train.csv'
-    val_pars                = data_pars.copy()
-    val_pars.update(train   = 0)
-    val_fname               = 'dev.gz' if data_pars["test_type"].lower() == 'nli'  else 'sts-dev.csv'
-    train_reader            = get_dataset(train_pars)
-    val_reader              = get_dataset(val_pars)
 
+    train_pars              = data_pars.copy()
+    train_pars.update(train=1)
+    train_fname             = 'train.gz' if data_pars["train_type"].lower() == 'nli'else 'sts-train.csv'
+    train_reader            = get_dataset(train_pars)    
     train_data       = SentencesDataset(train_reader.get_examples(train_fname),  model=model.model)
+    train_dataloader = DataLoader(train_data, shuffle=True, batch_size=compute_pars["batch_size"])\
+
+
+
+    val_pars                = data_pars.copy()
+    val_pars.update(train=0)
+    val_fname               = 'dev.gz' if data_pars["test_type"].lower() == 'nli'  else 'sts-dev.csv'
+    val_reader              = get_dataset(val_pars)
     val_data         = SentencesDataset(val_reader.get_examples(val_fname), model=model.model)
-    train_dataloader = DataLoader(train_data, shuffle=True, batch_size=compute_pars["batch_size"])
     val_dataloader   = DataLoader(val_data, shuffle=True, batch_size=compute_pars["batch_size"])
+
+
     emb_dim          = model.model.get_sentence_embedding_dimension()
     train_num_labels = train_reader.get_num_labels()
 
@@ -172,11 +175,11 @@ def fit_metrics(model, session=None, data_pars=None, compute_pars=None, out_pars
 
 
 def predict(model, session=None, data_pars=None, out_pars=None, compute_pars=None, **kw):
-    ##### Get Data ###############################################
-    reader = get_dataset(data_pars)
+
+    reader      = get_dataset(data_pars)
     train_fname = 'train.gz' if data_pars["train_type"].lower() == 'nli' else 'sts-train.csv'
-    examples = [ex.texts for ex in reader.get_examples(train_fname)]
-    Xpred = sum(examples, [])
+    examples    = [ex.texts for ex in reader.get_examples(train_fname)]
+    Xpred       = sum(examples, [])
 
     #### Do prediction
     ypred = model.model.encode(Xpred)
@@ -186,6 +189,8 @@ def predict(model, session=None, data_pars=None, out_pars=None, compute_pars=Non
     ### Return val
     # if compute_pars.get("return_pred_not") is not None :
     return ypred
+
+
   
 def reset_model():
     pass
@@ -212,29 +217,47 @@ def get_dataset(data_pars=None, **kw):
     data_path = path_norm(data_pars["data_path"])
 
     mode = "train" if data_pars["train"] else "test"
+    model_type = data_pars[f"{mode}_type"].lower() 
 
-    if data_pars[f"{mode}_type"].lower() == 'nli':
+    if model_type == 'nli':
         Reader = readers.NLIDataReader
 
-    elif data_pars[f"{mode}_type"].lower() == 'sts':
+    elif model_type == 'sts':
         Reader = readers.STSDataReader
+
+    else :
+        ##### Custom dataset
+        raise Exception("Not Yet Implementated")
+        """
+           Big work to get implement for New Dataset
+
+
+
+        """  
+
+
+
+
+
+
+
 
     path = os.path.join(data_path, data_pars[f"{mode}_path"])
     reader = Reader(path)
     return reader
 
 
+
+
 def get_params(param_pars, **kw):
-    import json
     choice      = param_pars['choice']
     config_mode = param_pars['config_mode']
     data_path   = param_pars['data_path']
 
-    
     if choice == "json":
        data_path = path_norm(data_path)
-       cf = json.load(open(data_path, mode='r'))
-       cf = cf[config_mode]
+       cf        = json.load(open(data_path, mode='r'))
+       cf        = cf[config_mode]
        return cf['model_pars'], cf['data_pars'], cf['compute_pars'], cf['out_pars']
 
 

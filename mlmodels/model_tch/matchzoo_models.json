@@ -1,0 +1,390 @@
+{
+    "BERT_RANKING":{
+       "model_pars":{
+          "model_uri" : "model_tch.matchzoo_models",
+
+          "model":"BERT",
+          "model_pars":{
+             "mode":"bert-base-uncased",
+             "dropout_rate":0.2
+          },
+
+
+          "task":"ranking",
+          "task_pars" : {   },
+
+
+          "loss":{ "RankHingeLoss":{}},
+
+          "metrics":{
+             "NormalizedDiscountedCumulativeGain":{"k":3 },
+             "NormalizedDiscountedCumulativeGain":{"k":5 },
+             "MeanAveragePrecision":{}
+          }
+
+
+       },
+
+
+       "data_pars":{
+          "dataset":"WIKI_QA",
+          "data_path":"dataset/nlp/",
+          "dataset_pars" : {
+              "data_pack"  : "",
+              "mode":"pair",
+              "num_dup":2,
+              "num_neg":1,
+              "batch_size":20,
+              "resample":true,
+              "sort":false,
+              "callbacks":"PADDING"
+          },
+
+
+          "dataloader" : "",
+          "dataloader_pars" : {
+            "device" :    "cpu",
+            "dataset"  : "None",
+            "stage":"train",
+            "callback":"PADDING"
+          },
+
+
+
+          "preprocess":{
+             "train":{
+                "transform":true,
+                "mode":"pair",
+                "num_dup":2,
+                "num_neg":1,
+                "batch_size":20,
+                "stage":"train",
+                "resample":true,
+                "sort":false,
+                "dataloader_callback":"PADDING"
+             },
+             "test":{
+                "transform":true,
+                "batch_size":20,
+                "stage":"dev",
+                "dataloader_callback":"PADDING"
+             }
+          }
+       },
+
+
+       "compute_pars":{
+
+          "compute_pars" :{
+            "model": "None",
+            "optimizer": "optim.Optimizer",
+            "trainloader": "DataLoader",
+            "validloader": "DataLoader",
+            "device": "cpu",
+            "start_epoch": 1,
+            "epochs":  1,
+            "validate_interval":  "None",
+            "scheduler": "None",
+            "clip_norm": "None",
+            "patience": "None",
+            "key": "None" ,
+            "checkpoint": "",
+            "save_dir": "",
+            "save_all": true,
+            "verbose": 1
+          },
+
+
+          "optimizer":{
+             "ADAMW":{
+                "lr":5e-5, "beta1":0.9, "beta2":0.98, "eps":1e-8 }
+          },
+
+
+          "optimize_parameters":true,
+          "XXX-epochs":10
+       },
+       "out_pars":{
+          "checkpointdir":"ztest/model_tch/MATCHZOO/BERT/checkpoints/",
+          "path":"ztest/model_tch/MATCHZOO/BERT/"
+       }
+    },
+
+
+
+
+
+
+    "BERT_CLASSIFICATION":{
+       "model_pars":{
+          "model_uri" : "model_tch.matchzoo_models",
+          "task":"classification",
+          "num_classes":2,
+          "metrics":{
+             "acc":{
+ 
+             }
+          },
+          "model":"BERT",
+
+
+          "model_pars":{
+             "mode":"bert-base-uncased",
+             "dropout_rate":0.2
+          }
+
+
+
+
+       },
+       "data_pars":{
+          "dataset":"WIKI_QA",
+          "data_path":"dataset/nlp/",
+          "preprocess":{
+             "train":{
+                "transform":true,
+                "mode":"point",
+                "batch_size":20,
+                "stage":"train",
+                "sort":false,
+                "dataloader_callback":"PADDING"
+             },
+             "test":{
+                "transform":true,
+                "mode":"point",
+                "batch_size":20,
+                "stage":"dev",
+                "sort":false,
+                "dataloader_callback":"PADDING"
+             }
+          }
+       },
+       "compute_pars":{
+
+          "compute_pars" :{
+            "model": "None",
+            "optimizer": "optim.Optimizer",
+            "trainloader": "DataLoader",
+            "validloader": "DataLoader",
+            "device": "cpu",
+            "start_epoch": 1,
+            "epochs":  10,
+            "validate_interval":  "None",
+            "scheduler": "None",
+            "clip_norm": "None",
+            "patience": "None",
+            "key": "None" ,
+            "checkpoint": "",
+            "save_dir": "",
+            "save_all": true,
+            "verbose": 1
+          },
+
+
+
+          "optimizer":{
+             "ADAMW":{
+                "lr":5e-5,
+                "beta1":0.9,
+                "beta2":0.98,
+                "eps":1e-8
+             }
+          },
+          "optimize_parameters":true,
+          "XXX epochs":10
+       },
+       "out_pars":{
+          "checkpointdir":"ztest/model_tch/MATCHZOO/BERT/checkpoints/",
+          "path":"ztest/model_tch/MATCHZOO/BERT/"
+       }
+    },
+
+
+
+    "DRMM_RANKING":{
+       "model_pars":{
+          "model_uri" : "model_tch.matchzoo_models",
+          "task":"ranking",
+          "loss":{
+             "RankCrossEntropyLoss":{
+                "num_neg":10
+             }
+          },
+          "metrics":{
+             "NormalizedDiscountedCumulativeGain":{
+                "k":3
+             },
+             "NormalizedDiscountedCumulativeGain":{
+                "k":5
+             },
+             "MeanAveragePrecision":{
+ 
+             }
+          },
+          "model":"DRMM",
+          "model_pars":{
+             "glove_embedding_matrix_dim":300,
+             "mask_value":0,
+             "hist_bin_size":30,
+             "mlp_num_layers":1,
+             "mlp_num_units":10,
+             "mlp_num_fan_out":1,
+             "mlp_activation_func":"tanh"
+          }
+       },
+       "data_pars":{
+          "num_classes":2,
+          "dataset":"WIKI_QA",
+          "data_path":"dataset/nlp/",
+          "preprocess":{
+             "train":{
+                "fit_transform":true,
+                "mode":"pair",
+                "num_dup":5,
+                "num_neg":10,
+                "dataset_callback":"HISTOGRAM",
+                "glove_embedding_matrix_dim":300,
+                "device":"cpu",
+                "batch_size":20,
+                "stage":"train",
+                "resample":true,
+                "dataloader_callback":"PADDING"
+             },
+             "test":{
+                "transform":true,
+                "filter":true,
+                "dataset_callback":"HISTOGRAM",
+                "batch_size":20,
+                "stage":"dev",
+                "dataloader_callback":"PADDING"
+             }
+          }
+       },
+       "compute_pars":{
+
+
+          "compute_pars" :{
+            "model": "None",
+            "optimizer": "optim.Optimizer",
+            "trainloader": "DataLoader",
+            "validloader": "DataLoader",
+            "device": "cpu",
+            "start_epoch": 1,
+            "epochs":  10,
+            "validate_interval":  "None",
+            "scheduler": "None",
+            "clip_norm": "None",
+            "patience": "None",
+            "key": "None" ,
+            "checkpoint": "",
+            "save_dir": "",
+            "save_all": true,
+            "verbose": 1
+          },
+
+
+
+          "optimizer":{
+             "ADADELTA":{"lr":1.0, "rho":0.9, "eps":1e-06, "weight_decay":0.0 }
+          },
+          "XXX epochs":10
+       },
+       "out_pars":{
+          "checkpointdir":"ztest/model_tch/MATCHZOO/BERT/checkpoints/",
+          "path":"ztest/model_tch/MATCHZOO/BERT/"
+       }
+    },
+
+
+    "DRMMKTS_RANKING":{
+       "model_pars":{
+          "model_uri" : "model_tch.matchzoo_models",
+          "task":"ranking",
+          "loss":{
+             "RankHingeLoss":{
+ 
+             }
+          },
+          "metrics":{
+             "NormalizedDiscountedCumulativeGain":{
+                "k":3
+             },
+             "NormalizedDiscountedCumulativeGain":{
+                "k":5
+             },
+             "MeanAveragePrecision":{
+ 
+             }
+          },
+          "model":"DRMMTKS",
+          "model_pars":{
+             "glove_embedding_matrix_dim":100,
+             "mask_value":0,
+             "top_k":10,
+             "mlp_activation_func":"tanh"
+          }
+       },
+       "data_pars":{
+          "num_classes":2,
+          "dataset":"WIKI_QA",
+          "data_path":"dataset/nlp/",
+          "preprocess":{
+             "basic_preprocessor":{
+                "truncated_length_left":10,
+                "truncated_length_right":100,
+                "filter_low_freq":2
+             },
+             "train":{
+                "fit_transform":true,
+                "mode":"pair",
+                "num_dup":2,
+                "num_neg":1,
+                "batch_size":20,
+                "stage":"train",
+                "resample":true,
+                "sort":false,
+                "dataloader_callback":"PADDING"
+             },
+             "test":{
+                "transform":true,
+                "filter":true,
+                "batch_size":20,
+                "stage":"dev",
+                "dataloader_callback":"PADDING"
+             }
+          }
+       },
+       "compute_pars":{
+
+          "compute_pars" :{
+            "model": "None",
+            "optimizer": "optim.Optimizer",
+            "trainloader": "DataLoader",
+            "validloader": "DataLoader",
+            "device": "cpu",
+            "start_epoch": 1,
+            "epochs":  10,
+            "validate_interval":  "None",
+            "scheduler": "None",
+            "clip_norm": "None",
+            "patience": "None",
+            "key": "None" ,
+            "checkpoint": "",
+            "save_dir": "",
+            "save_all": true,
+            "verbose": 1
+          },
+
+
+
+          "optimizer":{
+             "ADADELTA":{"lr":1.0, "rho":0.9, "eps":1e-06, "weight_decay":0.0 }
+          },
+          "XXX epochs":10
+       },
+       "out_pars":{
+          "checkpointdir":"ztest/model_tch/MATCHZOO/BERT/checkpoints/",
+          "path":"ztest/model_tch/MATCHZOO/BERT/"
+       }
+    }
+ }

@@ -146,11 +146,11 @@ def fit(model, sess=None, data_pars=None, model_pars=None, compute_pars=None, ou
 def predict(model, sess=None, data_pars=None, compute_pars=None, out_pars=None, **kw):
     
     data_pars['train'] = False
-    test_ds = get_dataset(data_pars)
-    model_gluon = model.model
+    test_ds            = get_dataset(data_pars)
+    model_gluon        = model.model
     
     forecast_it, ts_it = make_evaluation_predictions(
-            dataset     = test_ds,  # test dataset
+            dataset     = test_ds,      # test dataset
             predictor   = model_gluon,  # predictor
             num_samples = compute_pars['num_samples'],  # number of sample paths we want for evaluation
         )
@@ -274,7 +274,7 @@ def test_single(data_path="dataset/", choice="", config_mode="test"):
     print(model_pars, data_pars, compute_pars, out_pars)
 
     log("#### Loading dataset   #############################################")
-    gluont_ds = get_dataset(data_pars)
+    gluonts_ds = get_dataset(data_pars)
 
     log("#### Model init, fit   #############################################")
     from mlmodels.models import module_load_full

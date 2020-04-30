@@ -193,7 +193,7 @@ def fit(model, data_pars=None, compute_pars=None, out_pars=None, **kwargs):
     test_loss     = []
     test_acc      = []
     best_test_acc = -1
-
+    
     optimizer     = optim.Adam(model0.parameters(), lr=lr)
     train_iter, valid_iter = get_dataset(data_pars)
 
@@ -401,10 +401,13 @@ def test2(data_path="dataset/", pars_choice="json", config_mode="test"):
 
 
 if __name__ == "__main__":
-    test(data_path="model_tch/torchhub_cnn.json", pars_choice="json", config_mode="test")
+
+    #### CNN Type
+    test(data_path="model_tch/torchhub_cnn_list.json", pars_choice="json", config_mode="resnet18")
 
 
-    #test2(data_path="model_tch/torchhub_pgan.json", pars_choice="json", config_mode="test")
+    #### GAN Type
+    test2(data_path="model_tch/torchhub_gan_list.json", pars_choice="json", config_mode="PGAN")
 
 
 

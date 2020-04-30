@@ -441,6 +441,15 @@ def time_train_test_split(data_pars):
 ########################################################################################################
 
 def preprocess_timeseries_m5(data_path=None, dataset_name=None, pred_length=10, item_id=None):
+    """
+
+              arg.data_path    = "dataset/timeseries/"
+        arg.dataset_name = "sales_train_validation.csv"
+        preprocess_timeseries_m5(data_path    = arg.data_path, 
+                                 dataset_name = arg.dataset_name, 
+                                 pred_length  = 100, item_id=arg.item_id) 
+
+    """
     data_path = path_norm(data_path)
     df         = pd.read_csv(data_path + dataset_name)
     col_to_del = ["item_id", "dept_id", "cat_id", "store_id", "state_id"]
@@ -458,6 +467,7 @@ def preprocess_timeseries_m5(data_path=None, dataset_name=None, pred_length=10, 
     pred_length = pred_length
     temp_df     = temp_df.iloc[:pred_length * (temp_df.shape[0] // pred_length)]
     temp_df.to_csv( f"{data_path}/{i_id}.csv", index=False)
+
 
 
 

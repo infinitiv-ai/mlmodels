@@ -17,7 +17,7 @@
                        "random_state":2
                     },
 
-        "compute_pars": {  "lightgbm_pars" :{
+        "compute_pars": {  "compute_pars" :{
                        }
          },
 

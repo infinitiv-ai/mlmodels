@@ -1,9 +1,10 @@
 {
-        "test": {
+        "resnet18": {
 
               "hypermodel_pars":   {
               "learning_rate": {"type": "log_uniform", "init": 0.01,  "range" : [0.001, 0.1] }
              },
+
 
             "model_pars": {
                 "model_uri": "model_tch.torchhub.py",
@@ -11,7 +12,7 @@
                 "model": "resnet18",
                 "num_classes": 10,
                 "pretrained": 0,  "_comment": "0: False, 1: True",
-                "num_layers": 1,
+                "num_layers": 5,
                 "size": 6,
                 "size_layer": 128,
                 "output_size": 6,
@@ -19,17 +20,20 @@
                 "epoch": 2
             },
 
-            "data_pars" :{
-                "input_pars"     : { "path": "dataset/vision/MNIST"},
-                
-                "loader"         : {"uri":"preprocess/image.py::torchvision_dataset_MNIST_load",
-                                    "pass_data_pars" : false},
 
-                "output"         : { "format_func":{"uri":"preprocess/image.py::torch_datasets_wrapper",
-                                     "args":{"args_list":[{"batch_size":4},{"batch_size":4}],"shuffle":true},
-                                     "pass_data_pars":false}
-				}
-                
+
+
+            "data_pars" :{
+                "dataset"       : "torchvision.datasets:MNIST"
+               ,"transform_uri" : "mlmodels.preprocess.image.py:torch_transform_mnist"
+
+
+               ,"2nd___transform_uri" : "/mnt/hgfs/d/gitdev/mlmodels/mlmodels/preprocess/image.py:torch_transform_mnist"
+
+
+                ,"data_path": "dataset/vision/"
+                ,"train_batch_size": 4
+                ,"test_batch_size": 1
             },
 
 
@@ -43,10 +47,10 @@
                 "checkpointdir": "ztest/model_tch/torchhub/restnet18/checkpoints/",
                 "path": "ztest/model_tch/torchhub/restnet18/"
             }
-        },
-    
-        "prod": {
-            "model_pars": {},
-            "data_pars": {}
         }
+
+
+
+
+        
     }

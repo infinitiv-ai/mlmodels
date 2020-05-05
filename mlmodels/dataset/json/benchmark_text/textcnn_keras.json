@@ -1,0 +1,48 @@
+{
+	"test": {
+
+		"model_pars": {
+			"model_uri": "model_keras.textcnn.py",
+			"maxlen":40,
+			"max_features": 5,
+			"embedding_dims":50
+		},
+
+		"data_pars": {
+			"path" : "dataset/text/imdb.csv",
+			"train": 1,
+			"maxlen":40,
+			"max_features": 5
+		},
+
+
+		"compute_pars": {
+			"engine": "adam",
+			"loss": "binary_crossentropy",
+			"metrics": ["accuracy"] ,
+			"batch_size": 1000,
+			"epochs":1
+		},
+
+
+		"out_pars": {
+			"path": "./output/textcnn_keras//model.h5",
+			"model_path": "./output/textcnn_keras/model.h5"
+		}
+	},
+
+
+	"prod": {
+
+		"model_pars": {},
+
+		"data_pars": {}
+
+
+	}
+
+
+
+	
+	
+}

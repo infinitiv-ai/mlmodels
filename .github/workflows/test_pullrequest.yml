@@ -28,6 +28,19 @@ jobs:
     - name: Install pipenv
       uses: dschep/install-pipenv-action@v1
 
+
+    ##### Log Start  ######################################################
+    - name: ssh_gen
+      uses: webfactory/ssh-agent@v0.2.0
+      with:
+        ssh-private-key: ${{ secrets.GIT_RSA }}
+                
+    - name: log_start
+      run: |
+           cd /home/runner/work/mlmodels/  && git clone git@github.com:arita37/mlmodels_store.git  &&  ls && pwd
+           cd /home/runner/work/mlmodels/mlmodels/
+    ########################################################################
+
             
     - name: Cache pipenv virtualenv
       id: cache-pipenv
@@ -39,13 +52,12 @@ jobs:
 
     - name: Install numpy
       if: steps.cache-pipenv.outputs.cache-hit != 'true'
-      run: pip install numpy black
+      run: pip install numpy==1.18.2   black
       
     - name: Install repo requirements 1
       if: steps.cache-pipenv.outputs.cache-hit != 'true'
       run:  |
         pip install -r requirements.txt
-
 
 
     - name: Install repo requirements   2
@@ -58,7 +70,7 @@ jobs:
       run: pip install -e . -r requirements.txt   --no-deps
 
 
-    - name: repo path
+    - name: run_basic_check.py
       run: python run_basic_check.py
 
 
@@ -67,17 +79,14 @@ jobs:
     #- name: matchzoo
     #  run: black -l 120  --py36 --check --fast  .
 
-    - name: ml_optim
-      run: ml_optim
-
-    - name: ml_models
-      run: ml_models
-
 
     ##### Please change BELOW to your model name  
-    - name: ml_test 
-      run: ml_test --do test_all 
+    - name: ml_test Pull Request
+      run: ml_test --do test_pullrequest     2>&1 | tee -a  cd /home/runner/work/mlmodels/mlmodels_store/log_pullrequest/log_$(date '+%Y-%m-%d_%H:%M:%S,%3N').txt
 
+
+    - name: log_gitcommit
+      run: ml_test --do log_remote_push
 
 
 

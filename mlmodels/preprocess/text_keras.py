@@ -50,7 +50,8 @@ class Preprocess_namentity:
         num_tag = df['Tag'].nunique()
         # One hot encoded labels
         y = np.array([to_categorical(i, num_classes=num_tag + 1) for i in y])
-        self.data = {"X":X,"y":y,"word_count":len(df['Word'].unique())+2}
+        self.data = {"X": X, "y":y,"word_count":len(df['Word'].unique())+2}
+
     def get_data(self):
         return self.data
 

@@ -13,7 +13,7 @@ import autokeras as ak
 
 from keras.models import load_model
 
-from keras.datasets import imdb, mnist
+
 
 
 ############################################################################################################
@@ -41,7 +41,7 @@ class Model:
         self.model_pars   = deepcopy(model_pars)
         self.data_pars    = deepcopy(data_pars)
         self.compute_pars = deepcopy(compute_pars)
-
+        self.history      = None
 
         if model_pars is None:
             self.model = None
@@ -96,7 +96,7 @@ def get_params(param_pars=None, **kw):
 
 
 def get_dataset_imbd(data_pars):
-
+    from keras.datasets import imdb, mnist
     # Load the integer sequence the IMDB dataset with Keras.
     index_offset = 3  # word index offset
     (x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=data_pars["num_words"],
@@ -111,12 +111,10 @@ def get_dataset_imbd(data_pars):
     word_to_id["<UNK>"]   = 2
     id_to_word = {value: key for key, value in word_to_id.items()}
     # Convert the word indices to words.
-    x_train = list(map(lambda sentence: ' '.join(
-        id_to_word[i] for i in sentence), x_train))
-    x_test = list(map(lambda sentence: ' '.join(
-        id_to_word[i] for i in sentence), x_test))
-    x_train = np.array(x_train, dtype=np.str)
-    x_test = np.array(x_test, dtype=np.str)
+    x_train    = list(map(lambda sentence: ' '.join(id_to_word[i] for i in sentence), x_train))
+    x_test     = list(map(lambda sentence: ' '.join( id_to_word[i] for i in sentence), x_test))
+    x_train    = np.array(x_train, dtype=np.str)
+    x_test     = np.array(x_test, dtype=np.str)
     return x_train, y_train, x_test, y_test
 
 
@@ -157,10 +155,12 @@ def get_dataset(data_pars=None):
         x_train, y_train, x_test, y_test = get_dataset_imbd(data_pars)
         
     elif data_pars['dataset'] == "MNIST":
+        from keras.datasets import mnist
         (x_train, y_train), (x_test, y_test)  = mnist.load_data()
         
     elif data_pars['dataset'] == "Titanic Survival Prediction":
         x_train, y_train, x_test, y_test = get_dataset_titanic(data_pars)
+
     elif data_pars["dataset"] == "Auto MPG Data Set":
         x_train, y_train, x_test, y_test = get_dataset_auto_mpg(data_pars)
         
@@ -172,8 +172,7 @@ def get_dataset(data_pars=None):
 
 def fit(model, data_pars=None, compute_pars=None, out_pars=None, **kwargs):
     x_train, y_train, _, _ = get_dataset(data_pars)
-    print(type(x_train))
-    print(type(y_train))
+    log(type(x_train), type(y_train))
     os.makedirs(out_pars["checkpointdir"], exist_ok=True)
     history = model.model.fit(x_train,
               y_train,
@@ -182,7 +181,9 @@ def fit(model, data_pars=None, compute_pars=None, out_pars=None, **kwargs):
               epochs=compute_pars['epochs']
               )
 
-    return model
+    model.history = history
+
+    return model, None
 
 
 def predict(model, session=None, data_pars=None, compute_pars=None, out_pars=None):
@@ -192,7 +193,7 @@ def predict(model, session=None, data_pars=None, compute_pars=None, out_pars=Non
     return predicted_y
 
 
-def fit_metrics(model, data_pars=None, compute_pars=None, out_pars=None):
+def fit_metrics(model, session=None, data_pars=None, compute_pars=None, out_pars=None):
     _, _, x_test, y_test = get_dataset(data_pars)
     return model.evaluate(x_test, y_test)
 
@@ -210,7 +211,7 @@ def save(model, session=None, save_pars=None):
     ### Specialized part
     save2['path'] = path
     # save_tch(model=model, save_pars=save2)
-    model.model.save(os.path.join(save_pars["path"],f'model.h5'))
+    model.model.save(os.path.join(path, 'model.h5'))
 
 
     ### Setup Model
@@ -225,22 +226,24 @@ def save(model, session=None, save_pars=None):
 
 def load(load_pars):
     import pickle, copy
-    load_pars2 = copy.deepcopy(load_pars)
+    #load_pars2 = copy.deepcopy(load_pars)
     path = path_norm( load_pars['path']  + "/keras_model/" )
 
 
-    ### Setup Model
+    #### Setup Model
     d = pickle.load( open(path + "/keras_model_pars.pkl", mode="rb")  )
-    model = Model_keras_empty(model_pars= d['model_pars'], compute_pars= d['compute_pars'],
-                              data_pars= d['data_pars'])  
+    model = Model_keras_empty(model_pars = d['model_pars'], compute_pars = d['compute_pars'],
+                              data_pars  = d['data_pars'])  
 
-    ### Specialized part
-    load_pars2['path'] = path
+    #### Specialized part
+    # load_pars2['path'] = path
     # model2 = load_tch(load_pars2)
-    model2 = load_model(os.path.join(load_pars["checkpointdir"],f'model.h5'), custom_objects=ak.CUSTOM_OBJECTS)
+    model2 = load_model(os.path.join(path, '/model.h5'), custom_objects=ak.CUSTOM_OBJECTS)
     model.model = model2
 
     return model
+
+
 
 
 """
@@ -279,30 +282,32 @@ def test_single(data_path="dataset/", pars_choice="json", config_mode="test"):
 
     log("#### Model init, fit   #############################################")
     model = Model(model_pars, data_pars, compute_pars)
-    fitted_model = fit(model, data_pars, compute_pars, out_pars)
+    model, session = fit(model, data_pars, compute_pars, out_pars)
 
     log("#### Predict   #####################################################")
-    ypred = predict(fitted_model, data_pars, compute_pars, out_pars)
+    ypred = predict(model, session, data_pars, compute_pars, out_pars)
     print(ypred[:10])
 
     log("#### metrics   #####################################################")
-    metrics_val = fit_metrics(fitted_model, data_pars, compute_pars, out_pars)
+    metrics_val = fit_metrics(model, data_pars, compute_pars, out_pars)
     print(metrics_val)
 
     log("#### Plot   ########################################################")
 
 
-    log("#### Save/Load   ###################################################")
+    log("#### Save  #########################################################")
+    save_pars = {'path' :  out_pars['path']}
     ## Export as a Keras Model.
-    save_model_keras = fitted_model.model.export_model()
+    save_model_keras = model.model.export_model()
 
     save_model = Model_keras_empty(model_pars, data_pars, compute_pars)
     save_model.model = save_model_keras
-    save(model=save_model, save_pars=out_pars)  #, config_mode=config_mode)
+    save(model=save_model, save_pars=save_pars)  #, config_mode=config_mode)
 
 
     log("#### Load   ###################################################")    
-    loaded_model = load( out_pars)  #, config_mode)
+    load_pars = {'path' :  out_pars['path']}
+    loaded_model = load( load_pars)  #, config_mode)
     ypred = predict(loaded_model, data_pars=data_pars, compute_pars=compute_pars, out_pars=out_pars)
     print(ypred[:10])
 
@@ -322,3 +327,5 @@ if __name__ == '__main__':
     VERBOSE = True
 
     test()
+
+

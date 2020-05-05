@@ -29,7 +29,7 @@ import pandas as pd
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.layers import LSTM, Dense, TimeDistributed, Embedding, Bidirectional
 from keras.models import Model as KModel, Input
-from dataloader import DataLoader
+from mlmodels.dataloader import DataLoader
 from keras_contrib.layers import CRF
 
 import numpy as np
@@ -63,7 +63,9 @@ class Model:
             self.model = None
 
         else:
-            X_train, X_test, y_train, y_test, words = get_dataset(data_pars)
+            data_set, internal_states = get_dataset(data_pars)
+            X_train, X_test, y_train, y_test = data_set
+            words = internal_states.get("word_count")
             max_len = X_train.shape[1]
             num_tags = y_train.shape[2]
             # Model architecture
@@ -100,7 +102,8 @@ def fit(model, data_pars=None, compute_pars=None, out_pars=None, **kw):
     epochs = compute_pars["epochs"]
 
     sess = None  #
-    Xtrain, Xtest, ytrain, ytest, _ = get_dataset(data_pars)
+    data_set, internal_states = get_dataset(data_pars)
+    Xtrain, Xtest, ytrain, ytest = data_set
 
     early_stopping = EarlyStopping(monitor="val_acc", patience=3, mode="max")
 
@@ -139,7 +142,8 @@ def fit_metrics(model, data_pars=None, compute_pars=None, out_pars=None, **kw):
 def predict(model, sess=None, data_pars=None, out_pars=None, compute_pars=None, **kw):
     ##### Get Data ###############################################
     data_pars["train"] = False
-    Xtrain, Xtest, ytrain, ytest, _ = get_dataset(data_pars)
+    data_set, internal_states = get_dataset(data_pars)
+    Xtrain, Xtest, ytrain, ytest = data_set
 
     #### Do prediction
     ypred = model.model.predict(Xtest)
@@ -289,7 +293,7 @@ if __name__ == "__main__":
     # test(pars_choice="test01")
 
     ### Local json file
-    test(pars_choice="json", data_path=f"model_keras/namentity_crm_bilstm.json")
+    # test(pars_choice="json", data_path=f"model_keras/namentity_crm_bilstm.json")
 
     ####    test_module(model_uri="model_xxxx/yyyy.py", param_pars=None)
     from mlmodels.models import test_module
@@ -297,7 +301,7 @@ if __name__ == "__main__":
     param_pars = {
         "choice": "json",
         "config_mode": "test",
-        "data_path": f"dataset/json_/namentity_crm_bilstm_dataloader.json",
+        "data_path": f"dataset/json/refactor/namentity_crm_bilstm_dataloader.json",
     }
     test_module(model_uri=MODEL_URI, param_pars=param_pars)
 

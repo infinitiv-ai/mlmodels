@@ -1,0 +1,90 @@
+{
+	"test": {
+       
+        "notes": "Using Yelp Reviews dataset",
+		"model_pars": {
+			"model_uri": "model_tch.transformer_classifier.py",
+			"task_name": "binary", 
+            "model_type": "xlnet",
+            "model_name": "xlnet-base-cased",
+			"learning_rate": 0.001,
+			"sequence_length": 56,
+			"num_classes": 2,
+			"drop_out" : 0.5,
+			"l2_reg_lambda" : 0.0,
+			"optimization" : "adam",
+			"embedding_size" : 300,
+			"filter_sizes": [3, 4, 5],
+			"num_filters" : 128,
+            "do_train": true,
+            "do_eval": true,
+             "fp16": false, 
+             "fp16_opt_level": "O1",
+            "max_seq_length": 128, 
+			"output_mode": "classification",
+			"cache_dir": "mlmodels/ztest/"
+
+		},
+
+		"data_pars": {
+			"data_dir": "./mlmodels/dataset/text/yelp_reviews/",
+			"negative_data_file": "./dataset/rt-polaritydata/rt-polarity.neg",
+			"DEV_SAMPLE_PERCENTAGE": 0.1,
+			"data_type": "pandas",
+			"size": [0, 0, 6],
+			"output_size": [0, 6],
+			"train": "True",
+            "output_dir": "./mlmodels/dataset/text/yelp_reviews/",
+            "cache_dir": "mlmodels/ztest/"
+		},
+
+
+		"compute_pars": {
+			"epochs": 10,
+			"batch_size" : 128,
+            "return_pred" : "True",
+            "train_batch_size": 8,
+             "eval_batch_size": 8,
+            "gradient_accumulation_steps": 1,
+            "num_train_epochs": 1,
+            "weight_decay": 0, 
+            "learning_rate": 4e-05, 
+            "adam_epsilon": 1e-08, 
+            "warmup_ratio": 0.06, 
+            "warmup_steps": 0,
+            "max_grad_norm": 1.0, 
+            "logging_steps": 50, 
+            "evaluate_during_training": false,
+            "num_samples":500,
+            "save_steps": 100,
+            "eval_all_checkpoints": true,
+            "overwrite_output_dir": true,
+            "reprocess_input_data": false
+			
+		},
+
+
+		"out_pars": {
+			"output_dir": "./mlmodels/dataset/text/yelp_reviews/",
+			"data_type": "pandas",
+			"size": [0, 0, 6],
+			"output_size": [0, 6],
+			"modelpath":"./output/model/model.h5"
+		}
+	},
+
+
+	"prod": {
+
+		"model_pars": {},
+
+		"data_pars": {}
+
+
+	}
+
+
+
+	
+	
+}

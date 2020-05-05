@@ -1,0 +1,41 @@
+{
+    "data_pars": {
+        "input": {
+            "data_path": "dataset/vision/cifar10/",
+            "args": {
+                "test_size": 0.2,
+                "batch_size": 4,
+                "train_samples": 2000,
+                "test_samples": 500,
+                "shuffle": true
+            },
+            "loader": "mlmodels/preprocess/generic.py:NumpyDataset:CIFAR10"
+        },
+        "presprocessors": [{
+                "uri": "preprocess/image.py:torchvision_dataset_MNIST_load",
+                "pass_data_pars": false,
+                "arg": {
+                    "train": true
+                }
+            },
+            {
+                "uri": "test_dataloader.py::SingleFunctionPreprocessor",
+                "pass_data_pars": false,
+                "arg": {
+                    "func_dict": {
+                        "uri": "test_dataloader.py::tokenize_x",
+                        "arg": {
+                            "no_classes": 46
+                        }
+                    }
+                }
+            }
+        ],
+        "saver": {
+            "uri": "preprocess/image.py::xxxsaver",
+            "pass_data_pars": false,
+            "args": {
+            }
+        }
+    }
+}

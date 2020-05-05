@@ -68,7 +68,7 @@ def os_get_file(folder=None, block_list=[], pattern=r'*.py'):
     folder = os_package_root_path() if folder is None else folder
     # print(folder)
     module_names = get_recursive_files3(folder, pattern)
-    print(module_names)
+    # print(module_names)
 
 
     NO_LIST = []
@@ -76,7 +76,7 @@ def os_get_file(folder=None, block_list=[], pattern=r'*.py'):
 
     list_select = []
     for t in module_names:
-        t = t.replace(folder, "").replace("\\", ".").replace(".py", "")
+        t = t.replace(folder, "").replace("\\", ".").replace(".py", "").replace("/", ".")
 
         flag = False
         for x in NO_LIST:
@@ -99,7 +99,7 @@ def model_get_list(folder=None, block_list=[]):
 
     list_select = []
     for t in module_names:
-        t = t.replace(folder, "").replace("\\", ".")
+        t = t.replace(folder, "").replace("\\", ".").replace(".py", "").replace("/", ".")
 
         flag = False
         for x in NO_LIST:
@@ -114,7 +114,9 @@ def model_get_list(folder=None, block_list=[]):
 def get_recursive_files2(folderPath, ext):
     results = os.listdir(folderPath)
     outFiles = []
+    print(results)
     for file in results:
+        print(file)
         if os.path.isdir(os.path.join(folderPath, file)):
             outFiles += get_recursive_files(os.path.join(folderPath, file), ext)
         elif re.match(ext, file):

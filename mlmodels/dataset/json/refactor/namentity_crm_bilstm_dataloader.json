@@ -11,8 +11,7 @@
 				"path": "dataset/text/ner_dataset.csv",
 				"test_size": 0.5,
 				"col_Xinput": ["X"],
-				"col_yinput": ["y"],
-				"col_miscinput": ["word_count"]
+				"col_yinput": ["y"]
 			},
 			"loader": {
 				"uri": "pandas::read_csv",

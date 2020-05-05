@@ -4,39 +4,63 @@
 			"embedding": 40,
 			"optimizer": "rmsprop"
 		},
+
+
 		"data_pars": {
-			  "train": true,
-		   	  "mode" : "test_repo",
+			"input_pars": {
+				"path": "dataset/text/ner_dataset.csv",
+				"test_size": 0.5,
+				"col_Xinput": ["X"],
+				"col_yinput": ["y"],
+				"col_miscinput": ["word_count"]
+			},
+			"loader": {
+				"uri": "pandas::read_csv",
+				"arg": {
+					"encoding": "'ISO-8859-1'"
+				},
+				"pass_data_pars": false
+			},
+			"preprocessor": {
+				"uri": "preprocess/text_keras.py::Preprocess_namentity",
+				"arg": {
+					"max_len": 75
+				},
+				"pass_data_pars": false
+			},
+			"split_xy": {
+				"uri": "test_dataloader.py::split_xy_from_dict",
+				"arg": {}
+			},
+			"split_train_test": {
+				"uri": "sklearn.model_selection::train_test_split",
+				"arg": {},
+				"pass_data_pars": false,
+				"testsize_keyword": "test_size"
+			},
 
-              "path"            : "dataset/text/ner_dataset.csv",
-              "location_type"   :  "repo",
-              "data_type"       :   "text",
-
-
-              "data_loader" :  "mlmodels.data:import_data_fromfile",
-              "data_loader_pars" :  {"size" : 50 },
-
-
-              "data_processor" : "mlmodels.model_keras.prepocess:process",
-              "data_processor_pars" : { "split" : 0.5, "max_len": 75 },
-              "max_len": 75,
-
-
-              "size" : [0,1,2],
-              "output_size": [0, 6]    
-
+			"save_intermediate_output": {
+				"save_function": {"uri":"dataloader.py::pickle_dump",
+				"arg": {}, "pass_data_pars": false},
+				"path": "ztest/ml_keras/namentity_crm_bilstm/data.pkl"
+			},
+			"output": {
+				"shape": [
+					[75],
+					[75, 18]
+				],
+				"max_len": 75
+			}
 		},
-
-
-
 		"compute_pars": {
 			"epochs": 1,
 			"batch_size": 64
 		},
 		"out_pars": {
-			"path": "ztest/ml_keras/namentity_crm_bilstm/",
-			"data_type": "pandas"
+			"path": "ztest/ml_keras/namentity_crm_bilstm/"
 		}
+
+
 	},
 	"prod": {
 		"model_pars": {},

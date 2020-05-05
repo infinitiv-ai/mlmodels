@@ -1,10 +1,16 @@
-name: "Your_model_name"
+name: "Your_PR_name"
 
 on:
   push:
     branches:
-      - bert_classification
+      - your_branch
 
+
+
+
+
+############################################################################################
+########### DO NOT CHANGE THIE #############################################################
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -47,7 +53,19 @@ jobs:
       - name: repo path
         run: python -c "import mlmodels,os ; print(mlmodels); print(os)"
 
-      ########  Test running
-      ##### Please change BELOW to your model name
-      - name: matchzoo_test
-        run: python mlmodels/model_tch/matchzoo_models.py --do benchmark.py
+######################################################################################
+######################################################################################
+
+
+
+
+      ########  Test running   #######################################################
+      ##### Please change BELOW to your file names  ##################################
+      - name: test_myfiles
+        run:  |
+            python mlmodels/model_tch/matchzoo_models.py 
+            python pullrequest/mytest_pr.py 
+
+
+
+

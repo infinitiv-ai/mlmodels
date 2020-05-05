@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-zsublime*
+*sublime*
 ztest/
 mlmodels/ztest/*
 .idea/*
@@ -14,6 +14,8 @@ zwork/*
 *untitled*
 *README_index_doc.txt*
 *README_index_doc.md*
+
+
 
 # C extensions
 *.so

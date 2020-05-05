@@ -1,0 +1,40 @@
+{
+        "test": {
+
+            "model_pars": {
+                "model_uri": "model_keras.Autokeras.py",
+                "max_trials": 1
+            },
+
+            "data_pars" :{
+                "dataset": "IMDB",
+                "data_path": "dataset/nlp/",
+		        "num_words" : 1000,
+		        "validation_split":0.15,
+                "train_batch_size": 4,
+                "test_batch_size": 1
+            },
+
+            "compute_pars": {
+                "distributed": "mpi",
+                "max_batch_sample": 5,
+                "epochs": 1,
+                "learning_rate": 5e-5,
+                "beta1": 0.9,
+                "beta2": 0.98,
+                "eps": 1e-8,
+                "warmup_steps": 6,
+                "t_total": -1
+            },
+
+            "out_pars": {
+                "checkpointdir": "ztest/model_tch/MATCHZOO/BERT/checkpoints/",
+                "path": "ztest/model_tch/MATCHZOO/BERT/"
+            }
+        },
+    
+        "prod": {
+            "model_pars": {},
+            "data_pars": {}
+        }
+    }

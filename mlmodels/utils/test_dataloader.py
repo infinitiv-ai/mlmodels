@@ -11,7 +11,7 @@ import keras
 
 
 ###########################################################################3
-from dataloader import DataLoader
+from mlmodels.dataloader import DataLoader
 from mlmodels.util import load_callable_from_dict, path_norm, path_norm_dict
 ### path_norm : find the ABSOLUTE PATH of the repobby heuristic.
 
@@ -29,6 +29,7 @@ def pandas_split_xy(out,data_pars):
         return X,y,misc
     return X,y
 
+
 def pandas_load_train_test(path, test_path, **args):
     return pd.read_csv(path,**args), pd.read_csv(test_path,**args),
 
@@ -37,19 +38,19 @@ def rename_target_to_y(out,data_pars):
     X_c    = data_pars['input_pars'].get('col_Xinput',[])
     y_c    = data_pars['input_pars'].get('col_yinput',[])
     return tuple(df[X_c+y_c].rename(columns={y_c[0]:'y'}, inplace=True) for df in out)
-        
+
+
 def load_npz(path):
     npz = np.load(path, allow_pickle=True)
     return tuple(npz[x] for x in sorted(npz.files))
-    
-def split_xy_from_dict(out,data_pars):
-    X_c    = data_pars['input_pars'].get('col_Xinput',[])
-    y_c    = data_pars['input_pars'].get('col_yinput',[])
-    misc_c = data_pars['input_pars'].get('col_miscinput',[])
+
+
+def split_xy_from_dict(out, **kwargs):
+    X_c    = kwargs.get('col_Xinput',[])
+    y_c    = kwargs.get('col_yinput',[])
     X      = [out[n] for n in X_c]
     y      = [out[n] for n in y_c]
-    misc   = [out[n] for n in misc_c]
-    return (*X,*y,*misc)
+    return (*X,*y)
     
 def split_timeseries_df(out,data_pars,length,shift):
     X_c    = data_pars['input_pars'].get('col_Xinput',[])

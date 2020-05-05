@@ -5,6 +5,8 @@ on:
   push:
     branches: 
       - feat_dataloader
+      - adata2
+      - dev
 
 #on:
 #  schedule:
@@ -33,18 +35,17 @@ jobs:
       uses: dschep/install-pipenv-action@v1
 
 
-
+    ##### Log Start  ######################################################
     - name: ssh_gen
       uses: webfactory/ssh-agent@v0.2.0
       with:
         ssh-private-key: ${{ secrets.GIT_RSA }}
-        
-        
+                
     - name: log_start
       run: |
            cd /home/runner/work/mlmodels/  && git clone git@github.com:arita37/mlmodels_store.git  &&  ls && pwd
            cd /home/runner/work/mlmodels/mlmodels/
-
+    ########################################################################
 
             
     #- uses: actions/cache@v1
@@ -62,6 +63,7 @@ jobs:
       with:
         path: /opt/hostedtoolcache/Python/
         key: ${{ runner.os }}-venv-mlmodels-${{ hashFiles('**/requirements.txt') }}
+
 
 
 
@@ -92,7 +94,7 @@ jobs:
 
     ########  Test running 
     - name: ml_test
-      run:  cd  /home/runner/work/mlmodels/mlmodels/mlmodels && python test_dataloader.py     2>&1 | tee -a  cd /home/runner/work/mlmodels/mlmodels_store/Logs/log_dataloader_$(date '+%Y-%m-%d_%H:%M:%S,%3N').txt
+      run:  ml_test test_dataloader  2>&1 | tee -a  cd /home/runner/work/mlmodels/mlmodels_store/log_dataloader/log_$(date '+%Y-%m-%d_%H:%M:%S,%3N').txt
 
       
         

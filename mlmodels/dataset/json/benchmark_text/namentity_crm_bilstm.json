@@ -1,0 +1,47 @@
+{
+	"test": {
+		"model_pars": {
+			"model_uri": "model_keras.namentity_crm_bilstm.py",
+			"embedding": 40,
+			"optimizer": "rmsprop"
+		},
+		"data_pars": {
+			  "train": true,
+		   	  "mode" : "test_repo",
+
+              "path"            : "dataset/text/ner_dataset.csv",
+              "location_type"   :  "repo",
+              "data_type"       :   "text",
+
+
+              "data_loader" :  "mlmodels.data:import_data_fromfile",
+              "data_loader_pars" :  {"size" : 50 },
+
+
+              "data_processor" : "mlmodels.model_keras.prepocess:process",
+              "data_processor_pars" : { "split" : 0.5, "max_len": 75 },
+              "max_len": 75,
+
+
+              "size" : [0,1,2],
+              "output_size": [0, 6]    
+
+		},
+
+
+
+		"compute_pars": {
+			"epochs": 1,
+			"batch_size": 64
+		},
+		"out_pars": {
+			"path": "ztest/ml_keras/namentity_crm_bilstm/",
+			"data_type": "pandas"
+		}
+	},
+	"prod": {
+		"model_pars": {},
+		"data_pars": {}
+	}
+}
+

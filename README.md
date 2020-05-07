@@ -31,6 +31,14 @@ Here you can find usages [guide](https://cutt.ly/tyluzof)
 
 # Contribution Guide 
 
+   If you want to contribute, Contact us at 
+   
+      https://gitter.im/ml_models/contributors#
+      
+      
+   
+   Please also check the contribution Guidelines :
+
    [contribution guide](https://cutt.ly/Xylux3Q)
 
 

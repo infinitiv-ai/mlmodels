@@ -26,7 +26,6 @@
        },
 
 
-a = data_pars.get( “batch”, arg.get(“batch”, -1))
 
 
 

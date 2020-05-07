@@ -191,8 +191,12 @@ def get_dataset_torch(args, data_info, **kw):
         transform_uri = transform_info.get("uri", "mlmodels.preprocess.image:torch_transform_mnist" )
         try:
             transform_args = transform_info.get("args", None)
-            trans_pars = transform_info.get("pass_data_pars", False)
-            transform = load_function(transform_uri)(**transform_args if trans_pars else None)
+            trans_pass = transform_info.get("pass_data_pars", False)
+            if trans_pass:
+               transform = load_function(transform_uri)(**transform_args)
+            else:
+               transform = load_function(transform_uri)()
+               
         except Exception as e :
             transform = None
             print(e)
@@ -288,8 +292,11 @@ def get_dataset_keras(args, data_info, **kw):
         transform_uri = transform_info.get("uri", "mlmodels.preprocess.image:keras_transform_mnist")
         try:
             transform_args = transform_info.get("args", None)
-            trans_pars = transform_info.get("pass_data_pars", False)
-            transform = load_function(transform_uri)(**transform_args if trans_pars else None)
+            trans_pass = transform_info.get("pass_data_pars", False)
+            if trans_pass:
+               transform = load_function(transform_uri)(**transform_args)
+            else:
+               transform = load_function(transform_uri)()
         except Exception as e :
             transform = None
             print(e)
@@ -384,14 +391,14 @@ class pandasDataset(Dataset):
         except:
             raise Exception(f"Datatype error 'dataset':{dataset}")
        
-        path =  os.path.join(root,'train' if train else 'test')
+        path =  root # os.path.join(root,'train' if train else 'test') #TODO: need re-organize dataset later
         filename = dataset if dataset.find('.csv') > -1 else dataset + '.csv'  ## CSV file
        
         colX = args.get('colX',[])
         coly = args.get('colX',[])
  
         # df = torch.load(os.path.join(path, filename))
-        df = pd.read_csv(os.path.join(path, filename))
+        df = pd.read_csv(os.path.join(path, filename), **args)
         self.df = df
  
  
@@ -434,9 +441,10 @@ class pandasDataset(Dataset):
         return X, target
  
     def shuffle(self, random_state=123):
-        self._df = self._df.sample(frac=1.0, random_state=random_state)
+        self.df = self._df.sample(frac=1.0, random_state=random_state)
         
-        
+    def get_data(self):
+        return self.df
 
 class NumpyDataset(Dataset):
     """

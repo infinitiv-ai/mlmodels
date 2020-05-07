@@ -391,6 +391,39 @@ def config_model_list(folder=None):
 
     return mlist
 
+####################################################################################################
+############CLI Interface############################################################################
+def fit_cli(arg):
+    model_p, data_p, compute_p, out_p = config_get_pars(arg.config_file, arg.config_mode)
+
+    module = module_load(arg.model_uri)  # '1_lstm.py
+    model = model_create(module, model_p, data_p, compute_p)  # Exact map JSON and paramters
+
+    log("Fit")
+    model, sess = module.fit(model, data_pars=data_p, compute_pars=compute_p, out_pars=out_p)
+
+    log("Save")
+    save_pars = {"path": f"{arg.save_folder}/{arg.model_uri}", "model_uri": arg.model_uri}
+    save(save_pars, model, sess)
+
+
+def predict_cli(arg):
+    model_p, data_p, compute_p, out_p = config_get_pars(arg.config_file, arg.config_mode)
+    # module = module_load(arg.modelname)  # '1_lstm'
+    load_pars = {"path": f"{arg.save_folder}/{arg.model_uri}", "model_uri": arg.model_uri}
+
+    module = module_load(model_p[".model_uri"])  # '1_lstm.py
+    model, session = load(load_pars)
+    module.predict(model, session, data_pars=data_p, compute_pars=compute_p, out_pars=out_p)
+
+
+def test_cli(arg):
+    param_pars = {"choice": "test01", "data_path": "", "config_mode": "test"}
+    test_module(arg.model_uri, param_pars=param_pars)  # '1_lstm'
+
+    test(arg.model_uri)  # '1_lstm'
+    # test_api(arg.model_uri)  # '1_lstm'
+    test_global(arg.model_uri)  # '1_lstm'
 
 
 ####################################################################################################
@@ -399,35 +432,35 @@ def cli_load_arguments(config_file=None):
     """
         Load CLI input, load config.toml , overwrite config.toml by CLI Input
     """
-    if config_file is None:
-        cur_path = os.path.dirname(os.path.realpath(__file__))
-        config_file = os.path.join(cur_path, "template/models_config.json")
+    config_file = path_norm( "template/models_config.json")  if config_file is None else config_file
     # print(config_file)
 
     p = argparse.ArgumentParser()
-
     def add(*w, **kw):
         p.add_argument(*w, **kw)
 
-    add("--config_file", default=config_file, help="Params File")
-    add("--config_mode", default="test", help="test/ prod /uat")
-    add("--log_file", default="mlmodels_log.log", help="log.log")
-    add("--do", default="test", help="do ")
-    add("--folder", default=None, help="folder ")
+    add("--config_file" , default=config_file          , help="Params File")
+    add("--config_mode" , default="test"               , help="test/ prod /uat")
+    add("--log_file"    , default="mlmodels_log.log"   , help="log.log")
+    add("--do"          , default="test"               , help="do ")
 
-    add("--init", default="", help=".")
+
+    add("--folder"      , default=None                 , help="folder ")
+    add("-p"            , "--path"                     , default= None           , help="Copy to working space")
+
 
     ##### model pars
-    add("--model_uri", default="model_tf/1_lstm.py", help=".")
-    add("--load_folder", default="ztest/", help=".")
+    add("--model_uri"   , default="model_tf/1_lstm.py" , help=".")
+    add("--load_folder" , default="ztest/"             , help=".")
 
     ##### data pars
-    add("--dataname", default="dataset/google.csv", help=".")
+    add("--dataname"    , default="dataset/google.csv" , help=".")
 
     ##### compute pars
 
+
     ##### out pars
-    add("--save_folder", default="ztest/", help=".")
+    add("--save_folder" , default="ztest/"             , help=".")
 
     arg = p.parse_args()
     # arg = load_config(arg, arg.config_file, arg.config_mode, verbose=0)
@@ -438,51 +471,33 @@ def main():
     arg = cli_load_arguments()
     print(arg.do)
 
-    if len(arg.init) > 0:
-        config_init(to_path=arg.init)
+    if arg.do == "init":
+        path = os.getcwd() is arg.path is not None else arg.path
+        config_init(to_path=arg.path)
         return 0
 
     if arg.do == "generate_config":
         log(arg.save_folder)
         config_generate_json(arg.model_uri, to_path=arg.save_folder)
+        
 
-    ###################################################################
     if arg.do == "model_list":  # list all models in the repo
-        l = config_model_list(arg.folder)
+        l = config_model_list(arg.path)
+
 
     if arg.do == "testall":
-        # test_all() # tot test all te modules inside model_tf
         test_all(folder=None)
 
     if arg.do == "test":
-        param_pars = {"choice": "test01", "data_path": "", "config_mode": "test"}
-        test_module(arg.model_uri, param_pars=param_pars)  # '1_lstm'
+        test_cli(arg)
 
-        test(arg.model_uri)  # '1_lstm'
-        # test_api(arg.model_uri)  # '1_lstm'
-        test_global(arg.model_uri)  # '1_lstm'
 
     if arg.do == "fit":
-        model_p, data_p, compute_p, out_p = config_get_pars(arg.config_file, arg.config_mode)
+        fit_cli(arg)
 
-        module = module_load(arg.model_uri)  # '1_lstm.py
-        model = model_create(module, model_p, data_p, compute_p)  # Exact map JSON and paramters
-
-        log("Fit")
-        model, sess = module.fit(model, data_pars=data_p, compute_pars=compute_p, out_pars=out_p)
-
-        log("Save")
-        save_pars = {"path": f"{arg.save_folder}/{arg.model_uri}", "model_uri": arg.model_uri}
-        save(save_pars, model, sess)
 
     if arg.do == "predict":
-        model_p, data_p, compute_p, out_p = config_get_pars(arg.config_file, arg.config_mode)
-        # module = module_load(arg.modelname)  # '1_lstm'
-        load_pars = {"path": f"{arg.save_folder}/{arg.model_uri}", "model_uri": arg.model_uri}
-
-        module = module_load(model_p[".model_uri"])  # '1_lstm.py
-        model, session = load(load_pars)
-        module.predict(model, session, data_pars=data_p, compute_pars=compute_p, out_pars=out_p)
+        predict_cli(arg)
 
 
 if __name__ == "__main__":

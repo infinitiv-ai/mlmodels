@@ -14,7 +14,7 @@ rm requirements_fake.txt ;
 
 
 
-pip uninstall mlmodels ; 
+pip uninstall mlmodels -y ; 
 pip install  https://github.com/arita37/mlmodels/archive/dev.zip  --no-deps --force
 
 

@@ -12,7 +12,6 @@ import sys
 from setuptools import find_packages, setup
 
 
-# import versioneer
 
 
 ######################################################################################
@@ -30,9 +29,15 @@ except : pass
 
 ##### Version  #######################################################################
 version ='0.35.2'
-# version = versioneer.get_version()
-# cmdclass=versioneer.get_cmdclass()
-# version = versioneer.get_version()
+cmdclass= None
+
+
+
+#### Issues When Building on Colab
+#import versioneer
+#version = versioneer.get_version()
+#cmdclass=versioneer.get_cmdclass()
+
 print("version", version)
 
 
@@ -140,9 +145,7 @@ entry_points={ 'console_scripts': [
 
 
 
-
-
-#####################################################################   
+##################################################################   
 setup(
     name="mlmodels",
     description="Generic model API, Model Zoo in Tensorflow, Keras, Pytorch, Gluon and Hyperparamter search",
@@ -167,8 +170,7 @@ setup(
    
     ### Versioning
     version=version,
-    # cmdclass=cmdclass,
-
+    #cmdclass=cmdclass,
 
 
     #### CLI

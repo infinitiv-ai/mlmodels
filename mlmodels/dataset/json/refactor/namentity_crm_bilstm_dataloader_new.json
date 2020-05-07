@@ -8,7 +8,7 @@
 
 		"data_pars": {
 			"data_info": {
-				"path": "dataset/text/ner_dataset.csv",
+				"dataset": "dataset/text/ner_dataset.csv",
 				"pass_data_pars": false,
 				"train": true
 			},
@@ -16,7 +16,7 @@
 			"preprocessors": [
 				{
 					"name": "loader",
-					"uri": "pandas::read_csv",
+					"uri": "preprocess/generic.py::pandasDataset",
 					"args": {
 						"encoding": "'ISO-8859-1'"
 					}

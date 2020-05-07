@@ -6,6 +6,7 @@ recursive-include mlmodels/config/*
 recursive-include mlmodels/dataset/*
 recursive-include mlmodels/example/*
 recursive-include mlmodels/template/*
+recursive-include mlmodels/utils/*
 recursive-include mlmodels/utils/*include versioneer.py
 include mlmodels/_version.py
 include versioneer.py

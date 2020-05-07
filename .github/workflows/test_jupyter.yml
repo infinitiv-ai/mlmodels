@@ -1,16 +1,16 @@
 name:  test_jupyter
 
 
-#on:
-#  push:
-#    branches: 
-#      #- dev
-
 on:
+  push:
+    branches: 
+      - dev
+
+
   schedule:
     # * is a special character in YAML so you have to quote this string
     ### Every 3 hours
-    - cron:  '0 */4 * * *'      
+    - cron:  '0 */5 * * *'      
 
  
 jobs:
@@ -31,6 +31,20 @@ jobs:
       
     - name: Install pipenv
       uses: dschep/install-pipenv-action@v1
+
+
+
+    ##### Log Start  ######################################################
+    - name: ssh_gen
+      uses: webfactory/ssh-agent@v0.2.0
+      with:
+        ssh-private-key: ${{ secrets.GIT_RSA }}
+                
+    - name: log_start
+      run: |
+           cd /home/runner/work/mlmodels/  && git clone git@github.com:arita37/mlmodels_store.git  &&  ls && pwd
+           cd /home/runner/work/mlmodels/mlmodels/
+    ########################################################################
 
             
     #- uses: actions/cache@v1
@@ -53,7 +67,7 @@ jobs:
 
     - name: Install numpy
       if: steps.cache-pipenv.outputs.cache-hit != 'true'
-      run: pip install numpy
+      run: pip install numpy==1.18.2  pillow==6.2.1
  
 
     - name: Install repo requirements 1
@@ -73,7 +87,7 @@ jobs:
 
 
     - name: Install Jupyter
-      run: pip install ipython
+      run: pip install notebook==6.0.3 ipython==7.14.0
 
 
     - name: Repo path
@@ -82,10 +96,11 @@ jobs:
 
     ########  Test running 
     - name: ml_test
-      run: ml_test  --do test_jupyter
+      run: ml_test  --do test_jupyter      2>&1 | tee -a  cd /home/runner/work/mlmodels/mlmodels_store/log_jupyter/log_$(date '+%Y-%m-%d_%H:%M:%S,%3N').txt
+
       
-         
-
-
+      
+    - name: log_gitcommit
+      run: ml_test --do log_remote_push
 
 

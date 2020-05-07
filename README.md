@@ -1,4 +1,4 @@
-# mlmodels 
+# mlmodels : Model ZOO
 
 
 This repository is the ***Model ZOO for Pytorch, Tensorflow, Keras, Gluon, LightGBM, Keras, Sklearn models etc*** with Lightweight Functional interface to wrap access to Recent and State of Art Deep Learning, ML models and Hyper-Parameter Search, cross platforms that follows the logic of sklearn, such as fit, predict, transform, metrics, save, load etc. 
@@ -19,15 +19,17 @@ A collection of Deep Learning and Machine Learning research papers is available 
 
 ## Benefits :
 
-Having a standard framework for both machine learning models and deep learning models, 
-allows a step towards automatic Machine Learning. The collection of models, model zoo in Pytorch, Tensorflow, Keras
-allows removing dependency on one specific framework, and enable richer possibilities in model benchmarking and re-usage.
+Having a simple  framework for both machine learning models and deep learning models, without BOILERPLATE code.
+Collection of models, model zoo in Pytorch, Tensorflow, Keras allows richer possibilities in model re-usage, model batching and benchmarking.
+
 Unique and simple interface, zero boilerplate code (!), and recent state of art models/frameworks are the main strength 
-of MLMODELS. Emphasis is on traditional machine learning algorithms but recent state of art Deep Learning algorithms. 
-Processing of high-dimensional data is considered very useful using Deep Learning. For different applications, such as computer vision, natural language processing, object detection, facial recognition and speech recognition, deep learning created significant improvements and outstanding results.
+of MLMODELS. Different domain fields are available, such as computer vision, NLP, Time Series prediction, tabular data classification.  
 
 
-Here you can find usages [guide](https://github.com/arita37/mlmodels/blob/dev/mlmodels/example/README_usage.md)
+Here you can find usages [guide](https://cutt.ly/tyluzof)
+
+
+If you want to contribute,  [contribution guide](https://cutt.ly/Xylux3Q)
 
 ## Model List :
 *	[Time Series](#Time-series)
@@ -885,5 +887,7 @@ model2 = module.load(load_pars ={ 'path': out_pars['path'] +"/model/"})
 ```
 ---
 
+
+![Pytorch](https://cutt.ly/Ayk8hji )
 
 

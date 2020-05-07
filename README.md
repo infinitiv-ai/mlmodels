@@ -29,13 +29,23 @@ of MLMODELS. Different domain fields are available, such as computer vision, NLP
 Here you can find usages [guide](https://cutt.ly/tyluzof)
 
 
-If you want to contribute,  [contribution guide](https://cutt.ly/Xylux3Q)
+## Contribution Guide 
+
+   [contribution guide](https://cutt.ly/Xylux3Q)
+
+
+
+
+
 
 ## Model List :
 *	[Time Series](#Time-series)
 *	[NLP](#NLP)
 *	[TABULAR](#TABULAR)
 *	[VISION](#VISION)
+
+
+
 
 
 
@@ -293,94 +303,8 @@ alexnet: SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and <0.5MB
 
 ######################################################################################
 
-### ① Installation Guide:
-
-### (A) Using pre-installed Setup (one click) :
-
-[Read-more](https://github.com/arita37/mlmodels/issues/101)
 
 
-
-### (B) Manual Install as editable package in Linux
-
-```bash
-conda create -n py36 python=3.6.5 -y
-source activate py36
-
-cd yourfolder
-git clone https://github.com/arita37/mlmodels.git mlmodels
-cd mlmodels
-git checkout dev
-```
-
-### (C) Using Colab :
-[Read-more](https://github.com/arita37/mlmodels/blob/dev/README_usage.md)
-
-
-### Initialize template and Tests
-Will copy template, dataset, example to your folder
-```bash
-ml_models --init  /yourworkingFolder/
-```
-   
-
-
-##### To test Hyper-parameter search:
-```bash
-ml_optim
-```
-
-
-##### To test model fitting
-```bash
-ml_models
-```
-    
-    
-        
-#### Actual test runs
-
-[Read-more](https://github.com/arita37/mlmodels/actions)
-
-![test_fast_linux](https://github.com/arita37/mlmodels/workflows/test_fast_linux/badge.svg)
-
-![test_fast_windows](https://github.com/arita37/mlmodels/workflows/test_fast_windows/badge.svg?branch=dev)
-
-![ All model testing (Linux) ](https://github.com/arita37/mlmodels/workflows/code_structure_linux/badge.svg)
-
-_______________________________________________________________________________________
-
-## Usage in Jupyter/Colab
-
-[Read-more](https://github.com/arita37/mlmodels/blob/dev/README_usage.md)
-
-_______________________________________________________________________________________
-
-## Command Line tools:
-
-[Read-more](https://github.com/arita37/mlmodels/blob/dev/README_usage_CLI.md)
-
-
-
-_______________________________________________________________________________________
-
-## Model List
-
-[Read-more](https://github.com/arita37/mlmodels/blob/dev/README_model_list.md)
-
-_______________________________________________________________________________________
-
-## How to add a new model
-
-[Read-more](https://github.com/arita37/mlmodels/blob/dev/README_addmodel.md)
-
-_______________________________________________________________________________________
-
-## Index of functions/methods
-
-[Read-more](https://github.com/arita37/mlmodels/blob/dev/README_index_doc.py)
-
-_______________________________________________________________________________________
 
 
 

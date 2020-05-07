@@ -42,10 +42,6 @@ Here you can find usages [guide](https://cutt.ly/tyluzof)
    [contribution guide](https://cutt.ly/Xylux3Q)
 
 
-######################################################################################
-
-
-
 
 
 

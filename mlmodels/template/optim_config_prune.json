@@ -2,6 +2,12 @@
 "test" :{
 
  "hypermodel_pars":   {
+
+
+        "engine_pars": {"engine": "optuna", "method": "normal", 
+                        "ntrials": 2, "metric_target": "loss"},
+
+
         "learning_rate": {"type": "log_uniform", "init": 0.01,  "range" : [0.001, 0.1] },
         "num_layers":    {"type": "int", "init": 2,  "range" :[2, 4] },
         "size":    {"type": "int", "init": 6,  "range" :[6, 6] },
@@ -27,7 +33,7 @@
 
 
  "data_pars": {
-			"data_path": "dataset/GOOG-year.csv",
+			"data_path": "dataset/timeseries/GOOG-year_small.csv",
 			"data_type": "pandas",
 			"size": [0, 0, 6],
 			"output_size": [0, 6]
@@ -36,7 +42,7 @@
    
    "compute_pars" : {
       "engine" : "optuna",
-      "method" : "normal",
+      "method" : "prune",
       "ntrials" : 5
   },
 
@@ -55,11 +61,6 @@
 
 "prod" :{
 
-   "model_pars" : {},
-   
-   "data_pars" :  {},
-
-   "compute_pars" : {}
 
 
    

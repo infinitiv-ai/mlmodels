@@ -37,7 +37,7 @@ jobs:
 
     - name: ml_test
       run: |
-           python -c "import os; print(os)"     2>&1 | tee -a  cd /home/runner/work/mlmodels/mlmodels_store/log_$(date '+%Y-%m-%d_%H:%M:%S,%3N').txt
+           python -c "import os; print(os)"     2>&1 | tee -a  cd /home/runner/work/mlmodels/mlmodels_store/log_$(date '+%Y-%m-%d_%H-%M-%S-%3N').txt
 
 
 

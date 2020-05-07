@@ -19,33 +19,33 @@
 ```bash
 
 ml_models --do  
-    init        :  copy to path  --path "myPath"
-    generate_config  :  generate config file from code source
-    model_list  :  list all models in the repo                            
-    fit         :  wrap fit generic method
-    predict     :  predict  using a pre-trained model and some data
-    test        :  Test a model
+    init            : copy to path  --path "myPath"
+    generate_config : generate config file from code source
+    model_list      : list all models in the repo
+    fit             : wrap fit generic method
+    predict         : predict  using a pre-trained model and some data
+    test            : Test a model
 
     
 #### Examples
 
 ### Copy Notebooks to path
-ml_models --do init  --path Myfolder/  
+ml_models --do init  --path ztest/
 
 ### list all models available in the repo
 ml_models --do model_list  
 
 
 #### generate JSON config file for one model
-ml_models  --do generate_config  --model_uri model_tf.1_lstm.py  --save_folder "c:\myconfig"
+ml_models  --do generate_config  --model_uri model_tf.1_lstm  --save_folder "ztest/"
 
 
 #### Fit model and Save
-ml_models --do fit     --model_uri model_tf.1_lstm --save_folder myfolder/ --config_file myfile.json --config_mode "test"
+ml_models --do fit     --config_file model_tf/1_lstm.json --config_mode "test"
 
 
 #### Load model and Save results
-ml_models --do predict --model_uri model_tf.1_lstm --save_folder myfolder/ --config_file myfile.json --config_mode "test"
+ml_models --do predict --config_file model_tf/1_lstm.json --config_mode "test"
 
 
 
@@ -54,7 +54,7 @@ ml_models  --do test  --model_uri model_tf.1_lstm
 
 
 #### External  Models by URI
-ml_models --do test  --model_uri "D:\_devs\Python01\gitdev\mlmodels\mlmodels\model_tf.1_lstm.py"
+ml_models --do test  --model_uri "ztest/mycustom/my_lstm.py"
 
 
 
@@ -82,19 +82,15 @@ ml_optim --do
 
 
 #### For normal optimization search method
-    ml_optim --do search --ntrials 1  --config_file optim_config.json --optim_method normal
+    ml_optim --do search  --config_file optim_config.json  --config_mode "test"
 
 
 ###### for pruning method
-    ml_optim --do search --ntrials 1  --config_file optim_config.json --optim_method prune  
+    ml_optim --do search  --config_file optim_config_prune.json   --config_mode "test"
 
 
 ###### Using Model default params
-    ml_optim --do search --modelname model_tf.1_lstm.py  
-
-
-###### Using Model default params
-    ml_optim --do test  --modelname model_tf.1_lstm.py  
+    ml_optim --do test   --model_uri model_tf.1_lstm.py   --ntrials 2
 
 
 ```

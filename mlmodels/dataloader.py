@@ -61,7 +61,7 @@ import tensorflow.data
 """
 
 
-
+VERBOSE = 0 
 DATASET_TYPES = ["csv_dataset", "text_dataset", "NumpyDataset", "PandasDataset"]
 
 
@@ -319,16 +319,58 @@ def test_dataloader(path='dataset/json/refactor/'):
 
 
 
+####################################################################################################
+def cli_load_arguments(config_file=None):
+    """
+        Load CLI input, load config.toml , overwrite config.toml by CLI Input
+    """
+    import argparse
+    p = argparse.ArgumentParser()
+    def add(*k, **kw):
+        p.add_argument(*k, **kw)
+
+    add("--config_file" , default=None                     , help="Params File")
+    add("--config_mode" , default="test"                   , help="test/ prod /uat")
+    add("--log_file"    , help="File to save the logging")
+
+    add("--do"          , default="test"                   , help="what to do test or search")
+
+    ###### model_pars
+    add("--path", default='dataset/json/refactor/', help="name of the model for --do test")
+
+    ###### data_pars
+    # add("--data_path", default="dataset/GOOG-year_small.csv", help="path of the training file")
+
+
+    ###### compute params
+
+    ###### out params
+    # add('--save_path', default='ztest/search_save/', help='folder that will contain saved version of best model')
+
+    args = p.parse_args()
+    # args = load_config(args, args.config_file, args.config_mode, verbose=0)
+    return args
+
+
+def main():
+    arg = cli_load_arguments()
+
+    if arg.do == "test":
+        test_dataloader('dataset/json/refactor/')   
+
+    if arg.do == "test_run_model":
+       test_run_model()
+
 
 
 ##########################################################################################################
 if __name__ == "__main__":
-   test_dataloader('dataset/json/refactor/')    
-    
+   VERBOSE =1  
+   main() 
     
     
 
-    
+
     
     
     

@@ -92,7 +92,7 @@ jobs:
 
     ########  Test running for ALL Command Line
     - name: cli_test
-      run: ml_test --do test_cli     2>&1 | tee -a  cd /home/runner/work/mlmodels/mlmodels_store/log_test_cli/log_$(date '+%Y-%m-%d_%H:%M:%S,%3N').txt
+      run: ml_test --do test_cli     2>&1 | tee -a  cd /home/runner/work/mlmodels/mlmodels_store/log_test_cli/log_$(date '+%Y-%m-%d_%H-%M-%S-%3N').py
 
 
 

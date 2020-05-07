@@ -91,7 +91,7 @@ jobs:
 
     ########  Test running 
     - name: ml_test
-      run: ml_test  --do test_all     2>&1 | tee -a  cd /home/runner/work/mlmodels/mlmodels_store/log_testall/log_testall_$(date '+%Y-%m-%d_%H:%M:%S,%3N').txt
+      run: ml_test  --do test_all     2>&1 | tee -a  cd /home/runner/work/mlmodels/mlmodels_store/log_testall/log_testall_$(date '+%Y-%m-%d_%H-%M-%S-%3N').py
 
       
       

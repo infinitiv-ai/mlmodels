@@ -27,9 +27,9 @@ from pathlib import Path
 from warnings import simplefilter
 
 ####################################################################################################
-from mlmodels.util import (get_recursive_files, load_config, log, os_package_root_path, path_norm)
+from mlmodels.util import (get_recursive_files, load_config, log, os_package_root_path, path_norm, path_norm_dict)
 
-from mlmodels.util import (env_build, env_conda_build, env_pip_requirement)
+from mlmodels.util import (env_build, env_conda_build, env_pip_requirement, os_folder_copy)
 
 simplefilter(action='ignore', category=FutureWarning)
 simplefilter(action='ignore', category=DeprecationWarning)
@@ -286,12 +286,12 @@ def config_get_pars(config_file, config_mode="test"):
     """
       load JSON and output the params
     """
-    js = json.load(open(config_file, 'r'))  # Config
-    js = js[config_mode]  # test /uat /prod
-    model_p = js.get("model_pars")
-    data_p = js.get("data_pars")
+    js        = json.load(open(config_file, 'r'))  # Config
+    js        = js[config_mode]  # test /uat /prod
+    model_p   = js.get("model_pars")
+    data_p    = path_norm_dict( js.get("data_pars") )
     compute_p = js.get("compute_pars")
-    out_p = js.get("out_pars")
+    out_p     = path_norm_dict( js.get("out_pars") )
 
     return model_p, data_p, compute_p, out_p
 
@@ -325,8 +325,9 @@ def config_generate_json(modelname, to_path="ztest/new_model/"):
     print(fname)
 
 
+"""
 def os_folder_copy(src, dst):
-    """Copy a directory structure overwriting existing files"""
+    # Copy a directory structure overwriting existing files
     import shutil
     for root, dirs, files in os.walk(src):
         if not os.path.isdir(root):
@@ -343,7 +344,7 @@ def os_folder_copy(src, dst):
                 shutil.copyfile(os.path.join(root, file), os.path.join(dest_path, file))
             except Exception as e:
                 print(e)
-
+"""
 
 def config_init(to_path="."):
     """
@@ -394,27 +395,33 @@ def config_model_list(folder=None):
 ####################################################################################################
 ############CLI Interface############################################################################
 def fit_cli(arg):
-    model_p, data_p, compute_p, out_p = config_get_pars(arg.config_file, arg.config_mode)
+    config_file = path_norm(arg.config_file)
 
-    module = module_load(arg.model_uri)  # '1_lstm.py
+    model_p, data_p, compute_p, out_p = config_get_pars(config_file, arg.config_mode)
+    model_uri = model_p['model_uri']
+
+    module = module_load(model_uri)  # '1_lstm.py
     model = model_create(module, model_p, data_p, compute_p)  # Exact map JSON and paramters
 
     log("Fit")
     model, sess = module.fit(model, data_pars=data_p, compute_pars=compute_p, out_pars=out_p)
 
     log("Save")
-    save_pars = {"path": f"{arg.save_folder}/{arg.model_uri}", "model_uri": arg.model_uri}
+    save_pars = {"path": f"{arg.path}", "model_uri": arg.model_uri}
     save(save_pars, model, sess)
 
 
 def predict_cli(arg):
-    model_p, data_p, compute_p, out_p = config_get_pars(arg.config_file, arg.config_mode)
-    # module = module_load(arg.modelname)  # '1_lstm'
-    load_pars = {"path": f"{arg.save_folder}/{arg.model_uri}", "model_uri": arg.model_uri}
+    config_file = path_norm(arg.config_file)
+    model_p, data_p, compute_p, out_p = config_get_pars(config_file, arg.config_mode)
+    model_uri = model_p['model_uri']
 
-    module = module_load(model_p[".model_uri"])  # '1_lstm.py
+
+    load_pars = {"path": f"{arg.path}", "model_uri": model_uri}
+    module = module_load(model_uri)  # '1_lstm.py
     model, session = load(load_pars)
-    module.predict(model, session, data_pars=data_p, compute_pars=compute_p, out_pars=out_p)
+    ydict = module.predict(model, session, data_pars=data_p, compute_pars=compute_p, out_pars=out_p)
+    return ydict
 
 
 def test_cli(arg):
@@ -472,7 +479,7 @@ def main():
     print(arg.do)
 
     if arg.do == "init":
-        path = os.getcwd() is arg.path is not None else arg.path
+        path = os.getcwd() if arg.path is not None else arg.path
         config_init(to_path=arg.path)
         return 0
 

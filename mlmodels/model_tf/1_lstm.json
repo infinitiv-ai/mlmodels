@@ -2,6 +2,10 @@
 	"test": {
 
 		"model_pars": {
+
+			"model_uri" : "model_tf.1_lstm",
+
+			
 			"learning_rate": 0.001,
 			"num_layers": 1,
 			"size_layer": 128,

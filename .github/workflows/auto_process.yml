@@ -1,13 +1,13 @@
-name:  pullrequest_auto
+name:  auto_process
 
 
 on:
   push:
     branches: 
-      dev
+      dev3333
 
-  schedule:
-    - cron:  '0 */6 * * *'   
+#  schedule:
+#    - cron:  '0 */23 * * *'   
 #    - cron:  '*/10 * * * *'   
 
 

@@ -36,7 +36,7 @@
    
    "compute_pars" : {
       "engine" : "optuna",
-      "method" : "normal",
+      "method" : "prune",
       "ntrials" : 5
   },
 

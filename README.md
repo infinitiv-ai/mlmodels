@@ -33,7 +33,7 @@ Here you can find usages [guide](https://cutt.ly/tyluzof)
 
    If you want to contribute, Contact us at 
    
-   https://gitter.im/ml_models/contributors#
+   https://cutt.ly/mlmodels_contributor
       
       
    
